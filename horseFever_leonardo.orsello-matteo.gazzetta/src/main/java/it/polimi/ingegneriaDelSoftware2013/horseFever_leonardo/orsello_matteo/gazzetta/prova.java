@@ -9,7 +9,7 @@ public class prova {
 		String a = giocatore.getnome();
 		
 		System.out.println("il tuo nome è "+a);
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stubjjj
 
 	}
 
