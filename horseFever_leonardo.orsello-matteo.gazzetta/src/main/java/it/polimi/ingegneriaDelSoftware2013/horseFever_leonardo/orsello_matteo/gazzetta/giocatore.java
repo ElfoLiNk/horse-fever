@@ -20,7 +20,7 @@ public class giocatore {
 		
 	}
 	
-	//getter
+	//getter 
 	
 	public static String getnome(){
 	
