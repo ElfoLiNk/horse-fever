@@ -6,9 +6,9 @@ public class giocatore {
 	
 	private static String nome;
 	private String interpreta; //nome carta giocatore
-	private int pv = 0;
+	private int pv = 1;
 	private static int soldi = 0;
-	private String scuderia;
+	private static String scuderia;
 	
 	public static class scomessa{
 		
@@ -63,11 +63,24 @@ public class giocatore {
 	      return soldi ;
 	   }
 	 
+	 
+	 public static void setscuderia(String temp){
+		 scuderia = temp;
+	 }	 
+		 
 
 
 	//getter
 
 	public static int getsoldi(){
 		return soldi;
+	}
+	
+	public static String getnome(){
+		return nome;
+	}
+	
+	public static String getscuderia(){
+		return scuderia;
 	}
 }
