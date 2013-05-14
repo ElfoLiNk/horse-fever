@@ -10,5 +10,9 @@ import java.util.*;
  */
 public class carte {
 
-	Vector<String> mazzo = new Vector<String>();
+	static ArrayList<String> mazzo = new ArrayList<String>();
+	
+	public static void setmazzo() {
+		mazzo.add("carta 1");
+	}
 }
