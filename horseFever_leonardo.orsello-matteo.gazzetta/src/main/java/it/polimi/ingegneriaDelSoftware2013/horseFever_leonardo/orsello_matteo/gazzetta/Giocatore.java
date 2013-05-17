@@ -1,24 +1,24 @@
+/**
+ * 
+ */
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
 import java.io.*	;
 
-public class giocatore {
+/**
+ * @author amministratore
+ *
+ */
+public class Giocatore {
+
+
 	
 	private static String nome;
 	private String interpreta; //nome carta giocatore
 	private int pv = 1;
 	private static int soldi = 0;
 	private static String scuderia;
-	
-	public static class scomessa{
-		
-		private int soldi=0;
-		private String cavallo;
-		private String tiposcomessa;
-		
-		//da fare metodi
-		
-	}
+
 	
 	//setter 
 	
