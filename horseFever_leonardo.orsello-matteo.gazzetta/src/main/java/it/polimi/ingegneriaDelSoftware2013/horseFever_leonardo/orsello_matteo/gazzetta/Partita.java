@@ -7,14 +7,24 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
  * @author matteo
  *
  */
-public class partita {
-
+public class Partita {
+	private int round = 0;
+	private int ngiocatori = 0;
+	private int primogiocatore = 0;
+	
 	/**
 	 * @param args
 	 */
+	public void setgiocatori(){
+		//richiesta numero giocatori
+		//nome
+	}
+	public void turno() {		
+		
+	}
 	public static void main(String[] args) {
 		
-		String a = giocatore.getnome();
+		
 		// TODO Auto-generated method stub
 
 	}

@@ -10,17 +10,18 @@ import java.util.*;
  * @author matteo
  *
  */
-public class carteMovimento {
+public class CarteMovimento {
 	 private int quota;
 	 private int movimento;
-	 Vector<Integer> movimenti = new Vector<Integer>();
+	 private List<Integer> movimenti = new ArrayList<Integer>();
 
 	 
 
 	public void setMovimento() {
 		  try {
 				// File per linee > Lista di Stringhe
-				 BufferedReader file = new BufferedReader(new FileReader("D:/Dropbox/Università/Ingegneria del Software/HorseFever/FamilyGame/Movimento/cartemovimento.txt"));
+			  	 FileReader openfile = new FileReader("D:/Dropbox/Università/Ingegneria del Software/HorseFever/FamilyGame/Movimento/cartemovimento.txt");
+				 BufferedReader file = new BufferedReader(openfile);
 				 List<String> linee = new ArrayList<String>();
 
 				 String linea = file.readLine();
@@ -35,17 +36,18 @@ public class carteMovimento {
 				 String randomString = linee.get(r.nextInt(linee.size()));
 				 
 				 // Analizzo la stringa e Salvo il movimento corretto
-				 Scanner ScannerString = new Scanner(randomString);
+				 Scanner scannerString = new Scanner(randomString);
 				 
 				 
 				 for(int i=0 ;i < (randomString.length())/2; i++)
 			        {
-					 movimenti.add(ScannerString.nextInt());
+					 movimenti.add(scannerString.nextInt());
 			        }
 				 
 				 // Chiudo File e Scanner
+				 openfile.close();
 				 file.close();
-				 ScannerString.close();
+				 scannerString.close();
 							  
 		  } catch (IOException e) {
 		     e.printStackTrace();
