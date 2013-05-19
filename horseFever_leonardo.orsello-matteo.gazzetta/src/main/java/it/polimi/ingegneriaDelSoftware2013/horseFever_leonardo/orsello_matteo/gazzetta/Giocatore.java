@@ -14,7 +14,7 @@ public class Giocatore {
 
 	
 	private static String nome;
-	private String interpreta; //nome carta giocatore
+	CartePersonaggio personaggio = new CartePersonaggio();
 	private int pv = 1;
 	private static int soldi = 0;
 	private static String scuderia;
