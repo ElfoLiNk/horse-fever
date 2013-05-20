@@ -33,7 +33,11 @@ public class CarteMovimento {
 
 			// Selezione una linea random dalla Lista
 			Random r = new Random();
-			String randomString = linee.get(r.nextInt(linee.size()));
+			int j = r.nextInt(linee.size());
+			String randomString = linee.get(j);
+
+			// Elimino la linea dalla lista
+			linee.remove(j);
 
 			// Analizzo la stringa e Salvo il movimento corretto
 			Scanner scannerString = new Scanner(randomString);

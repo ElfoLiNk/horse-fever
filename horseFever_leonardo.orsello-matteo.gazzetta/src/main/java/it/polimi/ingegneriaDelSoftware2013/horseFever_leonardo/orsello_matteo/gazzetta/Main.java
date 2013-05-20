@@ -7,7 +7,8 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
+import java.util.List;
+
 
 
 /**
@@ -23,13 +24,13 @@ public class Main {
 		public static void main(String[] args) {
 			try {
 				//Locate the file
-				File xmlFile = new File("cartePersonaggio.xml");
+				File xmlFile = new File("carteAzione.xml");
 
 				//Create the parser instance
-				XmlParser parser = new XmlParser();
+				XmlParserAzioni parser = new XmlParserAzioni();
 
 				//Parse the file
-				ArrayList<CartePersonaggio> carte = parser.parseXml(new FileInputStream(xmlFile));
+				List<CarteAzione> carte = parser.parseXml(new FileInputStream(xmlFile));
 				
 				//Verify the result
 				System.out.println(carte);

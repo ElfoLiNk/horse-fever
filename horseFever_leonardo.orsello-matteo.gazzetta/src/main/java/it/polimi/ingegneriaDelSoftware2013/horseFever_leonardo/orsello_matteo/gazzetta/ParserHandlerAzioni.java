@@ -7,7 +7,7 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
  * @author Matteo
  *
  */
-
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -16,16 +16,16 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 
-public class ParserHandler extends DefaultHandler
+public class ParserHandlerAzioni extends DefaultHandler
 {
 	//This is the list which shall be populated while parsing the XML. 
-	private ArrayList<CartePersonaggio> cartaList = new ArrayList<CartePersonaggio>();
+	private List<CarteAzione> cartaList = new ArrayList<CarteAzione>();
 
 	//As we read any XML element we will push that in this stack
 	private Stack<String> elementoStack = new Stack<String>();
 
 	//As we complete one user block in XML, we will push the User instance in userList 
-	private Stack<CartePersonaggio> oggettoStack = new Stack<CartePersonaggio>();
+	private Stack<CarteAzione> oggettoStack = new Stack<CarteAzione>();
 
 	public void startDocument() throws SAXException
 	{
@@ -46,7 +46,7 @@ public class ParserHandler extends DefaultHandler
 		if ("Carta".equals(qName))
 		{
 			//New User instance
-			CartePersonaggio carta = new CartePersonaggio();
+			CarteAzione carta = new CarteAzione();
 
 			//Set all required attributes in any XML element here itself
 			if(attributes != null && attributes.getLength() == 1)
@@ -65,7 +65,7 @@ public class ParserHandler extends DefaultHandler
 		//User instance has been constructed so pop it from object stack and push in userList
 		if ("Carta".equals(qName))
 		{
-			CartePersonaggio oggetto = this.oggettoStack.pop();
+			CarteAzione oggetto = this.oggettoStack.pop();
 			this.cartaList.add(oggetto);
 		}
 	}
@@ -76,7 +76,7 @@ public class ParserHandler extends DefaultHandler
 	public void characters(char[] ch, int start, int length) throws SAXException
 	{
 		String stringa = new String(ch, start, length).trim();
-				if (stringa.length() == 0)
+		if (stringa.length() == 0)
 		{
 			return; // ignore white space
 		}
@@ -84,19 +84,26 @@ public class ParserHandler extends DefaultHandler
 		//handle the value based on to which element it belongs
 		if ("Nome".equals(currentElement()))
 		{
-			CartePersonaggio carta = (CartePersonaggio) this.oggettoStack.peek();
+			CarteAzione carta = (CarteAzione) this.oggettoStack.peek();
 			carta.setNome(stringa);
 		}
-		else if ("Soldi".equals(currentElement()))
+		else if ("Lettera".equals(currentElement()))
 		{
-			CartePersonaggio carta = (CartePersonaggio) this.oggettoStack.peek();
-			int intero = Integer.parseInt(new String(ch, start, length).trim());
-			carta.setSoldi(intero);
+			CarteAzione carta = (CarteAzione) this.oggettoStack.peek();
+			carta.setLettera(stringa);
 		}
-		else if ("Quotazione".equals(currentElement())){
-			CartePersonaggio carta = (CartePersonaggio) this.oggettoStack.peek();
+		else if ("Effetto".equals(currentElement())){
+			CarteAzione carta = (CarteAzione) this.oggettoStack.peek();
 			int intero = Integer.parseInt(new String(ch, start, length).trim());
-			carta.setQuotazione(intero);
+			carta.setEffetto(intero);
+		}
+		else if ("Agisce".equals(currentElement())){
+			CarteAzione carta = (CarteAzione) this.oggettoStack.peek();
+			carta.setAgisce(stringa);
+		}
+		else if ("Descrizione".equals(currentElement())){
+			CarteAzione carta = (CarteAzione) this.oggettoStack.peek();
+			carta.setDescrizione(stringa);
 		}
 	}
 
@@ -109,7 +116,7 @@ public class ParserHandler extends DefaultHandler
 	}
 
 	//Accessor for userList object
-	public ArrayList<CartePersonaggio> getCarte()
+	public List<CarteAzione> getCarte()
 	{
 		return cartaList;
 	}

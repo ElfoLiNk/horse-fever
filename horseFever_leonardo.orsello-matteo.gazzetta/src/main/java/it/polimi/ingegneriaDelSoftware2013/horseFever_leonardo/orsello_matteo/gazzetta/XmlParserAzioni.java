@@ -11,22 +11,23 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-public class XmlParser 
+public class XmlParserAzioni
 {
-	public ArrayList<CartePersonaggio> parseXml(InputStream in)
+	public List<CarteAzione> parseXml(InputStream in)
 	{
 		//Create a empty link of users initially
-		ArrayList<CartePersonaggio> carte = new ArrayList<CartePersonaggio>();
+		List<CarteAzione> carte = new ArrayList<CarteAzione>();
 		try 
 		{
 			//Create default handler instance
-			ParserHandler handler = new ParserHandler();
+			ParserHandlerAzioni handler = new ParserHandlerAzioni();
 
 			//Create parser from factory
 			XMLReader parser = XMLReaderFactory.createXMLReader();
@@ -35,10 +36,10 @@ public class XmlParser
 			parser.setContentHandler(handler);
 
 			//Create an input source from the XML input stream
-			InputSource source = new InputSource(in);
+			InputSource sorgente = new InputSource(in);
 
 			//parse the document
-			parser.parse(source);
+			parser.parse(sorgente);
 
 			//populate the parsed users list in above created empty list; You can return from here also.
 			carte = handler.getCarte();
@@ -49,8 +50,6 @@ public class XmlParser
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-
 		}
 		return carte;
 	}

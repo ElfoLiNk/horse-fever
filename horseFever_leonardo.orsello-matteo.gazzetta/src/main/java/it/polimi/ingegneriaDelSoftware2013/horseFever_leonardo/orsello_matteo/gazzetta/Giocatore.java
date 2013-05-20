@@ -14,7 +14,6 @@ public class Giocatore {
 
 	
 	private static String nome;
-	CartePersonaggio personaggio = new CartePersonaggio();
 	private int pv = 1;
 	private static int soldi = 0;
 	private static String scuderia;
