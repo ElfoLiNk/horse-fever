@@ -65,4 +65,8 @@ public class Giocatore {
 	public String getScuderia(){
 		return scuderia;
 	}
+	
+	public int getPv(){
+		return pv;
+	}
 }
