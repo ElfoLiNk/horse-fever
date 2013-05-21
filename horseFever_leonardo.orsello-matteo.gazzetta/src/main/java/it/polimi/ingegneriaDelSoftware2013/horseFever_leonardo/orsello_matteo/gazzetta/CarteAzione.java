@@ -3,6 +3,10 @@
  */
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.List;
+
 
 /**
  * @author matteo
@@ -58,5 +62,24 @@ public class CarteAzione {
 	public String toString() {
 		return this.id + ":" + this.nome +  ":" + this.lettera + ":" + this.effetto + ":" + this.agisce + "\n\n" + this.descrizione + "\n\n\n";
 	}
-	
+	public static List<CarteAzione> crealistaazioni(){
+		List<CarteAzione> carte = null;
+		try {
+			//Locate the file
+			File xmlFile = new File("carteAzione.xml");
+
+			//Create the parser instance
+			XmlParserAzioni parser = new XmlParserAzioni();
+
+			//Parse the file
+			carte = parser.parseXml(new FileInputStream(xmlFile));
+		
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return carte;
+		
+	}
 }
