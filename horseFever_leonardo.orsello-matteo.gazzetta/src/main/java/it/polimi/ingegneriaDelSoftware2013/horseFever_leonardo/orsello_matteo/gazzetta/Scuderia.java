@@ -50,7 +50,7 @@ public class Scuderia {
 	public void effettuascommessa(){
 
 		String tempstring;
-		int tempint;
+		int tempint = 0;
 		System.out.println("quanti soldi vuoi scommettere?");
 		BufferedReader br;
 		br = new BufferedReader(new InputStreamReader(System.in));
@@ -71,18 +71,46 @@ public class Scuderia {
 		}
 
 		//controllo se la scommessa è valida
-		//controllo importo minimo
+		//controllo importo minimo e se la scommessa è già stata effettuata
 		//l'ultima scommessa effetuata sarà sempre all'ultimo posto  
 
 
-		int i;
-		int pvtemp;
-		i= scommessa.size();
+		int i; int n;
+		int pvtemp = 0;
+		String nometemp;
+		i= scommessa.size()-1;
+		n= Partita.arraygiocatori.size()-1;
+		nometemp = scommessa.get(i).getnomegiocatore();
+
+
+		//controllo validità scommessa : scommessa>=pv*100
+		for(int a=0; a<=n; a++){
+			if (nometemp == Partita.arraygiocatori.get(a).getNome()){
+				pvtemp = Partita.arraygiocatori.get(a).getPv();
+
+				if(tempint>=pvtemp*100)
+					scommessa.get(i).setsoldi(tempint);
+				else{
+					System.out.println("l'importo scommesso non è valido, questo deve essere/n" +
+							"come minimo pari a \"punti vittoria posseduti\" * 100, inserire" +
+							"un nuovo importo :)");
+					effettuascommessa();
+				}	    	
+			}	
+		}
+
+		//controllo se è già stata effettuata la scommessa
+
+		for()
+
 
 	}
-public void pagascommessa(){
 
-}
+
+
+	public void pagascommessa(){
+
+	}
 
 
 
