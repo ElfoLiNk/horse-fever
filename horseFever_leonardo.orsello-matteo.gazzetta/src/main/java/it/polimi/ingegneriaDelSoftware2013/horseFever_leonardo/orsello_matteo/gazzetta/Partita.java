@@ -14,14 +14,14 @@ import java.util.Random;
  */
 public class Partita {
 	private int round = 0;
-	private static int ngiocatori = 0;
-	private int primogiocatore = 0;
-	public static String temp;
-	public List<Giocatore> arraygiocatori = new ArrayList<Giocatore>();
-	public List<Scuderia> listascuderie = new ArrayList<Scuderia>();
-	public List<CartePersonaggio> listapersonaggi;
-	public List<CarteAzione> listaazioni;
-	public static int tempint;
+	private int ngiocatori = 0;
+	private int primogiocatore;
+	private String temp;
+	private List<Giocatore> arraygiocatori = new ArrayList<Giocatore>();
+	private List<Scuderia> listascuderie = new ArrayList<Scuderia>();
+	private List<CartePersonaggio> listapersonaggi;
+	private List<CarteAzione> listaazioni;
+	private int tempint;
 
 	public void setListe(){
 		// Creazione mazzo Personaggi
@@ -131,11 +131,23 @@ public class Partita {
 		}
 	}
 
-	public void setPrimoGiocatore(){
+	public void randomPrimogiocatore(){
 		Random rnd = new Random();
 		tempint = rnd.nextInt(arraygiocatori.size());
-
-		arraygiocatori.get(i).
+		this.setPrimogiocatore(tempint);
+	}
+	
+	/**
+	 * @return the primogiocatore
+	 */
+	public int getPrimogiocatore() {
+		return primogiocatore;
+	}
+	/**
+	 * @param primogiocatore the primogiocatore to set
+	 */
+	public void setPrimogiocatore(int primogiocatore) {
+		this.primogiocatore = primogiocatore;
 	}
 	
 	//getter
