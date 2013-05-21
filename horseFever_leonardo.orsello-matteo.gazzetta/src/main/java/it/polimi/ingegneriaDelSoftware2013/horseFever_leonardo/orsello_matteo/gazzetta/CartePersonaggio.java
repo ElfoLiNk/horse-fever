@@ -3,6 +3,11 @@
  */
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * @author matteo
@@ -44,6 +49,27 @@ public class CartePersonaggio {
 @Override
 	public String toString() {
 		return this.id + ":" + this.nome +  ":" +this.soldi + ":" + this.quotazione ;
+	}
+
+	public static List<CartePersonaggio> crealistapersonaggi(){
+		List<CartePersonaggio> carte = null;
+		try {
+			//Locate the file
+			File xmlFile = new File("cartePersonaggio.xml");
+
+			//Create the parser instance
+			XmlParserPersonaggi parser = new XmlParserPersonaggi();
+
+			//Parse the file
+			carte = parser.parseXml(new FileInputStream(xmlFile));
+		
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return carte;
+		
 	}
 
 }

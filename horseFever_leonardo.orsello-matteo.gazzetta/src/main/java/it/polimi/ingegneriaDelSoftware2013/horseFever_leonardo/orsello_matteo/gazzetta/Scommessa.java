@@ -7,14 +7,41 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
  * @author matteo
  *
  */
-public class Scommessa {
-	private String nomegiocatore;
-	private int soldiscommessa = 0;
-	private String cavallo;
-	private enum tiposcomessa{PIAZZATO, VINCENTE}
+	public class Scommessa {
+		private String nomegiocatore;
+		private int soldi = 0;
+		private enum Tiposcommessa{PIAZZATO, VINCENTE};
+	    private Tiposcommessa tiposcommessa;
 	
-	public void setScommessa() {
+
+	//setter
+	public void setsoldi(int temp){
+		soldi=temp;
 		
 	}
 	
-}
+	public void setnomegiocatore(String temp){
+		nomegiocatore = temp;
+		
+	}
+	
+	public void settiposcommessa(Tiposcommessa temp){
+		tiposcommessa = temp;
+	}
+	
+	//getter
+	
+	public String getnomegiocatore(){
+		return nomegiocatore;
+	}
+	
+	public int getsoldi(){
+		return soldi;
+	}
+	
+	public Tiposcommessa gettiposcommessa(){
+		return tiposcommessa;
+		
+	}
+	
+	}
