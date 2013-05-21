@@ -11,75 +11,58 @@ import java.io.*	;
  */
 public class Giocatore {
 
-
-	
-	private static String nome;
+	private String nome;
+	private String interpreta;
 	private int pv = 1;
-	private static int soldi = 0;
-	private static String scuderia;
+	private int soldi = 0;
+	private String scuderia;
 
-	
+
 	//setter 
-	
-	public static String setnome(){
-	
-		System.out.println("come ti vuoi chiamare?");
-		InputStreamReader a = new InputStreamReader(System.in);
-		BufferedReader IN = new BufferedReader(a);
+
+	public void setNome(int i){
+		System.out.println("Player " +i+ ": Come ti vuoi chiamare?");
+		InputStreamReader input = new InputStreamReader(System.in);
+		BufferedReader IN = new BufferedReader(input);
 		try{
-			nome=IN.readLine();
+			nome = IN.readLine();
 		}
 		catch (IOException e)
 	      {
 	         System.out.println ("errore di flusso");
 	      }
-	    
-		return(nome);
-
 	}
-	 
-	 public static int setsoldi(){
-		 
-		String temp;
-		 
-		 InputStreamReader a = new InputStreamReader(System.in);
-		 BufferedReader IN = new BufferedReader(a);
-	      try
-	      {
-	         temp = IN.readLine();
-	         soldi = Integer.parseInt(temp);
-	      }
-	      catch (IOException e1)
-	      {
-	         System.out.println ("errore di flusso");
-	      }
-	      catch (NumberFormatException e2)
-	      {
-	         System.out.println ("errore di input da tastiera");
-	         setsoldi();
-	      }
-	 
-	      return soldi ;
-	   }
-	 
-	 
-	 public static void setscuderia(String temp){
-		 scuderia = temp;
-	 }	 
-		 
+	
+	public void setInterpreta(String interpreta){
+		this.interpreta = interpreta;
+	}
+
+	public void setSoldi(int soldi){
+		this.soldi = soldi;
+	}
+
+
+	public void setScuderia(int quotazione){
+		scuderia = //Metodo di scuderia per associare quotazione -> colore scuderia
+	}	 
+
 
 
 	//getter
-
-	public static int getsoldi(){
-		return soldi;
-	}
-	
-	public static String getnome(){
+	public String getNome(){
 		return nome;
 	}
+
+	public String getInterpreta(){
+		return interpreta;
+	}
+
+	public int getSoldi(){
+		return soldi;
+	}
+
 	
-	public static String getscuderia(){
+	public String getScuderia(){
 		return scuderia;
 	}
 }
