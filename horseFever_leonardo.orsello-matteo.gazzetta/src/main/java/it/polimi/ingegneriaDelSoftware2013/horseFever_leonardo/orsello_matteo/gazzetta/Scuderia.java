@@ -39,6 +39,12 @@ public class Scuderia {
 	public int getposizione(){
 		return posizione;
 	}
+	
+	//setter
+	
+	public void setquotazione(int temp){
+		quotazione = temp;
+	}
 
 	//metodi inerenti le scommesse
 
@@ -79,14 +85,14 @@ public class Scuderia {
 		int pvtemp = 0;
 		String nometemp;
 		i= scommessa.size()-1;
-		n= Partita.arraygiocatori.size()-1;
+		n= Partita.getarraygiocatori().size()-1;
 		nometemp = scommessa.get(i).getnomegiocatore();
 
 
 		//controllo validità scommessa : scommessa>=pv*100
 		for(int a=0; a<=n; a++){
-			if (nometemp == Partita.arraygiocatori.get(a).getNome()){
-				pvtemp = Partita.arraygiocatori.get(a).getPv();
+			if (nometemp == Partita.getarraygiocatori().get(a).getNome()){
+				pvtemp = Partita.getarraygiocatori().get(a).getPv();
 
 				if(tempint>=pvtemp*100)
 					scommessa.get(i).setsoldi(tempint);

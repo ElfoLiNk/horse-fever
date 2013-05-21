@@ -137,4 +137,17 @@ public class Partita {
 
 		arraygiocatori.get(i).
 	}
+	
+	//getter
+	public static List<Giocatore> getarraygiocatori(){
+		return arraygiocatori;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }
