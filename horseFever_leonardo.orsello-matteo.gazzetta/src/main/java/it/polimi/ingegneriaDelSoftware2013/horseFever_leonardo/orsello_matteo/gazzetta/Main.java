@@ -21,23 +21,29 @@ public class Main {
 		/**
 		 * @param args
 		 */
-		//public static void main(String[] args) {
-		//	try {
+		public static void main(String[] args) {
+			Partita.setListe();
+			Partita.setNumGiocatori();
+			Partita.setGiocatori();
+			Partita.setCarteAzione();
+			Partita.setCarteAzione();
+			Partita.truccoCorsa();
+		/*	try {
 				//Locate the file
-		//		File xmlFile = new File("carteAzione.xml");
+				File xmlFile = new File("carteAzione.xml");
 
 				//Create the parser instance
-		//		XmlParserAzioni parser = new XmlParserAzioni();
+				XmlParserAzioni parser = new XmlParserAzioni();
 
-				//Parse the file
-			//	List<CarteAzione> carte = parser.parseXml(new FileInputStream(xmlFile));
+			//Parse the file
+			List<CarteAzione> carte = parser.parseXml(new FileInputStream(xmlFile));
 				
 				//Verify the result
-			//	System.out.println(carte);
-			//}
-			//catch(Exception e){
-			//	e.printStackTrace();
-			//}
+			Write.write(carte.toString());
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}*/
 			
 			//CarteMovimento Prima = new CarteMovimento();
 			//Prima.setMovimento();
@@ -46,6 +52,6 @@ public class Main {
 
 			// TODO Auto-generated method stubjjj
 
-		//}
+		}
 
 }
