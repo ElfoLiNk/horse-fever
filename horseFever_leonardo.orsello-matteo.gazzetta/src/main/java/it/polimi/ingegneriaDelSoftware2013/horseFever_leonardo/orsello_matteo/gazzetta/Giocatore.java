@@ -40,6 +40,10 @@ public class Giocatore {
 	public void setSoldi(int soldi){
 		this.soldi = soldi;
 	}
+	
+	public void aggiornapv(int temp){
+		pv +=temp;
+	}
 
 
 	public void setScuderia(int quotazione){
