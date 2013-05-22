@@ -3,7 +3,8 @@
  */
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
-import java.io.*	;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author amministratore
@@ -16,25 +17,23 @@ public class Giocatore {
 	private int pv = 1;
 	private int soldi = 0;
 	private String scuderia;
+	private List<CarteAzione> listaazioni = new ArrayList<CarteAzione>();
 
 
+	
 	//setter 
 
 	public void setNome(int i){
 		System.out.println("Player " +i+ ": Come ti vuoi chiamare?");
-		InputStreamReader input = new InputStreamReader(System.in);
-		BufferedReader IN = new BufferedReader(input);
-		try{
-			nome = IN.readLine();
-		}
-		catch (IOException e)
-	      {
-	         System.out.println ("errore di flusso");
-	      }
+		this.nome = Read.readString();
 	}
 	
 	public void setInterpreta(String interpreta){
 		this.interpreta = interpreta;
+	}
+	
+	public void setPv(int pv){
+		this.pv = pv;
 	}
 
 	public void setSoldi(int soldi){
@@ -45,11 +44,22 @@ public class Giocatore {
 		pv +=temp;
 	}
 
-
 	public void setScuderia(int quotazione){
-		scuderia = //Metodo di scuderia per associare quotazione -> colore scuderia
 	}	 
-
+	/**
+	 * 
+	 * @param carta
+	 */
+	public void setCarteAzione(CarteAzione carta){
+		this.listaazioni.add(carta);
+	}
+	/**
+	 * 
+	 * @param i
+	 */
+	public void removeCarteAzione(int i){
+		this.listaazioni.remove(i);
+	}
 
 
 	//getter
@@ -61,16 +71,19 @@ public class Giocatore {
 		return interpreta;
 	}
 
+	public int getPv(){
+		return pv;
+	}
+	
 	public int getSoldi(){
 		return soldi;
 	}
-
 	
 	public String getScuderia(){
 		return scuderia;
 	}
 	
-	public int getPv(){
-		return pv;
+	public List<CarteAzione> getCarteAzione(){
+		return listaazioni;
 	}
 }
