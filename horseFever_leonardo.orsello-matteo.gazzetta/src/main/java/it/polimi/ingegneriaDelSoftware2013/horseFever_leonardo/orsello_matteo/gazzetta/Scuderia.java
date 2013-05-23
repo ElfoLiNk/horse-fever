@@ -40,6 +40,9 @@ public class Scuderia {
 		return posizione;
 	}
 
+	public List<Scommessa> getscommessa(){
+		return scommessa;
+	}
 	//setter
 
 	public void setquotazione(int temp){
@@ -56,7 +59,8 @@ public class Scuderia {
 	/*nel main chiedo su che scuderia vuole puntare e accedo alla classe giusta 
 	dopo faccio partire metodo giusto.
 	una volta che accedo qua ho già creato un elemento nuovo nella lista scommessa
-	in cui ho già salvato il nome del giocatore che sta per effettuarla */
+	in cui ho già salvato il nome del giocatore che sta per effettuarla,sarà sicuramente
+	in coda alla lista */
 	public void effettuascommessa(){
 
 		int flagsc = 1;
