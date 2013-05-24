@@ -8,8 +8,11 @@ import java.io.FileInputStream;
 import java.util.List;
 
 /**
- * @author matteo
+ * @author matteo {Descrizione}
  * 
+ * 
+ * 
+ * @see
  */
 public class CarteAzione {
 	private int id;
@@ -62,6 +65,7 @@ public class CarteAzione {
 	public String getAgisce() {
 		return agisce;
 	}
+
 	/**
 	 * 
 	 * @param agisce
@@ -72,12 +76,22 @@ public class CarteAzione {
 
 	@Override
 	public String toString() {
-		//return this.id + "\n" + this.nome + "\n" + this.lettera + "\n"
-			//	+ this.effetto + "\n" + this.agisce + "\n\n" + this.descrizione
-			//	+ "\n\n";
+		// return this.id + "\n" + this.nome + "\n" + this.lettera + "\n"
+		// + this.effetto + "\n" + this.agisce + "\n\n" + this.descrizione
+		// + "\n\n";
 		return this.nome + " : " + this.descrizione;
 	}
 
+	/**
+	 * 
+	 * Crea una lista di tipo <CarteAzione> effettuando il parsing di un file
+	 * xml contenente le carte azione.
+	 * 
+	 * @return
+	 * @exceptions
+	 * 
+	 * @see
+	 */
 	public static List<CarteAzione> crealistaazioni() {
 		List<CarteAzione> carte = null;
 		try {
@@ -95,6 +109,53 @@ public class CarteAzione {
 		}
 
 		return carte;
+	}
+
+	public int checkCarteAzione(CarteAzione carta, Scuderia scuderia) {
+		if (carta.getId() == 15) {
+			for (int i = 7; i < 14; i++) {
+				scuderia.removeCartaAzione(i);
+			}
+		} else if (carta.getId() == 17) {
+			for (int i = 0; i < 7; i++) {
+				scuderia.removeCartaAzione(i);
+			}
+		} else{return (0);}
+
+		return (1);
+	}
+
+	public void usaCarteAzione(CarteAzione carta, Scuderia scuderia) {
+		switch (carta.getAgisce()) {
+		case "Partenza":
+			if (carta.getEffetto() < 0) {
+				scuderia.setMovimento(scuderia.getMovimento()
+						+ carta.getEffetto());
+			} else if (carta.getEffetto() == 0) {
+				scuderia.setMovimento(0);
+			}
+			break;
+		case "Movimento":
+			
+			break;
+
+		case "Sprint":
+			break;
+
+		case "Traguardo":
+			
+			break;
+		case "Fotofinish":
+
+			break;
+		case "Quotazione":
+			if(carta.getEffetto() < 0) {
+				if(scuderia.getquotazione() < 4) break;
+				else  scuderia.setquotazione(carta.getEffetto() - 2);
+			}
+			break;
+		}
 
 	}
+
 }

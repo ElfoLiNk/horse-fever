@@ -11,12 +11,18 @@ import java.util.*;
  *
  */
 public class CarteMovimento {
-	private int quota;
-	private int movimento;
+
 	private List<Integer> movimenti = new ArrayList<Integer>();
 
 
-
+	/**
+	 * 
+	 * {Descrizione}
+	 *
+	 * @exceptions
+	 *
+	 * @see
+	 */
 	public void setMovimento() {
 		try {
 			// File per linee > Lista di Stringhe
@@ -35,7 +41,7 @@ public class CarteMovimento {
 			Random r = new Random();
 			int j = r.nextInt(linee.size());
 			String randomString = linee.get(j);
-
+			
 			// Elimino la linea dalla lista
 			linee.remove(j);
 
@@ -47,25 +53,28 @@ public class CarteMovimento {
 			{
 				movimenti.add(scannerString.nextInt());
 			}
-
+			
 			// Chiudo File e Scanner
 			openfile.close();
 			file.close();
 			scannerString.close();
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			Write.write("ERRORE: Lettura carte movimento");
 		}
 	}
-
+	
+	/**
+	 * 
+	 * {Descrizione}
+	 *
+	 * @param quotazione
+	 * @return
+	 * @exceptions
+	 *
+	 * @see
+	 */
 	public int getMovimento(int quotazione) {
-		quota = quotazione;
-
-		for(int i=0 ;i < quota - 1 ; i++)
-		{
-			movimento = movimenti.get(i);
-		}
-
-		return movimento;
+		return movimenti.get(quotazione - 2);
 	}
 }
