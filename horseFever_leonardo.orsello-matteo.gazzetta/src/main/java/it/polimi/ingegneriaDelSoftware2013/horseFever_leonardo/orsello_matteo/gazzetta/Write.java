@@ -10,12 +10,33 @@ import java.io.PrintStream;
  * 
  */
 final class Write {
-
+	
+	private Write() {
+	}
+	
+	/**
+	 * 
+	 * {Descrizione}
+	 *
+	 * @param s
+	 * @exceptions
+	 *
+	 * @see
+	 */
 	public static void write(String s) {
 		PrintStream out = System.out;
 		out.println(s);
 	}
 
+	/**
+	 * 
+	 * {Descrizione}
+	 *
+	 * @param i
+	 * @exceptions
+	 *
+	 * @see
+	 */
 	public static void write(int i) {
 		PrintStream out = System.out;
 		out.println(i);
