@@ -6,6 +6,7 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,9 +18,10 @@ public class Scuderia {
 	private int posizione;
 	private int quotazione;
 	private int arrivo;
-	private List<Scommessa> scommessa;
+	private List<Scommessa> scommessa = new ArrayList<Scommessa>();
 	private String colore;
-	private List<CarteAzione> listacarteazione;
+	private List<CarteAzione> listacarteazione = new ArrayList<CarteAzione>();
+	private int movimento;
 
 
 	//getter
@@ -32,8 +34,18 @@ public class Scuderia {
 		return arrivo;
 	}
 
-	public String getcolore(){
+	/**
+	 * @return the colore
+	 */
+	public String getColore() {
 		return colore;
+	}
+
+	/**
+	 * @return the movimento
+	 */
+	public int getMovimento() {
+		return movimento;
 	}
 
 	public int getposizione(){
@@ -45,10 +57,29 @@ public class Scuderia {
 	}
 	//setter
 
+	public void setColore(String colore) {
+		this.colore = colore;
+	}
+
 	public void setquotazione(int temp){
 		quotazione = temp;
 	}
 	
+	/**
+	 * @param movimento
+	 *            the movimento to set
+	 */
+	public void setMovimento(int movimento) {
+		this.movimento = movimento;
+	}
+
+	/**
+	 * @param carteAzione
+	 */
+	public void setCarteAzione(CarteAzione carteAzione) {
+		listacarteazione.add(carteAzione);
+	}
+
 
 
 	
@@ -65,26 +96,10 @@ public class Scuderia {
 
 		int flagsc = 1;
 		do{
-			String tempstring;
 			int tempint = 0;
-			System.out.println("quanti soldi vuoi scommettere?");
+			Write.write("quanti soldi vuoi scommettere?");
 			BufferedReader br;
-			br = new BufferedReader(new InputStreamReader(System.in));
-
-			try
-			{
-				tempstring = br.readLine();
-				tempint = Integer.parseInt(tempstring);
-			}
-			catch (IOException e1)
-			{
-				System.out.println ("errore di flusso");
-			}
-			catch (NumberFormatException e2)
-			{
-				System.out.println ("errore di input da tastiera");
-				effettuascommessa();
-			}
+			tempint = Read.readInt();
 
 			//controllo se la scommessa è valida
 			//controllo importo minimo e se la scommessa è già stata effettuata
@@ -112,7 +127,7 @@ public class Scuderia {
 					if(tempint>=pvtemp*100)
 						scommessa.get(i).setsoldi(tempint);
 					else{
-						System.out.println("l'importo scommesso non è valido, questo deve essere/n" +
+						Write.write("l'importo scommesso non è valido, questo deve essere/n" +
 								"come minimo pari a \"punti vittoria posseduti\" * 100, inserire" +
 								"un nuovo importo :)");
 						effettuascommessa();
@@ -125,7 +140,7 @@ public class Scuderia {
 			//int flagsc = 1;
 			//do{
 			do{
-				System.out.println("che tipo di scommessa vuoi giocare?\n" +
+				Write.write("che tipo di scommessa vuoi giocare?\n" +
 						"digita v per vincente\n" +
 						"       p per piazzato");
 
@@ -142,12 +157,12 @@ public class Scuderia {
 				}
 				catch (IOException e1)
 				{
-					System.out.println ("errore di flusso");
+					Write.write("errore di flusso");
 					chartemp = 'e';
 				}
 				catch (NumberFormatException e2)
 				{
-					System.out.println ("non hai inserito un carattere valido");
+					Write.write("non hai inserito un carattere valido");
 					chartemp = 'e';
 				}
 			}while(chartemp != 'v'&& chartemp !='p');
@@ -159,7 +174,7 @@ public class Scuderia {
 			for(int a=0; a<i; a++){
 				if(nometemp == Partita.getarraygiocatori().get(a).getNome()){
 					if(tiposcommessatemp == scommessa.get(i).gettiposcommessa()){
-						System.out.println("questa scommessa è già stata effettuata, non è possibile ripetere" +
+						Write.write("questa scommessa è già stata effettuata, non è possibile ripetere" +
 								"la stessa scommessa. è possibile fare due scommesse sulla" +
 								"stessa scuderia, ma bisogna modificare il tipo" +
 								"di scommessa");
@@ -171,8 +186,14 @@ public class Scuderia {
 	}
 
 
-	/**pago le scommesse dopo di che resetto la lista scommessa**/
-	
+	/**
+	 * 
+	 * Pago le scommesse dopo di che resetto la lista scommessa
+	 *
+	 * @exceptions
+	 *
+	 * @see
+	 */
 	public void pagascommessa(){
 
 		int i;
@@ -212,8 +233,15 @@ public class Scuderia {
 	}
 	
 
-	//aggiorno le quotazioni in base all'arrivo
-	
+	/**
+	 * 
+	 * Aggiorno le quotazioni in base all'arrivo
+	 *
+	 * @param arrivo
+	 * @exceptions
+	 *
+	 * @see
+	 */
 	public void aggiornaquotazioni(int arrivo){
 		if(arrivo > quotazione - 1)
 			quotazione+=1;
@@ -222,7 +250,23 @@ public class Scuderia {
 	}
 
 
+	/**
+	 * 
+	 *  Rimuovo la carta azione dalla lista
+	 * 
+	 * @param i
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void removeCartaAzione(int i) {
+		for (CarteAzione carta : listacarteazione) {
+			if (carta.getId() == i) {
+				listacarteazione.remove(carta);
+			}
+		}
 
+	}
 
 
 }

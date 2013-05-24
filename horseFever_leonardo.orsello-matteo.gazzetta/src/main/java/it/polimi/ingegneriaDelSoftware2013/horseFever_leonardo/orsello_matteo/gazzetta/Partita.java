@@ -3,14 +3,16 @@
  */
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
  * @author matteo
- *
+ * 
  */
 public class Partita {
 	private int round = 0;
@@ -22,41 +24,57 @@ public class Partita {
 	public List<CartePersonaggio> listapersonaggi;
 	public List<CarteAzione> listaazioni;
 	public static int tempint;
-	public static int flagscommessa=1;
-	public int turnoscommessa=1;
+	public static int flagscommessa = 1;
+	public int turnoscommessa = 1;
+	private String[] colori = { "NERO", "BLU", "VERDE", "ROSSO", "GIALLO",
+			"BIANCO" };
 
-	public void setListe(){
+	/**
+	 * 
+	 * Creo liste dei Mazzi Carte
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+
+	public void setListe() {
 		// Creazione mazzo Personaggi
 		listapersonaggi = CartePersonaggio.crealistapersonaggi();
 		// Creazione mazzo Azioni
 		listaazioni = CarteAzione.crealistaazioni();
 	}
-	public void setNumGiocatori(){
-		//richiesta numero giocatori		
-		InputStreamReader input = new InputStreamReader(System.in);
-		BufferedReader IN = new BufferedReader(input);
-		while(ngiocatori == 0){
-			try
-			{
-				System.out.println("In quanti volete giocare?");
-				temp = IN.readLine();
-				ngiocatori = Integer.parseInt(temp);
-			}
-			catch (IOException e1)
-			{
-				System.out.println ("Errore di flusso");
-			}
-			catch (NumberFormatException e2)
-			{
-				System.out.println ("ERRORE: Devi inserire un numero!");
-			}
-		}
+
+	/**
+	 * 
+	 * Richiesta del numero di giocatori a terminale.
+	 * 
+	 * @exceptions
+	 * 
+	 * @see Giocatore
+	 */
+	public void setNumGiocatori() {
+
+		do {
+			Write.write("In quanti volete giocare?");
+			ngiocatori = Read.readInt();
+
+		} while (ngiocatori < 2 || ngiocatori > 6);
 	}
 
+	/**
+	 * 
+	 * Costruisco il giocatore chiedendo a terminale il nome del player, gli
+	 * assegno una carta personaggio e modifico i soldi di conseguenza; Assegno
+	 * la scuderia associata alla quotazione del personaggio.
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
 	public void setGiocatori() {
-		//inizializzazione giocatori
 
-		for(int i = 0; i < ngiocatori; i++){
+		for (int i = 0; i < ngiocatori; i++) {
 			// Costruisco il giocatore
 			Giocatore player = new Giocatore();
 
@@ -67,14 +85,14 @@ public class Partita {
 			Random rnd = new Random();
 			tempint = rnd.nextInt(listapersonaggi.size());
 
-			// Assegno il nome della carta a interpeta del player
+			// Assegno il nome della carta a interpreta del player
 			player.setInterpreta(listapersonaggi.get(tempint).getNome());
 
 			// Assegno i corrispondenti soldi al player
 			player.setSoldi(listapersonaggi.get(tempint).getSoldi());
 
 			// Assegno la corrispettiva Scuderia al player
-			//player.setScuderia(listapersonaggi.get(tempint).getQuotazione());
+			// player.setScuderia(listapersonaggi.get(tempint).getQuotazione());
 
 			// Aggiungo il player alla lista di giocatori
 			arraygiocatori.add(player);
@@ -84,43 +102,66 @@ public class Partita {
 		}
 	}
 
-	public void setQuotazioni(){
-		int n=0;
-		int tempint;
-		n = listascuderie.size();
-		Random rnd = new Random();
-		tempint = rnd.nextInt(7-2)+2;
-		listascuderie.get(0).setquotazione(tempint);
-
-		int flag=1;
-		for(int i=1;i<=n;i++){
-			Random rd = new Random();
-			tempint = rd.nextInt(7-2)+2;
-			for(int a=0;a<i;a++){
-				if(tempint==listascuderie.get(a).getquotazione())
-					flag=0;
-			}
-			if(flag==1) listascuderie.get(i).setquotazione(tempint);
-			else i--;
-		}
-	}
-
 	/**
-	 * inizializzo scuderie e le associo ai corrispettivi player
+	 * 
+	 * Inizializza le Scuderie.
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
 	 */
 	public void setScuderie() {
 
-		for(int i = 0; i < ngiocatori; i++){
+		for (int i = 0; i < 6; i++) {
+
 			Scuderia scuderia = new Scuderia();
-			//scuderia.setquotazione();
+			listascuderie.add(scuderia);
+			listascuderie.get(i).setColore(colori[i]);
+
 		}
 	}
-	/**
-	 *  Associo a ogni player 2 carte azione
-	 */
 
-	public void setCarteAzione(){
-		for(int i = 0; i < ngiocatori; i++){
+	/**
+	 * 
+	 * Assegno le Scuderie alle Quotazioni in modo Random
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void setQuotazioni() {
+		int n = 0;
+		int tempint;
+		n = listascuderie.size();
+		Random rnd = new Random();
+		tempint = rnd.nextInt(7 - 2) + 2;
+		listascuderie.get(0).setquotazione(tempint);
+
+		int flag = 1;
+		for (int i = 1; i <= n; i++) {
+			Random rd = new Random();
+			tempint = rd.nextInt(7 - 2) + 2;
+			for (int a = 0; a < i; a++) {
+				if (tempint == listascuderie.get(a).getquotazione())
+					flag = 0;
+			}
+			if (flag == 1)
+				listascuderie.get(i).setquotazione(tempint);
+			else
+				i--;
+		}
+	}
+
+	/**
+	 * 
+	 * Associo a ogni player 1 carte azione
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void setCarteAzione() {
+		for (int i = 0; i < ngiocatori; i++) {
 			// Scelgo una carta azione a caso
 			Random rnd = new Random();
 			tempint = rnd.nextInt(listaazioni.size());
@@ -129,97 +170,158 @@ public class Partita {
 			arraygiocatori.get(i).setCarteAzione(listaazioni.get(tempint));
 
 			// Elimino la carta dalla lista
-			listaazioni.remove(tempint);			
+			listaazioni.remove(tempint);
 		}
 	}
 
-
-
-
-	// Randomizzo il primogiocatore
+	/**
+	 * 
+	 * Randomizzo il primogiocatore
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
 	public void randomPrimogiocatore() {
 		Random rnd = new Random();
-		tempint = rnd.nextInt(arraygiocatori.size()-1)+1;
+		tempint = rnd.nextInt(arraygiocatori.size() - 1) + 1;
 		primogiocatore = tempint;
 	}
 
-/*
- * questo metodo mi permette di effettuare le scommesse. riconosce da solo che giro di 
- * scommessa è se il primo o il secondo.
- */
-	public void scommessa(){
+	/**
+	 * 
+	 * Trucco la corsa con le carte azione
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void truccoCorsa() {
+		for (int i = 0; i < ngiocatori; i++) {
+			List<CarteAzione> carteplayer = new ArrayList<CarteAzione>();
+			carteplayer = arraygiocatori.get(i).getCarteAzione();
+			Write.write("[" + arraygiocatori.get(i).getNome().toUpperCase()
+					+ "] Scegli la carta azione da giocare:");
+			// Print carte azione del player
+			for (int j = 0; j < carteplayer.size(); j++) {
+				Write.write(j + ") " + carteplayer.get(j).toString());
+			}
+			// Scelta Carta
+			int k = -1;
+			do {
+				Write.write("Seleziona la Carta Azione da giocare: ");
+				k = Read.readInt();
+			} while (k < 0 || k > carteplayer.size() - 1);
+			// Scelta Scuderia
+			Write.write("A quale corsia vuoi applicarla?");
+			for (int n = 0; n < listascuderie.size(); n++) {
+				Write.write(n + " ) " + listascuderie.get(n).getColore());
+			}
+			int s = 0;
+			do {
+				Write.write("Seleziona corsia: ");
+				s = Read.readInt();
+			} while (s < 0 || s > listascuderie.size() - 1);
 
-		int size = arraygiocatori.size(); //indici array
-		int tocca = primogiocatore - 1;   //indice array primogiocatore
+			// Salvo la carta nella scuderia corrispondente
+			listascuderie.get(s).setCarteAzione(carteplayer.get(k));
+
+			// Rimuovo Carta dalla lista del player
+			arraygiocatori.get(i).removeCarteAzione(k);
+
+		}
+	}
+
+	// CORSA
+	public void corsa() {
+
+		round++;
+	}
+
+	// MOVIMENTO
+	public int movimento(int quotazione) {
+		CarteMovimento Movimento = new CarteMovimento();
+		Movimento.setMovimento();
+
+		return (Movimento.getMovimento(quotazione));
+	}
+
+	// SPRINT
+	public void sprint() {
+
+	}
+
+	/**
+	 * Questo metodo mi permette di effettuare le scommesse. riconosce da solo
+	 * che giro di scommessa è se il primo o il secondo.
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void scommessa() {
+
+		int size = arraygiocatori.size(); // indici array
+		int tocca = primogiocatore - 1; // indice array primogiocatore
 		String stemp;
-		do{
+		do {
 			stemp = arraygiocatori.get(tocca).getNome();
-			System.out.print("tocca al giocatore" + tocca+1);
+			Write.write("tocca al giocatore" + tocca + 1);
 
 			BufferedReader br;
 			String stringtemp;
 			char chartemp = 's';
 
-			if(turnoscommessa == 2){
-				do{
-					System.out.println("il secondo giro di scommesse è facoltativo, vuoi piazzare " +
-							"una scommessa?\ndigita:\ns per scommettere\nn per saltare la scommmessa");
+			if (turnoscommessa == 2) {
+				do {
+					Write.write("il secondo giro di scommesse è facoltativo, vuoi piazzare "
+							+ "una scommessa?\ndigita:\ns per scommettere\nn per saltare la scommmessa");
 					br = new BufferedReader(new InputStreamReader(System.in));
 
-					try
-					{
+					try {
 						stringtemp = br.readLine();
-						if (stringtemp.length() > 1){
-							System.out.println("hai sbaglito a digitare");
-							throw new NumberFormatException();			
+						if (stringtemp.length() > 1) {
+							Write.write("hai sbaglito a digitare");
+							throw new NumberFormatException();
 						}
 						chartemp = stringtemp.charAt(0);
-					}
-					catch (IOException e1)
-					{
-						System.out.println ("errore di flusso");
+					} catch (IOException e1) {
+						Write.write("errore di flusso");
+						chartemp = 'e';
+					} catch (NumberFormatException e2) {
+						Write.write("non hai inserito un carattere valido");
 						chartemp = 'e';
 					}
-					catch (NumberFormatException e2)
-					{
-						System.out.println ("non hai inserito un carattere valido");
-						chartemp = 'e';
-					}
-				}while(chartemp != 's'&& chartemp !='n');
+				} while (chartemp != 's' && chartemp != 'n');
 
 			}
-			if(turnoscommessa == 1||(turnoscommessa == 2 && chartemp =='s')){
+			if (turnoscommessa == 1 || (turnoscommessa == 2 && chartemp == 's')) {
 
-				System.out.print("\n su che scuderia vuoi scommettere?" +
-						"digita il colore della scuderia e premi invio\n\n" +
-						"nero-verde-blu-giallo-bianco-rosso");
-				
-				/* potrei inserire un "queste sono le quotazioni attuali" e faccio uno
-				 * stampa a video delle scuderie associate alla loro quotazione
+				Write.write("\n su che scuderia vuoi scommettere?"
+						+ "digita il colore della scuderia e premi invio\n\n"
+						+ "nero-verde-blu-giallo-bianco-rosso");
+
+				/*
+				 * potrei inserire un "queste sono le quotazioni attuali" e
+				 * faccio uno stampa a video delle scuderie associate alla loro
+				 * quotazione
 				 */
-				
-				String string = null;
-				br = new BufferedReader(new InputStreamReader(System.in));
-				do{
-					try
-					{
-						string = br.readLine();
-					}
-					catch (IOException e)
-					{
-						System.out.println ("errore di flusso");
-					}
-				}while(string == "nero" || string == "verde" || string == "blu" || string == "rosso"
+				String string;
+				do {
+					string = Read.readString();
+				} while (string == "nero" || string == "verde"
+						|| string == "blu" || string == "rosso"
 						|| string == "giallo" || string == "bianco");
-				
+
 				int a = 0;
 				int trovato = 0;
-				do{
-					if(string == listascuderie.get(a).getcolore())
+				do {
+					if (string == listascuderie.get(a).getColore())
 						trovato = 1;
-					else a++;
-				}while(trovato == 0);
-				
+					else
+						a++;
+				} while (trovato == 0);
+
 				Scommessa scommessa = new Scommessa();
 				scommessa.setnomegiocatore(stemp);
 				listascuderie.get(a).getscommessa().add(scommessa);
@@ -227,47 +329,45 @@ public class Partita {
 			}
 			tocca++;
 			chartemp = 's';
-		}while(tocca == primogiocatore -1);
-		if(turnoscommessa == 1)
+		} while (tocca == primogiocatore - 1);
+		if (turnoscommessa == 1)
 			turnoscommessa = 2;
-		if(turnoscommessa == 2)
+		if (turnoscommessa == 2)
 			turnoscommessa = 1;
 	}
 
-	//getter
-	public static List<Giocatore> getarraygiocatori(){
+	// getter
+	/**
+	 * @return the arraygiocatori
+	 */
+	public static List<Giocatore> getarraygiocatori() {
 		return arraygiocatori;
 	}
 
-	public int getflagscommessa(){
+	public int getflagscommessa() {
 		return flagscommessa;
 	}
 
-	public int getprimogiocatore(){
+	/**
+	 * @return the primogiocatore
+	 */
+	public int getprimogiocatore() {
 		return primogiocatore;
 	}
 
+	// setter
 
-	//setter 
-
-	public static void setflagscommessa(int temp){
+	public static void setflagscommessa(int temp) {
 		flagscommessa = temp;
 	}
 
-	public void aggiornaprimogiocatore(){
+	public void aggiornaprimogiocatore() {
 		int estremo;
 		estremo = arraygiocatori.size();
-		if(primogiocatore == estremo)
+		if (primogiocatore == estremo)
 			primogiocatore = 1;
 		else
-			primogiocatore+=1;		
+			primogiocatore += 1;
 	}
-
-
-
-
-
-
-
 
 }
