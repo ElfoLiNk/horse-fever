@@ -57,14 +57,14 @@ public class CartePersonaggio {
 			File xmlFile = new File("cartePersonaggio.xml");
 
 			//Create the parser instance
-			XmlParserPersonaggi parser = new XmlParserPersonaggi();
+			XmlParser parser = new XmlParser();
 
 			//Parse the file
-			carte = parser.parseXml(new FileInputStream(xmlFile));
+			carte = parser.parseXmlPersonaggi(new FileInputStream(xmlFile));
 		
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			Write.write("Errore nell'apertura e/o parsing del file xml");
 		}
 		
 		return carte;

@@ -3,6 +3,8 @@
  */
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
+import java.util.List;
+
 
 
 
@@ -19,7 +21,11 @@ public class Main {
 		public static void main(String[] args) {
 			Partita partita = new Partita();
 			partita.setListe();
-			partita.setScuderie();
+			Write.write(partita.getListaazioni().toString());
+			List<CarteAzione> lista = CarteAzione.checkLetteraCarteAzione(partita.getListaazioni());
+			
+			if(!lista.isEmpty())Write.write(lista.toString());
+			/*partita.setScuderie();
 			partita.setNumGiocatori();
 			partita.setGiocatori();
 			partita.setCarteAzione();
@@ -27,7 +33,7 @@ public class Main {
 			//Scuderia temp = new Scuderia();
 			//2temp.effettuascommessa();
 			partita.truccoCorsa();
-			partita.movimento(2);
+			partita.movimento(2);*/
 			//CarteMovimento Prima = new CarteMovimento();
 			//Prima.setMovimento();
 			

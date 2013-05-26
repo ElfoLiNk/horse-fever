@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -18,14 +19,14 @@ public class Partita {
 	private int round = 0;
 	private static int ngiocatori = 0;
 	private int primogiocatore = 0;
-	public static String temp;
-	public static List<Giocatore> arraygiocatori = new ArrayList<Giocatore>();
-	public List<Scuderia> listascuderie = new ArrayList<Scuderia>();
-	public List<CartePersonaggio> listapersonaggi;
-	public List<CarteAzione> listaazioni;
-	public static int tempint;
-	public static int flagscommessa = 1;
-	public int turnoscommessa = 1;
+	private static String temp;
+	private static List<Giocatore> arraygiocatori = new ArrayList<Giocatore>();
+	private List<Scuderia> listascuderie = new ArrayList<Scuderia>();
+	private List<CartePersonaggio> listapersonaggi;
+	private List<CarteAzione> listaazioni;
+	private static int tempint;
+	private static int flagscommessa = 1;
+	private int turnoscommessa = 1;
 	private String[] colori = { "NERO", "BLU", "VERDE", "ROSSO", "GIALLO",
 			"BIANCO" };
 
@@ -92,7 +93,7 @@ public class Partita {
 			player.setSoldi(listapersonaggi.get(tempint).getSoldi());
 
 			// Assegno la corrispettiva Scuderia al player
-			// player.setScuderia(listapersonaggi.get(tempint).getQuotazione());
+			player.setScuderia(listapersonaggi.get(tempint).getQuotazione());
 
 			// Aggiungo il player alla lista di giocatori
 			arraygiocatori.add(player);
@@ -142,13 +143,15 @@ public class Partita {
 			Random rd = new Random();
 			tempint = rd.nextInt(7 - 2) + 2;
 			for (int a = 0; a < i; a++) {
-				if (tempint == listascuderie.get(a).getquotazione())
+				if (tempint == listascuderie.get(a).getquotazione()) {
 					flag = 0;
+				}
 			}
-			if (flag == 1)
+			if (flag == 1) {
 				listascuderie.get(i).setquotazione(tempint);
-			else
+			} else {
 				i--;
+			}
 		}
 	}
 
@@ -164,13 +167,13 @@ public class Partita {
 		for (int i = 0; i < ngiocatori; i++) {
 			// Scelgo una carta azione a caso
 			Random rnd = new Random();
-			tempint = rnd.nextInt(listaazioni.size());
+			tempint = rnd.nextInt(getListaazioni().size());
 
 			// Salvo la carta azione nella lista del player i
-			arraygiocatori.get(i).setCarteAzione(listaazioni.get(tempint));
+			arraygiocatori.get(i).setCarteAzione(getListaazioni().get(tempint));
 
 			// Elimino la carta dalla lista
-			listaazioni.remove(tempint);
+			getListaazioni().remove(tempint);
 		}
 	}
 
@@ -232,22 +235,57 @@ public class Partita {
 		}
 	}
 
-	// CORSA
+	// CORSA WOrk in progress
 	public void corsa() {
-
-		round++;
+		/*do{
+		movimento(listascuderie);
+		sprint(listascuderie);
+		posizione(listascuderie);
+		}while(tutti arrivati);*/
 	}
 
-	// MOVIMENTO
-	public int movimento(int quotazione) {
-		CarteMovimento Movimento = new CarteMovimento();
-		Movimento.setMovimento();
-
-		return (Movimento.getMovimento(quotazione));
+	/**
+	 * 
+	 * Riceve la lista delle scuderie, leggo una carta movimento e assegno un
+	 * movimento ad ogni scuderia
+	 * 
+	 * @param listascuderie
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void movimento(List<Scuderia> listascuderie) {
+		CarteMovimento movimenti = new CarteMovimento();
+		movimenti.setMovimento();
+		for (int i = 0; i < listascuderie.size(); i++) {
+			int quotazione = listascuderie.get(i).getquotazione();
+			listascuderie.get(i).setMovimento(
+					movimenti.getMovimento(quotazione));
+		}
 	}
 
-	// SPRINT
-	public void sprint() {
+	/**
+	 * 
+	 * Riceve la lista delle scuderie e imposta lo sprint a 1 di 2 scuderie
+	 * diverse
+	 * 
+	 * @param listascuderie
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void sprint(List<Scuderia> listascuderie) {
+		Random rnd = new Random();
+		int i = rnd.nextInt(colori.length);
+		int j = rnd.nextInt(colori.length);
+		listascuderie.get(i).setSprint(1);
+		if (i != j) {
+			listascuderie.get(j).setSprint(1);
+		}
+	}
+
+	// Posizione
+	public void posizione(List<Scuderia> listascuderie) {
 
 	}
 
@@ -300,7 +338,6 @@ public class Partita {
 				Write.write("\n su che scuderia vuoi scommettere?"
 						+ "digita il colore della scuderia e premi invio\n\n"
 						+ "nero-verde-blu-giallo-bianco-rosso");
-
 				/*
 				 * potrei inserire un "queste sono le quotazioni attuali" e
 				 * faccio uno stampa a video delle scuderie associate alla loro
@@ -309,17 +346,18 @@ public class Partita {
 				String string;
 				do {
 					string = Read.readString();
-				} while (string == "nero" || string == "verde"
-						|| string == "blu" || string == "rosso"
-						|| string == "giallo" || string == "bianco");
+				} while (string.equals("nero") || string.equals("verde")
+						|| string.equals("blu") || string.equals("rosso")
+						|| string.equals("giallo") || string.equals("bianco"));
 
 				int a = 0;
 				int trovato = 0;
 				do {
-					if (string == listascuderie.get(a).getColore())
+					if (string == listascuderie.get(a).getColore()) {
 						trovato = 1;
-					else
+					} else {
 						a++;
+					}
 				} while (trovato == 0);
 
 				Scommessa scommessa = new Scommessa();
@@ -330,10 +368,12 @@ public class Partita {
 			tocca++;
 			chartemp = 's';
 		} while (tocca == primogiocatore - 1);
-		if (turnoscommessa == 1)
+		if (turnoscommessa == 1) {
 			turnoscommessa = 2;
-		if (turnoscommessa == 2)
+		}
+		if (turnoscommessa == 2) {
 			turnoscommessa = 1;
+		}
 	}
 
 	// getter
@@ -364,10 +404,56 @@ public class Partita {
 	public void aggiornaprimogiocatore() {
 		int estremo;
 		estremo = arraygiocatori.size();
-		if (primogiocatore == estremo)
+		if (primogiocatore == estremo) {
 			primogiocatore = 1;
-		else
+		} else {
 			primogiocatore += 1;
+		}
 	}
 
+	/**
+	 * @return the listaazioni
+	 */
+	public List<CarteAzione> getListaazioni() {
+		return listaazioni;
+	}
+
+	/**
+	 * @param listaazioni
+	 *            the listaazioni to set
+	 */
+	public void setListaazioni(List<CarteAzione> listaazioni) {
+		this.listaazioni = listaazioni;
+	}
+
+	/**
+	 * 
+	 * Metodo che trova le scuderie in posizione prima e ultima
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void checkPosizioni() {
+		// Trovo la prima e l'utlima scuderia
+		int max = listascuderie.get(0).getPosizione();
+		int min = listascuderie.get(0).getPosizione();
+		for (int i = 1; i < listascuderie.size(); i++) {
+			if (listascuderie.get(i).getPosizione() < min) {
+				min = listascuderie.get(i).getPosizione();
+			}
+
+			if (listascuderie.get(i).getPosizione() > max) {
+				max = listascuderie.get(i).getPosizione();
+			}
+		}
+		for (int j = 0; j < listascuderie.size(); j++) {
+			if (listascuderie.get(j).getPosizione() == max) {
+				listascuderie.get(j).setPrimo(true);
+			}
+			if (listascuderie.get(j).getPosizione() == min) {
+				listascuderie.get(j).setUltimo(true);
+			}
+		}
+	}
 }

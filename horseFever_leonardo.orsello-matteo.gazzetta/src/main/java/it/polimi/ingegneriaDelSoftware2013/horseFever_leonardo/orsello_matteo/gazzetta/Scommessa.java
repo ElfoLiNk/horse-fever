@@ -11,11 +11,11 @@ public class Scommessa {
 	private String nomegiocatore;
 	private int soldi = 0;
 
-	public enum Tiposcommessa {
+	private enum Tiposcommessa {
 		PIAZZATO, VINCENTE
 	};
 
-	public Tiposcommessa tiposcommessa;
+	private Tiposcommessa tiposcommessa;
 
 	// setter
 	public void setsoldi(int temp) {
@@ -29,10 +29,10 @@ public class Scommessa {
 	}
 
 	public void settiposcommessa(char temp) {
-		if (temp == 'v')
-			tiposcommessa = Tiposcommessa.VINCENTE;
-		if (temp == 'p')
-			tiposcommessa = Tiposcommessa.PIAZZATO;
+		if (temp == 'v'){
+			tiposcommessa = Tiposcommessa.VINCENTE; }
+		if (temp == 'p'){
+			tiposcommessa = Tiposcommessa.PIAZZATO; }
 	}
 
 	// getter

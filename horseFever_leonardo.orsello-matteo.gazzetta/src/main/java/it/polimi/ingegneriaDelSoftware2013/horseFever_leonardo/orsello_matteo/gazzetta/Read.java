@@ -6,6 +6,7 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author matteo
@@ -13,10 +14,13 @@ import java.io.IOException;
  */
 final class Read {
 
+	private Read() {
+	} 
+	
 	private static BufferedReader br;
-	private static String _String;
-	private static int _int;
-	private static char _char;
+	private static String stringa;
+	private static int intero;
+	private static char carattere;
 
 	/**
 	 * 
@@ -31,12 +35,12 @@ final class Read {
 		br = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
-			_String = br.readLine();
+			stringa = br.readLine();
 		} catch (IOException e) {
-			System.out.println("errore di flusso");
+			Write.write("Errore di flusso");
 		}
 
-		return (_String);
+		return (stringa);
 	}
 
 	/**
@@ -44,6 +48,7 @@ final class Read {
 	 * {Descrizione}
 	 *
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 * @exceptions
 	 *
 	 * @see
@@ -52,16 +57,16 @@ final class Read {
 		br = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
-			_String = br.readLine();
-			_int = Integer.parseInt(_String);
+			stringa = br.readLine();
+			intero = Integer.parseInt(stringa);
 		} catch (IOException e1) {
-			System.out.println("Errore di flusso");
+			Write.write("Errore di flusso");
 		} catch (NumberFormatException e2) {
-			System.out.println("ERRORE: Devi inserire un numero!");
+			Write.write("ERRORE: Devi inserire un numero!");
 			return (-1);
 		}
 
-		return (_int);
+		return (intero);
 	}
 
 	/**
@@ -77,20 +82,20 @@ final class Read {
 		br = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
-			_String = br.readLine();
+			stringa = br.readLine();
 
-			if (_String.length() > 1)
+			if (stringa.length() > 1 && stringa != null)
 				throw new NumberFormatException();
 
-			_char = _String.charAt(0);
+			carattere = stringa.charAt(0);
 		} catch (IOException e1) {
-			System.out.println("errore di flusso");
+			Write.write("Errore di flusso");
 		} catch (NumberFormatException e2) {
-			System.out.println("Non hai inserito un carattere valido");
+			Write.write("ERRORE: Non hai inserito un carattere valido!");
 			return (0);
 		}
 
-		return (_char);
+		return (carattere);
 	}
 
 }
