@@ -17,12 +17,16 @@ public class Scuderia {
 
 	private int posizione;
 	private int quotazione;
+	private int traguardo;
 	private int arrivo;
 	private List<Scommessa> scommessa = new ArrayList<Scommessa>();
 	private String colore;
 	private List<CarteAzione> listacarteazione = new ArrayList<CarteAzione>();
 	private int movimento;
-
+	// Sprint inizializzato a -1 per controllo carte azione
+	private int sprint = -1;
+	private boolean ultimo;
+	private boolean primo;
 
 	//getter
 
@@ -48,15 +52,32 @@ public class Scuderia {
 		return movimento;
 	}
 
-	public int getposizione(){
-		return posizione;
-	}
-
 	public List<Scommessa> getscommessa(){
 		return scommessa;
 	}
-	//setter
+	
+	public List<CarteAzione> getCarteAzione() {
+		return listacarteazione;
+	}
 
+
+
+
+	/**
+	 * @return the sprint
+	 */
+	public int getSprint() {
+		return sprint;
+	}
+
+	/**
+	 * @param sprint the sprint to set
+	 */
+	public void setSprint(int sprint) {
+		this.sprint = sprint;
+	}
+
+	// setter
 	public void setColore(String colore) {
 		this.colore = colore;
 	}
@@ -252,7 +273,25 @@ public class Scuderia {
 
 	/**
 	 * 
-	 *  Rimuovo la carta azione dalla lista
+	 *  Rimuovo la carta azione dalla lista per ID
+	 * 
+	 * @param i
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void removeCartaAzioneByID(int i) {
+		for (CarteAzione carta : listacarteazione) {
+			if (carta.getId() == i) {
+				listacarteazione.remove(carta);
+			}
+		}
+
+	}
+	
+	/**
+	 * 
+	 *  Rimuovo la carta azione dalla lista per posizione
 	 * 
 	 * @param i
 	 * @exceptions
@@ -260,12 +299,50 @@ public class Scuderia {
 	 * @see
 	 */
 	public void removeCartaAzione(int i) {
-		for (CarteAzione carta : listacarteazione) {
-			if (carta.getId() == i) {
-				listacarteazione.remove(carta);
-			}
-		}
+				listacarteazione.remove(i);
 
+	}
+
+	/**
+	 * @return the ultimo
+	 */
+	public boolean isUltimo() {
+		return ultimo;
+	}
+
+	/**
+	 * @param ultimo the ultimo to set
+	 */
+	public void setUltimo(boolean ultimo) {
+		this.ultimo = ultimo;
+	}
+
+	/**
+	 * @return the primo
+	 */
+	public boolean isPrimo() {
+		return primo;
+	}
+
+	/**
+	 * @param primo the primo to set
+	 */
+	public void setPrimo(boolean primo) {
+		this.primo = primo;
+	}
+
+	/**
+	 * @return the posizione
+	 */
+	public int getPosizione() {
+		return posizione;
+	}
+
+	/**
+	 * @param posizione the posizione to set
+	 */
+	public void setPosizione(int posizione) {
+		this.posizione = posizione;
 	}
 
 

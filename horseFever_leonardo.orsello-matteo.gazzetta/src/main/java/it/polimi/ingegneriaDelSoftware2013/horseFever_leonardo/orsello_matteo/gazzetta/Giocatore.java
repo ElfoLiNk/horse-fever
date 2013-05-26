@@ -24,7 +24,7 @@ public class Giocatore {
 	//setter 
 
 	public void setNome(int i){
-		System.out.println("Player " +i+ ": Come ti vuoi chiamare?");
+		Write.write("Player " +i+ ": Come ti vuoi chiamare?");
 		this.nome = Read.readString();
 	}
 	
