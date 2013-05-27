@@ -193,7 +193,7 @@ public class Partita {
 	 */
 	public void randomPrimogiocatore() {
 		Random rnd = new Random();
-		tempint = rnd.nextInt(arraygiocatori.size() - 1) + 1;
+		tempint = rnd.nextInt(arraygiocatori.size());
 		primogiocatore = tempint;
 	}
 
@@ -320,11 +320,11 @@ public class Partita {
 	public void scommessa() {
 
 		int size = arraygiocatori.size(); // indici array
-		int tocca = primogiocatore - 1; // indice array primogiocatore
+		int tocca = primogiocatore; // indice array primogiocatore
 		String stemp;
 		do {
 			stemp = arraygiocatori.get(tocca).getNome();
-			Write.write("tocca al giocatore" + tocca + 1);
+			Write.write("Tocca a " +stemp.toUpperCase());
 
 			BufferedReader br;
 			String stringtemp;
@@ -355,39 +355,30 @@ public class Partita {
 			}
 			if (turnoscommessa == 1 || (turnoscommessa == 2 && chartemp == 's')) {
 
-				Write.write("\n su che scuderia vuoi scommettere?"
-						+ "digita il colore della scuderia e premi invio\n\n"
-						+ "nero-verde-blu-giallo-bianco-rosso");
 				/*
 				 * potrei inserire un "queste sono le quotazioni attuali" e
 				 * faccio uno stampa a video delle scuderie associate alla loro
 				 * quotazione
 				 */
-				String string;
+				// Scelta Scuderia
+				Write.write("Su che scuderia vuoi scommettere?");
+				for (int n = 0; n < listascuderie.size(); n++) {
+					Write.write(n + " ) " + listascuderie.get(n).getColore());
+				}
+				int s = 0;
 				do {
-					string = Read.readString();
-				} while (string.equals("nero") || string.equals("verde")
-						|| string.equals("blu") || string.equals("rosso")
-						|| string.equals("giallo") || string.equals("bianco"));
-
-				int a = 0;
-				int trovato = 0;
-				do {
-					if (string == listascuderie.get(a).getColore()) {
-						trovato = 1;
-					} else {
-						a++;
-					}
-				} while (trovato == 0);
+					Write.write("Seleziona corsia: ");
+					s = Read.readInt();
+				} while (s < 0 || s > listascuderie.size() - 1);
 
 				Scommessa scommessa = new Scommessa();
 				scommessa.setnomegiocatore(stemp);
-				listascuderie.get(a).getscommessa().add(scommessa);
-				listascuderie.get(a).effettuascommessa();
+				listascuderie.get(s).getscommessa().add(scommessa);
+				listascuderie.get(s).effettuascommessa();
 			}
 			tocca++;
 			chartemp = 's';
-		} while (tocca == primogiocatore - 1);
+		} while (tocca == primogiocatore);
 		if (turnoscommessa == 1) {
 			turnoscommessa = 2;
 		}
