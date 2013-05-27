@@ -11,7 +11,7 @@ public class Scommessa {
 	private String nomegiocatore;
 	private int soldi = 0;
 
-	private enum Tiposcommessa {
+	public enum Tiposcommessa {
 		PIAZZATO, VINCENTE
 	};
 

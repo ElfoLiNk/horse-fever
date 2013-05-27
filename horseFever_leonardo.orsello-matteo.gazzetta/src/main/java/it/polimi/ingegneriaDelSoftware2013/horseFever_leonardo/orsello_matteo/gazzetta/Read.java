@@ -82,9 +82,10 @@ final class Read {
 		br = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
-			stringa = br.readLine();
+			
+			while((stringa = br.readLine()) != null)
 
-			if (stringa.length() > 1 && stringa != null)
+			if (stringa.length() > 1)
 				throw new NumberFormatException();
 
 			carattere = stringa.charAt(0);
