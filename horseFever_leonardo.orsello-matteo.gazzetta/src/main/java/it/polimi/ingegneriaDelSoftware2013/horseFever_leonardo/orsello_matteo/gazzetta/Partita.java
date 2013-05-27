@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * @author matteo
@@ -29,6 +30,8 @@ public class Partita {
 	private int turnoscommessa = 1;
 	private String[] colori = { "NERO", "BLU", "VERDE", "ROSSO", "GIALLO",
 			"BIANCO" };
+	private List<Integer> movimenti = new ArrayList<Integer>();
+	private List<String> listacartemovimento = new ArrayList<String>();
 
 	/**
 	 * 
@@ -44,6 +47,9 @@ public class Partita {
 		listapersonaggi = CartePersonaggio.crealistapersonaggi();
 		// Creazione mazzo Azioni
 		listaazioni = CarteAzione.crealistaazioni();
+		// Creazione mazzo Movimento
+		listacartemovimento = CarteMovimento.setMovimento();
+
 	}
 
 	/**
@@ -237,11 +243,10 @@ public class Partita {
 
 	// CORSA WOrk in progress
 	public void corsa() {
-		/*do{
-		movimento(listascuderie);
-		sprint(listascuderie);
-		posizione(listascuderie);
-		}while(tutti arrivati);*/
+		/*
+		 * do{ movimento(listascuderie); sprint(listascuderie);
+		 * posizione(listascuderie); }while(tutti arrivati);
+		 */
 	}
 
 	/**
@@ -255,12 +260,27 @@ public class Partita {
 	 * @see
 	 */
 	public void movimento(List<Scuderia> listascuderie) {
-		CarteMovimento movimenti = new CarteMovimento();
-		movimenti.setMovimento();
+		// Selezione una linea random dalla Lista delle carte movimento
+		Random r = new Random();
+		int j = r.nextInt(listacartemovimento.size());
+		String randomString = listacartemovimento.get(j);
+
+		// Elimino la linea dalla lista
+		listacartemovimento.remove(j);
+
+		// Analizzo la stringa e Salvo il movimento corretto
+		Scanner scannerString = new Scanner(randomString);
+		for (int i = 0; i < (randomString.length()) / 2; i++) {
+			movimenti.add(scannerString.nextInt());
+		}
+		
+		// Chiudo lo scanner
+		scannerString.close();
+
 		for (int i = 0; i < listascuderie.size(); i++) {
 			int quotazione = listascuderie.get(i).getquotazione();
 			listascuderie.get(i).setMovimento(
-					movimenti.getMovimento(quotazione));
+					movimenti.get(quotazione -2));
 		}
 	}
 
@@ -455,5 +475,79 @@ public class Partita {
 				listascuderie.get(j).setUltimo(true);
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * Cerco le Scuderie che hanno la stessa posizione dopo il traguardo
+	 * 
+	 * @return
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public List<Scuderia> findFotofinish() {
+
+		/* HashMap di tutti le posizioni analizzate */
+		HashMap<Integer, Scuderia> posizioni = new HashMap<Integer, Scuderia>();
+		/* Lista delle scuderie con la stessa posizione dopo il traguardo */
+		List<Scuderia> fotofinish = new ArrayList<Scuderia>();
+		for (Scuderia scuderia : listascuderie) {
+			if (posizioni.containsKey(scuderia.getPosizione())) {
+				fotofinish.add(scuderia);
+				fotofinish.add(posizioni.get(scuderia.getPosizione()));
+			}
+			posizioni.put(scuderia.getPosizione(), scuderia);
+
+		}
+
+		return fotofinish;
+	}
+
+	
+	//TODO SISTEMARE INSIME AL CONTROLLO DELL'ARRIVO
+	/**
+	 * 
+	 * Imposto chi vince il fotofinish, confrontando le quotazioni e
+	 * controllando se gli è stata applicata una carta azione che modifica il
+	 * fotofinish
+	 * 
+	 * @param fotofinish
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public int checkFotofinish(List<Scuderia> fotofinish) {
+		// Controllo se è stata applicata una carta azione
+		for (int j = 0; j < fotofinish.size(); j++) {
+			if (fotofinish.get(j).getFotofinish() == 1) {
+				return (1);
+			}
+		}
+		// Trovo la quotazione massima
+		int max = fotofinish.get(0).getquotazione();
+		int min = fotofinish.get(0).getquotazione();
+		for (int i = 1; i < fotofinish.size(); i++) {
+			if (fotofinish.get(i).getPosizione() < min) {
+				min = fotofinish.get(i).getquotazione();
+			}
+
+			if (fotofinish.get(i).getquotazione() > max) {
+				max = fotofinish.get(i).getquotazione();
+			}
+		}
+
+		for (int j = 0; j < fotofinish.size(); j++) {
+			if ((fotofinish.get(j).getquotazione() == max)
+					&& (fotofinish.get(j).getFotofinish() == -1)) {
+				fotofinish.get(j).setFotofinish(1);
+			} else if ((fotofinish.get(j).getquotazione() == max - 1)
+					&& (fotofinish.get(j).getFotofinish() == -1)) {
+				fotofinish.get(j).setFotofinish(1);
+			}
+		}
+		
+		return(0);
+
 	}
 }

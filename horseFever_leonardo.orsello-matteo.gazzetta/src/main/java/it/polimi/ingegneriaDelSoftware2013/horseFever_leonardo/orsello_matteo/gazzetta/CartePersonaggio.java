@@ -5,6 +5,7 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -63,7 +64,7 @@ public class CartePersonaggio {
 			carte = parser.parseXmlPersonaggi(new FileInputStream(xmlFile));
 		
 		}
-		catch(Exception e){
+		catch(IOException e){
 			Write.write("Errore nell'apertura e/o parsing del file xml");
 		}
 		

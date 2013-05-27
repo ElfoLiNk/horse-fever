@@ -5,13 +5,10 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @author matteo {Descrizione}
@@ -107,7 +104,7 @@ public class CarteAzione {
 			// Parso il file
 			carte = parser.parseXmlAzioni(new FileInputStream(xmlFile));
 
-		} catch (Exception e) {
+		} catch (IOException e) {
 			Write.write("Errore nell'apertura e/o parsing del file xml");
 		}
 
@@ -183,7 +180,7 @@ public class CarteAzione {
 	 * 
 	 * @see
 	 */
-	public void CarteAzionePartenza(List<Scuderia> listascuderie) {
+	public void carteAzionePartenza(List<Scuderia> listascuderie) {
 		// Controllo tutte le scuderie
 		for (int i = 0; i < listascuderie.size(); i++) {
 
@@ -237,7 +234,7 @@ public class CarteAzione {
 	 * 
 	 * @see
 	 */
-	public void CarteAzioneMovimento(List<Scuderia> listascuderie) {
+	public void carteAzioneMovimento(List<Scuderia> listascuderie) {
 		// Controllo tutte le scuderie
 		for (int i = 0; i < listascuderie.size(); i++) {
 
@@ -260,17 +257,17 @@ public class CarteAzione {
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 * Applico gli effetti delle carte azione che agiscono sullo sprint
-	 *
+	 * 
 	 * @param listascuderie
 	 * @exceptions
-	 *
+	 * 
 	 * @see
 	 */
-	public void CarteAzioneSprint(List<Scuderia> listascuderie) {
+	public void carteAzioneSprint(List<Scuderia> listascuderie) {
 		// Controllo tutte le scuderie
 		for (int i = 0; i < listascuderie.size(); i++) {
 
@@ -280,31 +277,28 @@ public class CarteAzione {
 			// Controllo tutte le carte della scuderia
 			for (int j = 0; j < carte.size(); j++) {
 				if (carte.get(j).getAgisce().equals("Sprint")) {
-					switch (carte.get(j).getEffetto()) {
-					case (-1):
+					if (carte.get(j).getEffetto() == -1) {
 						if (listascuderie.get(i).getSprint() > 0) {
 							listascuderie.get(i).setSprint(
 									listascuderie.get(i).getSprint() - 1);
 						}
-						break;
-					case (0):
+					}
+					if (carte.get(j).getEffetto() == 0) {
 						listascuderie.get(i).setSprint(0);
-						break;
-					case (+1):
+					}
+					if (carte.get(j).getEffetto() == +1) {
 						if (listascuderie.get(i).getSprint() > 0
 								&& listascuderie.get(i).getSprint() < 3) {
 							listascuderie.get(i).setSprint(
 									listascuderie.get(i).getSprint() + 1);
 						}
-						break;
-					case (2):
+					}
+					if (carte.get(j).getEffetto() == 2) {
 						if (listascuderie.get(i).getSprint() > 0) {
 							listascuderie.get(i).setSprint(3);
 						} else {
-							listascuderie.get(i).setSprint(3);
+							listascuderie.get(i).setSprint(2);
 						}
-
-						break;
 
 					}
 				}
@@ -316,13 +310,13 @@ public class CarteAzione {
 	/**
 	 * 
 	 * Applico gli effetti delle carte azione che agiscono al traguardo
-	 *
+	 * 
 	 * @param listascuderie
 	 * @exceptions
-	 *
+	 * 
 	 * @see
 	 */
-	public void CarteAzioneTraguardo(List<Scuderia> listascuderie) {
+	public void carteAzioneTraguardo(List<Scuderia> listascuderie) {
 		// Controllo tutte le scuderie
 		for (int i = 0; i < listascuderie.size(); i++) {
 
@@ -338,9 +332,7 @@ public class CarteAzione {
 										+ carte.get(j).getEffetto());
 					}
 					if (carte.get(j).getEffetto() == 0) {
-						// TODO controllare numero posizione del traguardo = 13
-						// ?
-						listascuderie.get(i).setPosizione(13);
+						listascuderie.get(i).setPosizione(12);
 					}
 				}
 			}
@@ -348,7 +340,18 @@ public class CarteAzione {
 
 	}
 
-	public void CarteAzioneFotofinish(List<Scuderia> listascuderie) {
+	/**
+	 * 
+	 * Riceve la lista delle scuderie con la stessa posizione e applica le carte
+	 * Fotofinish se presenti
+	 * 
+	 * @param listascuderie
+	 *            ricevuta da findFotofinish
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void carteAzioneFotofinish(List<Scuderia> listascuderie) {
 		// Controllo tutte le scuderie
 		for (int i = 0; i < listascuderie.size(); i++) {
 
@@ -358,23 +361,29 @@ public class CarteAzione {
 			// Controllo tutte le carte della scuderia
 			for (int j = 0; j < carte.size(); j++) {
 				if (carte.get(j).getAgisce().equals("Fotofinish")) {
-					// TODO implementare
+					if (carte.get(j).getEffetto() == 0) {
+						listascuderie.get(i).setFotofinish(0);
+					}
+					if (carte.get(j).getEffetto() == 1) {
+						listascuderie.get(i).setFotofinish(1);
+					}
+
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * Applico le carte azione che modificano la quotazione della scuderia,
 	 * l'algoritmo non si applica se la quotazione non rimane tra (1:1 - 1:7)
-	 *
+	 * 
 	 * @param listascuderie
 	 * @exceptions
-	 *
+	 * 
 	 * @see
 	 */
-	public void CarteAzioneQuotazione(List<Scuderia> listascuderie) {
+	public void carteAzioneQuotazione(List<Scuderia> listascuderie) {
 		// Controllo tutte le scuderie
 		for (int i = 0; i < listascuderie.size(); i++) {
 
@@ -390,7 +399,7 @@ public class CarteAzione {
 							listascuderie.get(i).setquotazione(
 									listascuderie.get(i).getquotazione()
 											- carte.get(j).getEffetto());
-							//TODO rimuovere carta?
+							// TODO rimuovere carta?
 						}
 					}
 					if (carte.get(j).getEffetto() < 0) {
@@ -399,7 +408,7 @@ public class CarteAzione {
 							listascuderie.get(i).setquotazione(
 									listascuderie.get(i).getquotazione()
 											- carte.get(j).getEffetto());
-							//TODO rimuovere carta?
+							// TODO rimuovere carta?
 						}
 					}
 				}

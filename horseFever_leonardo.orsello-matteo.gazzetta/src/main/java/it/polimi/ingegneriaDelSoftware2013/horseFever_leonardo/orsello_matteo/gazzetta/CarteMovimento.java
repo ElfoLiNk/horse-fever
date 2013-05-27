@@ -8,73 +8,44 @@ import java.util.*;
 
 /**
  * @author matteo
- *
+ * 
  */
 public class CarteMovimento {
 
-	private List<Integer> movimenti = new ArrayList<Integer>();
-
-
 	/**
 	 * 
-	 * {Descrizione}
+	 * Legge un file txt contenente le carte movimento e le salva in una lista
 	 *
+	 * @return la lista delle carte movimento
 	 * @exceptions
 	 *
 	 * @see
 	 */
-	public void setMovimento() {
+	public static List<String> setMovimento() {
+		List<String> linee = new ArrayList<String>();
 		try {
-			// File per linee > Lista di Stringhe
+			// File per linee to Lista di Stringhe
 			FileReader openfile = new FileReader("cartemovimento.txt");
 			BufferedReader file = new BufferedReader(openfile);
-			List<String> linee = new ArrayList<String>();
+			
 
 			String linea = file.readLine();
 
-			while( linea != null ) {
+			while (linea != null) {
 				linee.add(linea);
 				linea = file.readLine();
 			}
 
-			// Selezione una linea random dalla Lista
-			Random r = new Random();
-			int j = r.nextInt(linee.size());
-			String randomString = linee.get(j);
-			
-			// Elimino la linea dalla lista
-			linee.remove(j);
-
-			// Analizzo la stringa e Salvo il movimento corretto
-			Scanner scannerString = new Scanner(randomString);
-
-
-			for(int i=0 ;i < (randomString.length())/2; i++)
-			{
-				movimenti.add(scannerString.nextInt());
-			}
-			
-			// Chiudo File e Scanner
+			// Chiudo File
 			openfile.close();
 			file.close();
-			scannerString.close();
+			
+			return linee;			
 
 		} catch (IOException e) {
 			Write.write("ERRORE: Lettura carte movimento");
 		}
+		return linee;
 	}
 	
-	/**
-	 * 
-	 * {Descrizione}
-	 *
-	 * @param quotazione
-	 * @return
-	 * @exceptions
-	 *
-	 * @see
-	 */
-	public int getMovimento(int quotazione) {
-		return movimenti.get(quotazione - 2);
-	}
 }
