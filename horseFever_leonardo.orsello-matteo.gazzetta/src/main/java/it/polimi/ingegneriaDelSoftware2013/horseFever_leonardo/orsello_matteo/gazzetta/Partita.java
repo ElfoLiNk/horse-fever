@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 /**
  * @author matteo
@@ -29,9 +28,7 @@ public class Partita {
 	private static int flagscommessa = 1;
 	private int turnoscommessa = 1;
 	private String[] colori = { "NERO", "BLU", "VERDE", "ROSSO", "GIALLO",
-			"BIANCO" };
-	private List<Integer> movimenti = new ArrayList<Integer>();
-	private List<String> listacartemovimento = new ArrayList<String>();
+	"BIANCO" };
 
 	/**
 	 * 
@@ -47,10 +44,11 @@ public class Partita {
 		listapersonaggi = CartePersonaggio.crealistapersonaggi();
 		// Creazione mazzo Azioni
 		listaazioni = CarteAzione.crealistaazioni();
-		// Creazione mazzo Movimento
+		//Creazione mazzo Movimento
 		listacartemovimento = CarteMovimento.setMovimento();
-
+	
 	}
+	
 
 	/**
 	 * 
@@ -193,7 +191,7 @@ public class Partita {
 	 */
 	public void randomPrimogiocatore() {
 		Random rnd = new Random();
-		tempint = rnd.nextInt(arraygiocatori.size());
+		tempint = rnd.nextInt(arraygiocatori.size() - 1) + 1;
 		primogiocatore = tempint;
 	}
 
@@ -261,21 +259,21 @@ public class Partita {
 	 */
 	public void movimento(List<Scuderia> listascuderie) {
 		// Selezione una linea random dalla Lista delle carte movimento
-		Random r = new Random();
-		int j = r.nextInt(listacartemovimento.size());
-		String randomString = listacartemovimento.get(j);
+				Random r = new Random();
+				int j = r.nextInt(listacartemovimento.size());
+				String randomString = listacartemovimento.get(j);
 
-		// Elimino la linea dalla lista
-		listacartemovimento.remove(j);
+				// Elimino la linea dalla lista
+				listacartemovimento.remove(j);
 
-		// Analizzo la stringa e Salvo il movimento corretto
-		Scanner scannerString = new Scanner(randomString);
-		for (int i = 0; i < (randomString.length()) / 2; i++) {
-			movimenti.add(scannerString.nextInt());
-		}
-		
-		// Chiudo lo scanner
-		scannerString.close();
+				// Analizzo la stringa e Salvo il movimento corretto
+				Scanner scannerString = new Scanner(randomString);
+				for (int i = 0; i < (randomString.length()) / 2; i++) {
+					movimenti.add(scannerString.nextInt());
+				}
+				
+				// Chiudo lo scanner
+				scannerString.close();
 
 		for (int i = 0; i < listascuderie.size(); i++) {
 			int quotazione = listascuderie.get(i).getquotazione();
@@ -318,13 +316,14 @@ public class Partita {
 	 * @see
 	 */
 	public void scommessa() {
-
-		int size = arraygiocatori.size(); // indici array
-		int tocca = primogiocatore; // indice array primogiocatore
+		int eliminato = 1;
+		int valido = 1;
+		int size = arraygiocatori.size()-1; // indici array
+		int tocca = primogiocatore - 1; // indice array primogiocatore
 		String stemp;
 		do {
 			stemp = arraygiocatori.get(tocca).getNome();
-			Write.write("Tocca a " +stemp.toUpperCase());
+			Write.write("tocca al giocatore" + tocca + 1);
 
 			BufferedReader br;
 			String stringtemp;
@@ -352,33 +351,76 @@ public class Partita {
 					}
 				} while (chartemp != 's' && chartemp != 'n');
 
-			}
-			if (turnoscommessa == 1 || (turnoscommessa == 2 && chartemp == 's')) {
+			} 
 
+			//controllo se il giocatore è ancora in partita da finire
+			int soldi;
+			int pv;
+
+			soldi = arraygiocatori.get(tocca).getSoldi();
+			pv = arraygiocatori.get(tocca).getPv();
+			if(pv * 100 > soldi){
+				valido=0;
+				Write.write("il giocatore non ha abbastanza danari per effettuare la scommessa" +
+						"minima, pertanto perde 2 punti vittoria!");
+				arraygiocatori.get(tocca).aggiornapv(-2);
+
+			}
+
+			pv = arraygiocatori.get(tocca).getPv();
+			if(pv < 0){
+				Write.write("il giocatore non ha abbastanza punti vittoria, per tanto" +
+						"perde la partita e viene eliminato" +
+						"ciao ciao "+stemp);
+				eliminato = 0;
+
+			}
+
+
+
+
+			if (valido ==1 && (turnoscommessa == 1 || (turnoscommessa == 2 && chartemp == 's'))) {
+
+				Write.write("\n su che scuderia vuoi scommettere?"
+						+ "digita il colore della scuderia e premi invio\n\n"
+						+ "nero-verde-blu-giallo-bianco-rosso");
 				/*
 				 * potrei inserire un "queste sono le quotazioni attuali" e
 				 * faccio uno stampa a video delle scuderie associate alla loro
 				 * quotazione
 				 */
-				// Scelta Scuderia
-				Write.write("Su che scuderia vuoi scommettere?");
-				for (int n = 0; n < listascuderie.size(); n++) {
-					Write.write(n + " ) " + listascuderie.get(n).getColore());
-				}
-				int s = 0;
+				String string;
 				do {
-					Write.write("Seleziona corsia: ");
-					s = Read.readInt();
-				} while (s < 0 || s > listascuderie.size() - 1);
+					string = Read.readString();
+				} while (string.equals("nero") || string.equals("verde")
+						|| string.equals("blu") || string.equals("rosso")
+						|| string.equals("giallo") || string.equals("bianco"));
+
+				int a = 0;
+				int trovato = 0;
+				do {
+					if (string == listascuderie.get(a).getColore()) {
+						trovato = 1;
+					} else {
+						a++;
+					}
+				} while (trovato == 0);
 
 				Scommessa scommessa = new Scommessa();
 				scommessa.setnomegiocatore(stemp);
-				listascuderie.get(s).getscommessa().add(scommessa);
-				listascuderie.get(s).effettuascommessa();
+				listascuderie.get(a).getscommessa().add(scommessa);
+				listascuderie.get(a).effettuascommessa();
 			}
+			if(eliminato == 0){
+				arraygiocatori.remove(tocca);
+				size--;
+			}
+
 			tocca++;
+			if(tocca > size)
+				tocca = 0;
 			chartemp = 's';
-		} while (tocca == primogiocatore);
+		} while (tocca == primogiocatore - 1);
 		if (turnoscommessa == 1) {
 			turnoscommessa = 2;
 		}
@@ -467,7 +509,6 @@ public class Partita {
 			}
 		}
 	}
-
 	/**
 	 * 
 	 * Cerco le Scuderie che hanno la stessa posizione dopo il traguardo
