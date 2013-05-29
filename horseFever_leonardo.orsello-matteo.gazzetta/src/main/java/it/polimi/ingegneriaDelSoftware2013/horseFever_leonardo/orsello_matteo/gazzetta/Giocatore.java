@@ -24,8 +24,10 @@ public class Giocatore {
 	//setter 
 
 	public void setNome(int i){
-		Write.write("Player " +i+ ": Come ti vuoi chiamare?");
-		this.nome = Read.readString();
+		do{
+			Write.write("Player " +i+ ": Come ti vuoi chiamare?");
+			this.nome = Read.readString();
+		}while(nome == null);
 	}
 	
 	public void setInterpreta(String interpreta){
