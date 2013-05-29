@@ -18,34 +18,36 @@ public class Scommessa {
 	private Tiposcommessa tiposcommessa;
 
 	// setter
-	public void setsoldi(int temp) {
+	public void setSoldi(int temp) {
 		soldi = temp;
 
 	}
 
-	public void setnomegiocatore(String temp) {
+	public void setNomegiocatore(String temp) {
 		nomegiocatore = temp;
 
 	}
 
-	public void settiposcommessa(char temp) {
-		if (temp == 'v'){
-			tiposcommessa = Tiposcommessa.VINCENTE; }
-		if (temp == 'p'){
-			tiposcommessa = Tiposcommessa.PIAZZATO; }
+	public void setTiposcommessa(char temp) {
+		if (temp == 'v') {
+			tiposcommessa = Tiposcommessa.VINCENTE;
+		}
+		if (temp == 'p') {
+			tiposcommessa = Tiposcommessa.PIAZZATO;
+		}
 	}
 
 	// getter
 
-	public String getnomegiocatore() {
+	public String getNomegiocatore() {
 		return nomegiocatore;
 	}
 
-	public int getsoldi() {
+	public int getSoldi() {
 		return soldi;
 	}
 
-	public Tiposcommessa gettiposcommessa() {
+	public Tiposcommessa getTiposcommessa() {
 		return tiposcommessa;
 
 	}
