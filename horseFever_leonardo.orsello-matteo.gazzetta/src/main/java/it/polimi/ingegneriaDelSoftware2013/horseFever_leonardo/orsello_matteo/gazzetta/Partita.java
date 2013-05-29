@@ -524,7 +524,7 @@ public class Partita {
 				} while (trovato == 0);
 
 				Scommessa scommessa = new Scommessa();
-				scommessa.setnomegiocatore(stemp);
+				scommessa.setNomegiocatore(stemp);
 				listascuderie.get(a).getscommessa().add(scommessa);
 				listascuderie.get(a).effettuascommessa();
 			}
