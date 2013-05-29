@@ -7,28 +7,31 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * @author matteo
  * 
  */
 public class Partita {
-	private int round = 0;
-	private static int ngiocatori = 0;
+	private int turni = 0;
+	private int ngiocatori = 0;
 	private int primogiocatore = 0;
-	private static String temp;
 	private static List<Giocatore> arraygiocatori = new ArrayList<Giocatore>();
 	private List<Scuderia> listascuderie = new ArrayList<Scuderia>();
 	private List<CartePersonaggio> listapersonaggi;
 	private List<CarteAzione> listaazioni;
-	private static int tempint;
+	private int tempint;
 	private static int flagscommessa = 1;
 	private int turnoscommessa = 1;
 	private String[] colori = { "NERO", "BLU", "VERDE", "ROSSO", "GIALLO",
-	"BIANCO" };
+			"BIANCO" };
+	private int[] movimenti = new int[colori.length];
+	private List<String> listacartemovimento = new ArrayList<String>();
+	private List<Scuderia> arrivati = new ArrayList<Scuderia>();
+	private List<Scuderia> classifica = new ArrayList<Scuderia>();
 
 	/**
 	 * 
@@ -38,21 +41,20 @@ public class Partita {
 	 * 
 	 * @see
 	 */
-
 	public void setListe() {
 		// Creazione mazzo Personaggi
 		listapersonaggi = CartePersonaggio.crealistapersonaggi();
 		// Creazione mazzo Azioni
 		listaazioni = CarteAzione.crealistaazioni();
-		//Creazione mazzo Movimento
+		// Creazione mazzo Movimento
 		listacartemovimento = CarteMovimento.setMovimento();
-	
+
 	}
-	
 
 	/**
 	 * 
-	 * Richiesta del numero di giocatori a terminale.
+	 * Richiesta del numero di giocatori a terminale e imposto il numero di
+	 * turni necessari
 	 * 
 	 * @exceptions
 	 * 
@@ -65,6 +67,16 @@ public class Partita {
 			ngiocatori = Read.readInt();
 
 		} while (ngiocatori < 2 || ngiocatori > 6);
+
+		if (ngiocatori == 2 || ngiocatori == 3 || ngiocatori == 6) {
+			turni = 6;
+		}
+		if (ngiocatori == 4) {
+			turni = 4;
+		}
+		if (ngiocatori == 5) {
+			turni = 5;
+		}
 	}
 
 	/**
@@ -135,27 +147,22 @@ public class Partita {
 	 * @see
 	 */
 	public void setQuotazioni() {
-		int n = 0;
-		int tempint;
-		n = listascuderie.size();
-		Random rnd = new Random();
-		tempint = rnd.nextInt(7 - 2) + 2;
-		listascuderie.get(0).setquotazione(tempint);
+		// new list of values
+		final List<Integer> list = new ArrayList<Integer>();
 
-		int flag = 1;
-		for (int i = 1; i <= n; i++) {
-			Random rd = new Random();
-			tempint = rd.nextInt(7 - 2) + 2;
-			for (int a = 0; a < i; a++) {
-				if (tempint == listascuderie.get(a).getquotazione()) {
-					flag = 0;
-				}
+		// seed our random generator with the current time
+		final Random rnd = new Random(System.currentTimeMillis());
+
+		// keep trying to add numbers until we have the proper number
+		while (list.size() < 6) {
+			int num = rnd.nextInt(6) + 2;
+
+			if (!list.contains(num)) {
+				list.add(num);
 			}
-			if (flag == 1) {
-				listascuderie.get(i).setquotazione(tempint);
-			} else {
-				i--;
-			}
+		}
+		for (int i = 0; i < list.size(); i++) {
+			listascuderie.get(i).setquotazione(list.get(i));
 		}
 	}
 
@@ -182,8 +189,24 @@ public class Partita {
 	}
 
 	/**
+	 * @return the turni
+	 */
+	public int getTurni() {
+		return turni;
+	}
+
+	/**
+	 * @param turni
+	 *            the turni to set
+	 */
+	public void setTurni(int turni) {
+		this.turni = turni;
+	}
+
+	/**
 	 * 
-	 * Randomizzo il primogiocatore
+	 * Randomizzo il primogiocatore, impostandolo uguale al indice dell'array
+	 * dei giocatori
 	 * 
 	 * @exceptions
 	 * 
@@ -191,7 +214,7 @@ public class Partita {
 	 */
 	public void randomPrimogiocatore() {
 		Random rnd = new Random();
-		tempint = rnd.nextInt(arraygiocatori.size() - 1) + 1;
+		tempint = rnd.nextInt(arraygiocatori.size());
 		primogiocatore = tempint;
 	}
 
@@ -204,81 +227,136 @@ public class Partita {
 	 * @see
 	 */
 	public void truccoCorsa() {
-		for (int i = 0; i < ngiocatori; i++) {
-			List<CarteAzione> carteplayer = new ArrayList<CarteAzione>();
-			carteplayer = arraygiocatori.get(i).getCarteAzione();
-			Write.write("[" + arraygiocatori.get(i).getNome().toUpperCase()
-					+ "] Scegli la carta azione da giocare:");
-			// Print carte azione del player
-			for (int j = 0; j < carteplayer.size(); j++) {
-				Write.write(j + ") " + carteplayer.get(j).toString());
+		int cartedagiocare = ngiocatori * 2;
+		do {
+			boolean finisco = true;
+			for (int i = primogiocatore; i < ngiocatori && finisco; i++) {
+
+				List<CarteAzione> carteplayer = arraygiocatori.get(i)
+						.getCarteAzione();
+				Write.write("\n["
+						+ arraygiocatori.get(i).getNome().toUpperCase()
+						+ "] Scegli la carta azione da giocare:");
+				// Print carte azione del player
+				for (int j = 0; j < carteplayer.size(); j++) {
+					Write.write(j + ") " + carteplayer.get(j).toString());
+				}
+				// Scelta Carta
+				int k = -1;
+				do {
+					Write.write("Seleziona la Carta Azione da giocare: ");
+					k = Read.readInt();
+				} while (k < 0 || k > carteplayer.size() - 1);
+				// Scelta Scuderia
+				Write.write("A quale corsia vuoi applicarla?");
+				for (int n = 0; n < listascuderie.size(); n++) {
+					Write.write(n + " ) " + listascuderie.get(n).getColore()
+							+ "    Carte Applicate: "
+							+ listascuderie.get(n).getCarteAzione().size());
+				}
+				int s = 0;
+				do {
+					Write.write("Seleziona corsia: ");
+					s = Read.readInt();
+				} while (s < 0 || s > listascuderie.size() - 1);
+
+				// Salvo la carta nella scuderia corrispondente
+				listascuderie.get(s).setCarteAzione(carteplayer.get(k));
+
+				// Rimuovo Carta dalla lista del player
+				arraygiocatori.get(i).removeCarteAzione(k);
+
+				// Check per ciclare tutti i giocatori
+				if (i == ngiocatori - 1 && primogiocatore > 0) {
+					i = -1;
+				} else if (i == primogiocatore - 1) {
+					finisco = false;
+				}
+				cartedagiocare--;
 			}
-			// Scelta Carta
-			int k = -1;
-			do {
-				Write.write("Seleziona la Carta Azione da giocare: ");
-				k = Read.readInt();
-			} while (k < 0 || k > carteplayer.size() - 1);
-			// Scelta Scuderia
-			Write.write("A quale corsia vuoi applicarla?");
-			for (int n = 0; n < listascuderie.size(); n++) {
-				Write.write(n + " ) " + listascuderie.get(n).getColore());
-			}
-			int s = 0;
-			do {
-				Write.write("Seleziona corsia: ");
-				s = Read.readInt();
-			} while (s < 0 || s > listascuderie.size() - 1);
-
-			// Salvo la carta nella scuderia corrispondente
-			listascuderie.get(s).setCarteAzione(carteplayer.get(k));
-
-			// Rimuovo Carta dalla lista del player
-			arraygiocatori.get(i).removeCarteAzione(k);
-
-		}
-	}
-
-	// CORSA WOrk in progress
-	public void corsa() {
-		/*
-		 * do{ movimento(listascuderie); sprint(listascuderie);
-		 * posizione(listascuderie); }while(tutti arrivati);
-		 */
+		} while (cartedagiocare > 0);
 	}
 
 	/**
+	 * Controlla se tutte le scuderie sono arrivate alla fine della corsa
 	 * 
-	 * Riceve la lista delle scuderie, leggo una carta movimento e assegno un
-	 * movimento ad ogni scuderia
-	 * 
-	 * @param listascuderie
+	 * @return true se sono tutte arrivate, false se non sono ancora tutte
+	 *         arrivate
 	 * @exceptions
 	 * 
 	 * @see
 	 */
-	public void movimento(List<Scuderia> listascuderie) {
+	private boolean checkArrivati() {
+		int arrivate = 0;
+		for (Scuderia scuderia : listascuderie) {
+			if (scuderia.isArrivato()) {
+				arrivate++;
+			}
+		}
+		if (arrivate == listascuderie.size()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * 
+	 * Leggo una carta movimento e assegno un movimento ad ogni scuderia
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void movimento() {
 		// Selezione una linea random dalla Lista delle carte movimento
-				Random r = new Random();
-				int j = r.nextInt(listacartemovimento.size());
-				String randomString = listacartemovimento.get(j);
+		Random r = new Random();
+		int j = r.nextInt(listacartemovimento.size());
+		String randomString = listacartemovimento.get(j);
 
-				// Elimino la linea dalla lista
-				listacartemovimento.remove(j);
+		// Elimino la linea dalla lista
+		listacartemovimento.remove(j);
 
-				// Analizzo la stringa e Salvo il movimento corretto
-				Scanner scannerString = new Scanner(randomString);
-				for (int i = 0; i < (randomString.length()) / 2; i++) {
-					movimenti.add(scannerString.nextInt());
-				}
-				
-				// Chiudo lo scanner
-				scannerString.close();
+		// Debug
+		Write.write(randomString);
+
+		// Analizzo la stringa e Salvo il movimento corretto
+		Scanner scannerString = new Scanner(randomString);
+		for (int i = 0; i < 6; i++) {
+			movimenti[i] = scannerString.nextInt();
+		}
+
+		// Salvo i movimenti nelle scuderie
+		for (Scuderia scuderia : listascuderie) {
+			switch (scuderia.getquotazione()) {
+			case (2):
+				scuderia.setMovimento(movimenti[0]);
+				break;
+			case (3):
+				scuderia.setMovimento(movimenti[1]);
+				break;
+			case (4):
+				scuderia.setMovimento(movimenti[2]);
+				break;
+			case (5):
+				scuderia.setMovimento(movimenti[3]);
+				break;
+			case (6):
+				scuderia.setMovimento(movimenti[4]);
+				break;
+			case (7):
+				scuderia.setMovimento(movimenti[5]);
+				break;
+			default:
+				break;
+			}
+		}
+		// Chiudo lo scanner
+		scannerString.close();
 
 		for (int i = 0; i < listascuderie.size(); i++) {
 			int quotazione = listascuderie.get(i).getquotazione();
-			listascuderie.get(i).setMovimento(
-					movimenti.get(quotazione -2));
+			listascuderie.get(i).setMovimento(movimenti[quotazione - 2]);
 		}
 	}
 
@@ -292,7 +370,7 @@ public class Partita {
 	 * 
 	 * @see
 	 */
-	public void sprint(List<Scuderia> listascuderie) {
+	public void sprint() {
 		Random rnd = new Random();
 		int i = rnd.nextInt(colori.length);
 		int j = rnd.nextInt(colori.length);
@@ -302,9 +380,48 @@ public class Partita {
 		}
 	}
 
-	// Posizione
-	public void posizione(List<Scuderia> listascuderie) {
+	/**
+	 * 
+	 * Controllo se il cavallo è gia arrivato o no, se non è ancora arrivato
+	 * sommo la sua posizione col movimento, se gia arrivato applico le carte
+	 * traguardo
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void posizione() {
+		for (int i = 0; i < listascuderie.size(); i++) {
+			if (!listascuderie.get(i).isArrivato()) {
 
+				listascuderie.get(i).setPosizione(
+						listascuderie.get(i).getPosizione()
+								+ listascuderie.get(i).getMovimento());
+				if (listascuderie.get(i).getSprint() > 0) {
+					listascuderie.get(i).setPosizione(
+							listascuderie.get(i).getPosizione()
+									+ listascuderie.get(i).getSprint());
+					// Reimposto a -1 lo sprint
+					listascuderie.get(i).setSprint(-1);
+				}
+
+			}
+			if (listascuderie.get(i).getPosizione() >= 12) {
+				listascuderie.get(i).setArrivato(true);
+				listascuderie.get(i).carteAzioneTraguardo();
+				if (listascuderie.get(i).isArrivato()
+						&& !classifica.contains(listascuderie.get(i))) {
+					arrivati.add(listascuderie.get(i));
+				}
+
+			}
+
+			Write.write(listascuderie.get(i).getColore() + " : "
+					+ listascuderie.get(i).getPosizione() + " Arrivato  "
+					+ listascuderie.get(i).isArrivato()
+					+ "         Quotazione: "
+					+ listascuderie.get(i).getquotazione());
+		}
 	}
 
 	/**
@@ -437,6 +554,9 @@ public class Partita {
 		return arraygiocatori;
 	}
 
+	/**
+	 * @return the flagscommessa
+	 */
 	public int getflagscommessa() {
 		return flagscommessa;
 	}
@@ -449,11 +569,22 @@ public class Partita {
 	}
 
 	// setter
-
+	/**
+	 * @param temp
+	 *            the flagscommessa to set
+	 */
 	public static void setflagscommessa(int temp) {
 		flagscommessa = temp;
 	}
 
+	/**
+	 * 
+	 * Aggiorna il primo giocatore in senso orario
+	 *
+	 * @exceptions
+	 *
+	 * @see
+	 */
 	public void aggiornaprimogiocatore() {
 		int estremo;
 		estremo = arraygiocatori.size();
@@ -481,63 +612,62 @@ public class Partita {
 
 	/**
 	 * 
-	 * Metodo che trova le scuderie in posizione prima e ultima
+	 * Metodo che riempie la lista classifica con le scuderie in ordine di arrivo
 	 * 
 	 * @exceptions
 	 * 
 	 * @see
 	 */
-	public void checkPosizioni() {
-		// Trovo la prima e l'utlima scuderia
-		int max = listascuderie.get(0).getPosizione();
-		int min = listascuderie.get(0).getPosizione();
-		for (int i = 1; i < listascuderie.size(); i++) {
-			if (listascuderie.get(i).getPosizione() < min) {
-				min = listascuderie.get(i).getPosizione();
-			}
-
-			if (listascuderie.get(i).getPosizione() > max) {
-				max = listascuderie.get(i).getPosizione();
-			}
-		}
-		for (int j = 0; j < listascuderie.size(); j++) {
-			if (listascuderie.get(j).getPosizione() == max) {
-				listascuderie.get(j).setPrimo(true);
-			}
-			if (listascuderie.get(j).getPosizione() == min) {
-				listascuderie.get(j).setUltimo(true);
-			}
-		}
-	}
-	/**
-	 * 
-	 * Cerco le Scuderie che hanno la stessa posizione dopo il traguardo
-	 * 
-	 * @return
-	 * @exceptions
-	 * 
-	 * @see
-	 */
-	public List<Scuderia> findFotofinish() {
-
-		/* HashMap di tutti le posizioni analizzate */
-		HashMap<Integer, Scuderia> posizioni = new HashMap<Integer, Scuderia>();
-		/* Lista delle scuderie con la stessa posizione dopo il traguardo */
+	public void classifica(List<Scuderia> scuderie) {
+		int max = 0;
+		// int min = scuderie.get(0).getPosizione();
 		List<Scuderia> fotofinish = new ArrayList<Scuderia>();
-		for (Scuderia scuderia : listascuderie) {
-			if (posizioni.containsKey(scuderia.getPosizione())) {
-				fotofinish.add(scuderia);
-				fotofinish.add(posizioni.get(scuderia.getPosizione()));
+		int idmax = -1;
+		
+		while (scuderie.size() > 0) {
+			max = 0;
+			for (int i = 0; i < scuderie.size(); i++) {
+				/*
+				 * if (scuderie.get(i).getPosizione() < min) { min =
+				 * scuderie.get(i).getPosizione(); }
+				 */
+
+				if (scuderie.get(i).getPosizione() > max) {
+					max = scuderie.get(i).getPosizione();
+					idmax = i;
+				} else if (max == scuderie.get(i).getPosizione()) {
+					// Aggiungo al fotofinish la scuderia con quotazione uguale
+					// al massimo
+					fotofinish.add(scuderie.get(i));
+					// Rimuovo nuova scuderia con quotazione uguale al massimo
+					scuderie.remove(scuderie.get(i));
+					if (fotofinish.size() == 0) {
+						// Aggiungo al fotofinish scuderia precedente con
+						// quotazione uguale alla nuova
+						fotofinish.add(scuderie.get(idmax));
+						// Rimuovo scuderia precedente con quotazione uguale
+						// alla nuova
+						scuderie.remove(scuderie.get(idmax));
+					}
+
+				}
 			}
-			posizioni.put(scuderia.getPosizione(), scuderia);
-
+			if (fotofinish.size() > 0) {
+				checkFotofinish(fotofinish);
+			} else {
+				classifica.add(scuderie.get(idmax));
+				scuderie.remove(scuderie.get(idmax));
+			}
 		}
-
-		return fotofinish;
+		int i = 1;
+		Write.write("\nCLASSIFICA\n");
+		for(Scuderia scuderia : classifica){
+			scuderia.setClassifica(i++);
+			Write.write(scuderia.getColore()+ "   " +scuderia.getClassifica());
+		}
 	}
 
-	
-	//TODO SISTEMARE INSIME AL CONTROLLO DELL'ARRIVO
+
 	/**
 	 * 
 	 * Imposto chi vince il fotofinish, confrontando le quotazioni e
@@ -549,37 +679,117 @@ public class Partita {
 	 * 
 	 * @see
 	 */
-	public int checkFotofinish(List<Scuderia> fotofinish) {
-		// Controllo se è stata applicata una carta azione
+	public void checkFotofinish(List<Scuderia> fotofinish) {
+		int max = 0;
+		int idmax = -1;
+		
+		// Controllo se è stata applicata una carta azione fotofinish
 		for (int j = 0; j < fotofinish.size(); j++) {
 			if (fotofinish.get(j).getFotofinish() == 1) {
-				return (1);
-			}
-		}
-		// Trovo la quotazione massima
-		int max = fotofinish.get(0).getquotazione();
-		int min = fotofinish.get(0).getquotazione();
-		for (int i = 1; i < fotofinish.size(); i++) {
-			if (fotofinish.get(i).getPosizione() < min) {
-				min = fotofinish.get(i).getquotazione();
+				classifica.add(classifica.size(), fotofinish.get(j));
+				fotofinish.remove(j);
+			} else if (fotofinish.get(j).getFotofinish() == 0) {
+				classifica.add(classifica.size() + fotofinish.size(),
+						fotofinish.get(j));
+				fotofinish.remove(j);
 			}
 
-			if (fotofinish.get(i).getquotazione() > max) {
-				max = fotofinish.get(i).getquotazione();
+			while (fotofinish.size() > 0) {
+				// Trovo la scuderia quotazione massima
+				max = 0;
+				for (int i = 0; i < fotofinish.size(); i++) {
+					if (fotofinish.get(i).getquotazione() > max) {
+						max = fotofinish.get(i).getquotazione();
+						idmax = i;
+					}else if (fotofinish.get(i).getquotazione() == max) {
+						classifica.add(classifica.size() +i,
+								fotofinish.get(i));
+						fotofinish.remove(i);
+					}
+				}
+				classifica.add(idmax + classifica.size() -1,
+						fotofinish.get(idmax));
+				fotofinish.remove(idmax);
 			}
 		}
-
-		for (int j = 0; j < fotofinish.size(); j++) {
-			if ((fotofinish.get(j).getquotazione() == max)
-					&& (fotofinish.get(j).getFotofinish() == -1)) {
-				fotofinish.get(j).setFotofinish(1);
-			} else if ((fotofinish.get(j).getquotazione() == max - 1)
-					&& (fotofinish.get(j).getFotofinish() == -1)) {
-				fotofinish.get(j).setFotofinish(1);
-			}
-		}
-		
-		return(0);
-
 	}
+
+	/**
+	 * Turno di gioco, caratterizzato da una scommessa, truccare la corsa e una
+	 * seconda eventuale scommessa
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void turno() {
+
+		int turno = 0;
+		do {
+			Write.write("\nTURNO " + (turno + 1));
+			setCarteAzione();
+			setCarteAzione();
+			primoGiocatoreOrario();
+			// scommessa();
+			truccoCorsa();
+			// scommessa();
+			corsa();
+			// pagascomessa();
+			// aggiornaquotazioni();
+
+			// Rimischio il mazzo
+			setListe();
+			turno++;
+		} while (turno < turni);
+	}
+
+	/**
+	 * 
+	 * Fase di corsa del gioco:
+	 * 
+	 *
+	 * @exceptions
+	 *
+	 * @see
+	 */
+	public void corsa() {
+		boolean partenza = true;
+		do {
+			// Controllo carte
+			for (Scuderia scuderia : listascuderie) {
+				scuderia.checkCarteAzione();
+				scuderia.checkLetteraCarteAzione();
+			}
+			CarteAzione azioni = new CarteAzione();
+			movimento();
+			if (partenza == true) {
+				azioni.carteAzionePartenza(listascuderie);
+				partenza = false;
+			} else {
+				azioni.carteAzioneMovimento(listascuderie);
+			}
+			sprint();
+			azioni.carteAzioneSprint(listascuderie);
+			posizione();
+			azioni.carteAzioneFotofinish(listascuderie);
+			classifica(arrivati);
+		} while (checkArrivati() == false);
+	}
+
+	/**
+	 * Sposto il primogiocatore in senso orario ogni nuovo turno
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	private void primoGiocatoreOrario() {
+		if (primogiocatore < ngiocatori - 1) {
+			primogiocatore += 1;
+		}
+		if (primogiocatore == ngiocatori - 1) {
+			primogiocatore = 0;
+		}
+	}
+
 }

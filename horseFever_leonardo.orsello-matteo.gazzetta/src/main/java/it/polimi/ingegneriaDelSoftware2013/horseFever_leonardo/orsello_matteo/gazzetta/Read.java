@@ -15,8 +15,8 @@ import java.io.UnsupportedEncodingException;
 final class Read {
 
 	private Read() {
-	} 
-	
+	}
+
 	private static BufferedReader br;
 	private static String stringa;
 	private static int intero;
@@ -25,17 +25,18 @@ final class Read {
 	/**
 	 * 
 	 * {Descrizione}
-	 *
+	 * 
 	 * @return
 	 * @exceptions
-	 *
+	 * 
 	 * @see
 	 */
 	public static String readString() {
 		br = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
-			stringa = br.readLine();
+			do {stringa = br.readLine();}
+			while(stringa.isEmpty());
 		} catch (IOException e) {
 			Write.write("Errore di flusso");
 		}
@@ -46,18 +47,19 @@ final class Read {
 	/**
 	 * 
 	 * {Descrizione}
-	 *
+	 * 
 	 * @return
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 * @exceptions
-	 *
+	 * 
 	 * @see
 	 */
 	public static int readInt() {
 		br = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
-			stringa = br.readLine();
+			do {stringa = br.readLine();}
+			while(stringa.isEmpty());
 			intero = Integer.parseInt(stringa);
 		} catch (IOException e1) {
 			Write.write("Errore di flusso");
@@ -72,19 +74,19 @@ final class Read {
 	/**
 	 * 
 	 * {Descrizione}
-	 *
+	 * 
 	 * @return
 	 * @exceptions
-	 *
+	 * 
 	 * @see
 	 */
 	public static char readChar() {
 		br = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
-			
-			while((stringa = br.readLine()) != null)
 
+			do {stringa = br.readLine();}
+			while(stringa.isEmpty());
 			if (stringa.length() > 1)
 				throw new NumberFormatException();
 
