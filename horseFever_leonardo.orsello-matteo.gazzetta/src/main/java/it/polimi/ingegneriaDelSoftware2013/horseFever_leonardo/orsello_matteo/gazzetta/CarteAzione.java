@@ -6,8 +6,6 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -79,7 +77,7 @@ public class CarteAzione {
 
 	@Override
 	public String toString() {
-		return this.nome + " : " + this.lettera;
+		return this.nome + " : " + this.descrizione;
 	}
 
 	/**
@@ -113,66 +111,6 @@ public class CarteAzione {
 
 	/**
 	 * 
-	 * Controllo se la scuderia ha le carte azione che rimuovono tutte le carte
-	 * azione positive e/o negative assegnate alla scuderia
-	 * 
-	 * @param carta
-	 * @param scuderia
-	 * @return
-	 * @exceptions
-	 * 
-	 * @see
-	 */
-	public int checkCarteAzione(CarteAzione carta, Scuderia scuderia) {
-		if (carta.getId() == 15) {
-			for (int i = 7; i < 14; i++) {
-				scuderia.removeCartaAzioneByID(i);
-			}
-		} else if (carta.getId() == 17) {
-			for (int i = 0; i < 7; i++) {
-				scuderia.removeCartaAzioneByID(i);
-			}
-		} else {
-			return (0);
-		}
-
-		return (1);
-	}
-
-	/**
-	 * 
-	 * Rimuove le carte azioni con la stessa lettera dalla lista delle carte
-	 * azioni della scuderia
-	 * 
-	 * @param carte
-	 * 
-	 * @return carte
-	 * @exceptions
-	 * 
-	 * @see
-	 */
-	public static List<CarteAzione> checkLetteraCarteAzione(
-			List<CarteAzione> carte) {
-		/* HashMap di tutti gli attributi analizzati */
-		HashMap<String, CarteAzione> attributi = new HashMap<String, CarteAzione>();
-		/* Lista delle carte con la stessa lettera */
-		List<CarteAzione> carteuguali = new ArrayList<CarteAzione>();
-
-		for (CarteAzione x : carte) {
-			if (attributi.containsKey(x.getLettera())) {
-				carteuguali.add(x);
-				carteuguali.add(attributi.get(x.getLettera()));
-			}
-			attributi.put(x.getLettera(), x);
-		}
-		/* Rimuovo dalla lista le carte con la stessa lettera */
-		carte.removeAll(carteuguali);
-
-		return carte;
-	}
-
-	/**
-	 * 
 	 * Applico gli effetti delle carte azione che agiscono alla partenza
 	 * 
 	 * @param scuderia
@@ -187,39 +125,36 @@ public class CarteAzione {
 			// Prendo le carte azione della scuderia
 			List<CarteAzione> carte = listascuderie.get(i).getCarteAzione();
 
-			// Controllo tutte le carte della scuderia
-			for (int j = 0; j < carte.size(); j++) {
-				if (carte.get(j).getAgisce().equals("Partenza")) {
-					if (carte.get(j).getEffetto() < 0
-							&& listascuderie.get(i).getMovimento() > 0) {
-						// Applico l'effetto
-						listascuderie.get(i).setMovimento(
-								listascuderie.get(i).getMovimento()
-										- carte.get(j).getEffetto());
-						// Rimuovo la carta
-						listascuderie.get(i).removeCartaAzione(j);
-					}
-					if (carte.get(j).getEffetto() == 0) {
-						// Applico l'effetto
-						listascuderie.get(i).setMovimento(0);
-						// Rimuovo la carta
-						listascuderie.get(i).removeCartaAzione(j);
-					}
-					if (carte.get(j).getEffetto() == 1) {
-						// Applico l'effetto
-						listascuderie.get(i).setMovimento(
-								listascuderie.get(i).getMovimento() + 1);
-						// Rimuovo la carta
-						listascuderie.get(i).removeCartaAzione(j);
-					}
-					if (carte.get(j).getEffetto() > 0) {
-						// Applico l'effetto
-						listascuderie.get(i).setMovimento(
-								carte.get(j).getEffetto());
-						// Rimuovo la carta
-						listascuderie.get(i).removeCartaAzione(j);
-					}
+			if (carte != null) {
+				// Controllo tutte le carte della scuderia
+				for (int j = 0; j < carte.size(); j++) {
+					if (carte.get(j).getAgisce().equals("Partenza")) {
+						if (carte.get(j).getEffetto() < 0
+								&& listascuderie.get(i).getMovimento() > 0) {
+							// Applico l'effetto
+							listascuderie.get(i).setMovimento(
+									listascuderie.get(i).getMovimento()
+											- carte.get(j).getEffetto());
+						}
+						if (carte.get(j).getEffetto() == 0) {
+							// Applico l'effetto
+							listascuderie.get(i).setMovimento(0);
+						}
+						if (carte.get(j).getEffetto() == 1) {
+							// Applico l'effetto
+							listascuderie.get(i).setMovimento(
+									listascuderie.get(i).getMovimento() + 1);
 
+						}
+						if (carte.get(j).getEffetto() > 0) {
+							// Applico l'effetto
+							listascuderie.get(i).setMovimento(
+									carte.get(j).getEffetto());
+						}
+
+						// Rimuovo la carta
+						listascuderie.get(i).removeCartaAzione(j);
+					}
 				}
 			}
 		}
@@ -300,39 +235,6 @@ public class CarteAzione {
 							listascuderie.get(i).setSprint(2);
 						}
 
-					}
-				}
-			}
-		}
-
-	}
-
-	/**
-	 * 
-	 * Applico gli effetti delle carte azione che agiscono al traguardo
-	 * 
-	 * @param listascuderie
-	 * @exceptions
-	 * 
-	 * @see
-	 */
-	public void carteAzioneTraguardo(List<Scuderia> listascuderie) {
-		// Controllo tutte le scuderie
-		for (int i = 0; i < listascuderie.size(); i++) {
-
-			// Prendo le carte azione della scuderia
-			List<CarteAzione> carte = listascuderie.get(i).getCarteAzione();
-
-			// Controllo tutte le carte della scuderia
-			for (int j = 0; j < carte.size(); j++) {
-				if (carte.get(j).getAgisce().equals("Traguardo")) {
-					if (carte.get(j).getEffetto() > 0) {
-						listascuderie.get(i).setPosizione(
-								listascuderie.get(i).getPosizione()
-										+ carte.get(j).getEffetto());
-					}
-					if (carte.get(j).getEffetto() == 0) {
-						listascuderie.get(i).setPosizione(12);
 					}
 				}
 			}

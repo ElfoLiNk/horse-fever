@@ -25,8 +25,7 @@ public class CarteMovimento {
 		List<String> linee = new ArrayList<String>();
 		try {
 			// File per linee to Lista di Stringhe
-			FileReader openfile = new FileReader("cartemovimento.txt");
-			BufferedReader file = new BufferedReader(openfile);
+			BufferedReader file = new BufferedReader(new FileReader("cartemovimento.txt"));
 			
 
 			String linea = file.readLine();
@@ -37,7 +36,6 @@ public class CarteMovimento {
 			}
 
 			// Chiudo File
-			openfile.close();
 			file.close();
 			
 			return linee;			

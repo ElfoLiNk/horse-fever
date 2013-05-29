@@ -27,16 +27,6 @@ public class ParserHandlerAzioni extends DefaultHandler
 	//As we complete one user block in XML, we will push the User instance in userList 
 	private Stack<CarteAzione> oggettoStack = new Stack<CarteAzione>();
 
-	public void startDocument() throws SAXException
-	{
-		//System.out.println("start of the document   : ");
-	}
-
-	public void endDocument() throws SAXException
-	{
-		//System.out.println("end of the document document     : ");
-	}
-
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
 	{
 		//Push it in element stack
