@@ -12,24 +12,41 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * @author matteo
  * 
+ * Classe che gestisce tutta la partita: Crea le liste dei mazzi Imposta i
+ * giocatori Gestisce i turni e le corse
+ * 
+ * 
+ * 
+ * @see
  */
 public class Partita {
+	/**
+	 * Liste delle carte del mazzo
+	 */
+	private List<CartePersonaggio> listapersonaggi;
+	private List<CarteAzione> listaazioni;
+	private List<String> listacartemovimento;
+
 	private int turni = 0;
 	private int ngiocatori = 0;
 	private int primogiocatore = 0;
 	private static List<Giocatore> arraygiocatori = new ArrayList<Giocatore>();
 	private List<Scuderia> listascuderie = new ArrayList<Scuderia>();
-	private List<CartePersonaggio> listapersonaggi;
-	private List<CarteAzione> listaazioni;
+
+	/**
+	 * Gestione Scommesse
+	 */
 	private int tempint;
-	private static int flagscommessa = 1;
-	private int turnoscommessa = 1;
+	private int flagscommessa = 1;
+
 	private String[] colori = { "NERO", "BLU", "VERDE", "ROSSO", "GIALLO",
 			"BIANCO" };
+	/**
+	 * Carta movimento
+	 */
 	private int[] movimenti = new int[colori.length];
-	private List<String> listacartemovimento = new ArrayList<String>();
+
 	private List<Scuderia> arrivati = new ArrayList<Scuderia>();
 	private List<Scuderia> classifica = new ArrayList<Scuderia>();
 
@@ -61,7 +78,6 @@ public class Partita {
 	 * @see Giocatore
 	 */
 	public void setNumGiocatori() {
-
 		do {
 			Write.write("In quanti volete giocare?");
 			ngiocatori = Read.readInt();
@@ -71,11 +87,29 @@ public class Partita {
 		if (ngiocatori == 2 || ngiocatori == 3 || ngiocatori == 6) {
 			turni = 6;
 		}
-		if (ngiocatori == 4) {
+		if (ngiocatori == 2) {
+			for (Scuderia scuderia : listascuderie) {
+				scuderia.setSegnalino(1);
+			}
+		} else if (ngiocatori == 3) {
+			for (Scuderia scuderia : listascuderie) {
+				scuderia.setSegnalino(2);
+			}
+
+		} else if (ngiocatori == 4) {
+			for (Scuderia scuderia : listascuderie) {
+				scuderia.setSegnalino(3);
+			}
 			turni = 4;
-		}
-		if (ngiocatori == 5) {
+		} else if (ngiocatori == 5) {
+			for (Scuderia scuderia : listascuderie) {
+				scuderia.setSegnalino(4);
+			}
 			turni = 5;
+		} else if (ngiocatori == 6) {
+			for (Scuderia scuderia : listascuderie) {
+				scuderia.setSegnalino(4);
+			}
 		}
 	}
 
@@ -109,7 +143,8 @@ public class Partita {
 			player.setSoldi(listapersonaggi.get(tempint).getSoldi());
 
 			// Assegno la corrispettiva Scuderia al player
-			player.setScuderia(listapersonaggi.get(tempint).getQuotazione());
+			player.setScuderia(listapersonaggi.get(tempint).getQuotazione(),
+					listascuderie);
 
 			// Aggiungo il player alla lista di giocatori
 			arraygiocatori.add(player);
@@ -147,16 +182,14 @@ public class Partita {
 	 * @see
 	 */
 	public void setQuotazioni() {
-		// new list of values
+		// lista di valori
 		final List<Integer> list = new ArrayList<Integer>();
-
-		// seed our random generator with the current time
+		// Generatore random con seed l'ora
 		final Random rnd = new Random(System.currentTimeMillis());
 
-		// keep trying to add numbers until we have the proper number
-		while (list.size() < 6) {
+		// Continuo ad aggiungere un numero finche non trovo quello giusto
+		while (list.size() < listascuderie.size()) {
 			int num = rnd.nextInt(6) + 2;
-
 			if (!list.contains(num)) {
 				list.add(num);
 			}
@@ -234,9 +267,13 @@ public class Partita {
 
 				List<CarteAzione> carteplayer = arraygiocatori.get(i)
 						.getCarteAzione();
-				Write.write("\n["
+				Write.write("\n[ "
 						+ arraygiocatori.get(i).getNome().toUpperCase()
-						+ "] Scegli la carta azione da giocare:");
+						+ " ] (" + arraygiocatori.get(i).getInterpreta()
+						+ ") Scuderia: " + arraygiocatori.get(i).getScuderia()
+						+ " Soldi: " + arraygiocatori.get(i).getSoldi()
+						+ " Punti Vittoria: " + arraygiocatori.get(i).getPv()
+						+ "\nScegli la carta azione da giocare:");
 				// Print carte azione del player
 				for (int j = 0; j < carteplayer.size(); j++) {
 					Write.write(j + ") " + carteplayer.get(j).toString());
@@ -328,7 +365,7 @@ public class Partita {
 
 		// Salvo i movimenti nelle scuderie
 		for (Scuderia scuderia : listascuderie) {
-			switch (scuderia.getquotazione()) {
+			switch (scuderia.getQuotazione()) {
 			case (2):
 				scuderia.setMovimento(movimenti[0]);
 				break;
@@ -355,7 +392,7 @@ public class Partita {
 		scannerString.close();
 
 		for (int i = 0; i < listascuderie.size(); i++) {
-			int quotazione = listascuderie.get(i).getquotazione();
+			int quotazione = listascuderie.get(i).getQuotazione();
 			listascuderie.get(i).setMovimento(movimenti[quotazione - 2]);
 		}
 	}
@@ -420,130 +457,246 @@ public class Partita {
 					+ listascuderie.get(i).getPosizione() + " Arrivato  "
 					+ listascuderie.get(i).isArrivato()
 					+ "         Quotazione: "
-					+ listascuderie.get(i).getquotazione());
+					+ listascuderie.get(i).getQuotazione());
 		}
 	}
 
 	/**
-	 * Questo metodo mi permette di effettuare le scommesse. riconosce da solo
-	 * che giro di scommessa è se il primo o il secondo.
+	 * 
 	 * 
 	 * @exceptions
 	 * 
 	 * @see
 	 */
-	public void scommessa() {
-		int eliminato = 1;
-		int valido = 1;
-		int size = arraygiocatori.size()-1; // indici array
-		int tocca = primogiocatore - 1; // indice array primogiocatore
+	public void secondaScommessa() {
+
+		int tocca = primogiocatore;
+		if (tocca < 0)
+			tocca = arraygiocatori.size() - 1;
+		int salta = 0;
 		String stemp;
+		BufferedReader br;
+		String stringtemp;
+		char chartemp = 's';
+
 		do {
+
 			stemp = arraygiocatori.get(tocca).getNome();
-			Write.write("tocca al giocatore" + tocca + 1);
+			Write.write("Tocca al giocatore : " + stemp.toUpperCase()
+					+ " Scuderia: " + arraygiocatori.get(tocca).getScuderia());
+			salta = arraygiocatori.get(tocca).getSalta();
+			if (salta == 1) {
+				Write.write("il giocatore al primo giro di scommesse ha perso dei punti vittoria"
+						+ "pertanto salta anche il secondo giro di scommessa");
+			}
+			if (salta != 1) {
 
-			BufferedReader br;
-			String stringtemp;
-			char chartemp = 's';
+				// controllo se ha abbastanza soldi per fare una seconda
+				// scommessa
 
-			if (turnoscommessa == 2) {
-				do {
-					Write.write("il secondo giro di scommesse è facoltativo, vuoi piazzare "
-							+ "una scommessa?\ndigita:\ns per scommettere\nn per saltare la scommmessa");
-					br = new BufferedReader(new InputStreamReader(System.in));
+				int soldi;
+				int pv;
+				int valido = 1;
 
-					try {
-						stringtemp = br.readLine();
-						if (stringtemp.length() > 1) {
-							Write.write("hai sbaglito a digitare");
-							throw new NumberFormatException();
+				soldi = arraygiocatori.get(tocca).getSoldi();
+				pv = arraygiocatori.get(tocca).getPv();
+				if (pv * 100 > soldi) {
+					valido = 0;
+					Write.write("Il giocatore non ha abbastanza danari per effettuare la scommessa"
+							+ "minima, non puoi effettuare la seconda scommessa!");
+				}
+				if (valido == 1) {
+					do {
+						Write.write("il secondo giro di scommesse è facoltativo, vuoi piazzare "
+								+ "una scommessa?\ndigita:\ns per scommettere\nn per saltare la scommmessa");
+						br = new BufferedReader(
+								new InputStreamReader(System.in));
+
+						try {
+							stringtemp = br.readLine();
+							if (stringtemp.length() > 1) {
+								// Write.write("hai sbagliato a digitare");
+								throw new NumberFormatException();
+							}
+							if (stringtemp.length() < 1)
+								chartemp = 'e';
+							else
+								chartemp = stringtemp.charAt(0);
+						} catch (IOException e1) {
+							Write.write("errore di flusso");
+							chartemp = 'e';
+						} catch (NumberFormatException e2) {
+							Write.write("non hai inserito un carattere valido");
+							chartemp = 'e';
 						}
-						chartemp = stringtemp.charAt(0);
-					} catch (IOException e1) {
-						Write.write("errore di flusso");
-						chartemp = 'e';
-					} catch (NumberFormatException e2) {
-						Write.write("non hai inserito un carattere valido");
-						chartemp = 'e';
+						if (chartemp != 's' && chartemp != 'n')
+							Write.write("hai sbagliato a digitare, riprova");
+					} while (chartemp != 's' && chartemp != 'n');
+
+					int valid = 1;
+					int check = 1;
+					int s = 0;
+					if (chartemp == 's') {
+						do {
+							do {
+								Write.write("Su che scuderia vuoi scommettere?");
+								for (int n = 0; n < listascuderie.size(); n++) {
+									Write.write(n + " ) "
+											+ listascuderie.get(n).getColore());
+								}
+								do {
+									Write.write("Seleziona scuderia: ");
+									s = Read.readInt();
+									if (s > listascuderie.size() - 1)
+										Write.write("non hai digitato un valore valido, riprova");
+								} while (s < 0 || s > listascuderie.size() - 1);
+
+								int n;
+								n = listascuderie.get(s).getSegnalino();
+								if (n == 0) {
+									valid = 0;
+									Write.write("non è possibile effettuare altre scommesse"
+											+ "su questa scuderia. cambia scuderia.");
+								} else {
+									valid = 1;
+									listascuderie.get(s).aggiornaSegnalino(-1);
+								}
+
+							} while (valid != 1);
+
+							Scommessa scommessa = new Scommessa();
+							scommessa.setNomegiocatore(stemp);
+							listascuderie.get(s).getscommessa().add(scommessa);
+							check = listascuderie.get(s).effettuaScommessa(
+									tocca);
+							if (check == 0) {
+								int m;
+								m = listascuderie.get(s).getscommessa().size();
+								listascuderie.get(s).getscommessa()
+										.remove(m - 1);
+							}
+						} while (check != 1);
+
 					}
-				} while (chartemp != 's' && chartemp != 'n');
-
-			} 
-
-			//controllo se il giocatore è ancora in partita da finire
-			int soldi;
-			int pv;
-
-			soldi = arraygiocatori.get(tocca).getSoldi();
-			pv = arraygiocatori.get(tocca).getPv();
-			if(pv * 100 > soldi){
-				valido=0;
-				Write.write("il giocatore non ha abbastanza danari per effettuare la scommessa" +
-						"minima, pertanto perde 2 punti vittoria!");
-				arraygiocatori.get(tocca).aggiornapv(-2);
-
+				}
 			}
+			if (arraygiocatori.get(tocca).getSalta() == 1)
+				arraygiocatori.get(tocca).setSalta(0);
+			tocca--;
+			if (tocca < 0)
+				tocca = arraygiocatori.size() - 1;
 
-			pv = arraygiocatori.get(tocca).getPv();
-			if(pv < 0){
-				Write.write("il giocatore non ha abbastanza punti vittoria, per tanto" +
-						"perde la partita e viene eliminato" +
-						"ciao ciao "+stemp);
-				eliminato = 0;
+		} while (tocca != primogiocatore);
+	}
 
-			}
+	/**
+	 * 
+	 * {Descrizione}
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void primascommessa() {
+		int eliminato = 0;
+		int valido = 1;
+		int size;
+		int tocca = primogiocatore; // indice array primogiocatore
+		String stemp;
 
+		do {
 
+			size = arraygiocatori.size() - 1; // indice array estremo
+			do {
+				stemp = arraygiocatori.get(tocca).getNome();
+				Write.write("Tocca al giocatore : " + stemp.toUpperCase()
+						+ " Scuderia: "
+						+ arraygiocatori.get(tocca).getScuderia());
 
+				int soldi;
+				int pv;
+				valido = 1;
 
-			if (valido ==1 && (turnoscommessa == 1 || (turnoscommessa == 2 && chartemp == 's'))) {
+				soldi = arraygiocatori.get(tocca).getSoldi();
+				pv = arraygiocatori.get(tocca).getPv();
+				if (pv * 100 > soldi) {
+					valido = 0;
+					Write.write("Il giocatore non ha abbastanza danari per effettuare la scommessa"
+							+ "minima, pertanto perde 2 punti vittoria!");
+					arraygiocatori.get(tocca).aggiornapv(-2);
+					arraygiocatori.get(tocca).setSalta(1);
 
-				Write.write("\n su che scuderia vuoi scommettere?"
-						+ "digita il colore della scuderia e premi invio\n\n"
-						+ "nero-verde-blu-giallo-bianco-rosso");
-				/*
-				 * potrei inserire un "queste sono le quotazioni attuali" e
-				 * faccio uno stampa a video delle scuderie associate alla loro
-				 * quotazione
-				 */
-				String string;
+				}
+
+				pv = arraygiocatori.get(tocca).getPv();
+				if (pv < 0) {
+					Write.write("Il giocatore non ha abbastanza punti vittoria, per tanto"
+							+ "perde la partita e viene eliminato"
+							+ "CIAO CIAO" + stemp.toUpperCase());
+					eliminato = 1;
+
+				}
+
+				if (eliminato == 1) {
+					eliminato = 0;
+					if (tocca <= primogiocatore)
+						primogiocatore--;
+					arraygiocatori.remove(tocca);
+				}
+				if (valido == 0)
+					tocca++;
+
+			} while (valido != 1);
+
+			int valid = 1;
+			int check = 1;
+			int s = 0;
+
+			do {
 				do {
-					string = Read.readString();
-				} while (string.equals("nero") || string.equals("verde")
-						|| string.equals("blu") || string.equals("rosso")
-						|| string.equals("giallo") || string.equals("bianco"));
+					Write.write("Su che scuderia vuoi scommettere?");
+					for (int n = 0; n < listascuderie.size(); n++) {
+						Write.write(n + " ) "
+								+ listascuderie.get(n).getColore()
+								+ "     Scommesse: "
+								+ listascuderie.get(n).getscommessa().size());
+					}
+					do {
+						Write.write("Seleziona scuderia: ");
+						s = Read.readInt();
+						if (s > listascuderie.size() - 1)
+							Write.write("non hai digitato un valore valido, riprova");
+					} while (s < 0 || s > listascuderie.size() - 1);
 
-				int a = 0;
-				int trovato = 0;
-				do {
-					if (string == listascuderie.get(a).getColore()) {
-						trovato = 1;
+					int n;
+					n = listascuderie.get(s).getSegnalino();
+					if (n == 0) {
+						valid = 0;
+						Write.write("\nNon è possibile effettuare altre scommesse"
+								+ "su questa scuderia. Cambia scuderia!.\n");
 					} else {
-						a++;
+						valid = 1;
+						listascuderie.get(s).aggiornaSegnalino(-1);
 					}
-				} while (trovato == 0);
+
+				} while (valid != 1);
 
 				Scommessa scommessa = new Scommessa();
 				scommessa.setNomegiocatore(stemp);
-				listascuderie.get(a).getscommessa().add(scommessa);
-				listascuderie.get(a).effettuascommessa();
-			}
-			if(eliminato == 0){
-				arraygiocatori.remove(tocca);
-				size--;
-			}
+				listascuderie.get(s).getscommessa().add(scommessa);
+				check = listascuderie.get(s).effettuaScommessa(tocca);
+				if (check == 0) {
+					int m;
+					m = listascuderie.get(s).getscommessa().size();
+					listascuderie.get(s).getscommessa().remove(m - 1);
+				}
+			} while (check != 1);
 
 			tocca++;
-			if(tocca > size)
+			if (tocca > size) {
 				tocca = 0;
-			chartemp = 's';
-		} while (tocca == primogiocatore - 1);
-		if (turnoscommessa == 1) {
-			turnoscommessa = 2;
-		}
-		if (turnoscommessa == 2) {
-			turnoscommessa = 1;
-		}
+			}
+		} while (tocca != primogiocatore);
 	}
 
 	// getter
@@ -573,16 +726,16 @@ public class Partita {
 	 * @param temp
 	 *            the flagscommessa to set
 	 */
-	public static void setflagscommessa(int temp) {
+	public void setflagscommessa(int temp) {
 		flagscommessa = temp;
 	}
 
 	/**
 	 * 
 	 * Aggiorna il primo giocatore in senso orario
-	 *
+	 * 
 	 * @exceptions
-	 *
+	 * 
 	 * @see
 	 */
 	public void aggiornaprimogiocatore() {
@@ -612,7 +765,8 @@ public class Partita {
 
 	/**
 	 * 
-	 * Metodo che riempie la lista classifica con le scuderie in ordine di arrivo
+	 * Metodo che riempie la lista classifica con le scuderie in ordine di
+	 * arrivo
 	 * 
 	 * @exceptions
 	 * 
@@ -620,10 +774,9 @@ public class Partita {
 	 */
 	public void classifica(List<Scuderia> scuderie) {
 		int max = 0;
-		// int min = scuderie.get(0).getPosizione();
 		List<Scuderia> fotofinish = new ArrayList<Scuderia>();
 		int idmax = -1;
-		
+
 		while (scuderie.size() > 0) {
 			max = 0;
 			for (int i = 0; i < scuderie.size(); i++) {
@@ -661,12 +814,11 @@ public class Partita {
 		}
 		int i = 1;
 		Write.write("\nCLASSIFICA\n");
-		for(Scuderia scuderia : classifica){
+		for (Scuderia scuderia : classifica) {
 			scuderia.setClassifica(i++);
-			Write.write(scuderia.getColore()+ "   " +scuderia.getClassifica());
+			Write.write(scuderia.getColore() + "   " + scuderia.getClassifica());
 		}
 	}
-
 
 	/**
 	 * 
@@ -682,7 +834,7 @@ public class Partita {
 	public void checkFotofinish(List<Scuderia> fotofinish) {
 		int max = 0;
 		int idmax = -1;
-		
+
 		// Controllo se è stata applicata una carta azione fotofinish
 		for (int j = 0; j < fotofinish.size(); j++) {
 			if (fotofinish.get(j).getFotofinish() == 1) {
@@ -698,18 +850,25 @@ public class Partita {
 				// Trovo la scuderia quotazione massima
 				max = 0;
 				for (int i = 0; i < fotofinish.size(); i++) {
-					if (fotofinish.get(i).getquotazione() > max) {
-						max = fotofinish.get(i).getquotazione();
+					if (fotofinish.get(i).getQuotazione() > max) {
+						max = fotofinish.get(i).getQuotazione();
 						idmax = i;
-					}else if (fotofinish.get(i).getquotazione() == max) {
-						classifica.add(classifica.size() +i,
-								fotofinish.get(i));
+					} else if (fotofinish.get(i).getQuotazione() == max) {
+						classifica
+								.add(classifica.size() + i, fotofinish.get(i));
 						fotofinish.remove(i);
 					}
 				}
-				classifica.add(idmax + classifica.size() -1,
-						fotofinish.get(idmax));
-				fotofinish.remove(idmax);
+				if (classifica.size() > 0) {
+					classifica.add(idmax + classifica.size() - 1,
+							fotofinish.get(idmax));
+					fotofinish.remove(idmax);
+				} else {
+					classifica.add(idmax + classifica.size(),
+							fotofinish.get(idmax));
+					fotofinish.remove(idmax);
+				}
+
 			}
 		}
 	}
@@ -730,26 +889,108 @@ public class Partita {
 			setCarteAzione();
 			setCarteAzione();
 			primoGiocatoreOrario();
-			// scommessa();
+			primascommessa();
 			truccoCorsa();
-			// scommessa();
+			secondaScommessa();
 			corsa();
-			// pagascomessa();
-			// aggiornaquotazioni();
-
+			for (int i = 0; i < 3; i++) {
+				classifica.get(i).pagascommessa();
+			}
+			pagascuderie();
+			leaderboard();
+			// Reset Carte Azione Player
+			resetCarteAzione();
+			// Reset Scommesse
+			resetScommesse();
 			// Rimischio il mazzo
 			setListe();
 			turno++;
 		} while (turno < turni);
+
+		Write.write("Vince il giocatore: " + trovaVincitore());
+	}
+
+	/**
+	 * {Descrizione}
+	 * 
+	 * @return
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	private String trovaVincitore() {
+		int max = 0;
+		int idmax = -1;
+
+		while (arraygiocatori.size() > 0) {
+			max = 0;
+			for (int i = 0; i < arraygiocatori.size(); i++) {
+				if (arraygiocatori.get(i).getPv() > max) {
+					max = arraygiocatori.get(i).getPv();
+					idmax = i;
+				} else if (max == arraygiocatori.get(i).getPv()) {
+					// gestione stessi pv
+				}
+			}
+			
+		}
+		return arraygiocatori.get(idmax).getNome();
+	}
+
+	/**
+	 * Pagamento all’eventuale proprietario (le scuderie possono non essere di
+	 * nessuno) della scuderia il cui cavallo arriva primo: 600 secondo: 400
+	 * terzo: 200
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	private void pagascuderie() {
+		for (Giocatore player : arraygiocatori) {
+			if (player.getScuderia() == classifica.get(0).getColore()) {
+				player.setSoldi(player.getSoldi() + 600);
+			}
+			if (player.getScuderia() == classifica.get(1).getColore()) {
+				player.setSoldi(player.getSoldi() + 400);
+			}
+			if (player.getScuderia() == classifica.get(2).getColore()) {
+				player.setSoldi(player.getSoldi() + 200);
+			}
+		}
+
+	}
+
+	/**
+	 * Svuoto la lista delle carte azione di ogni giocatore e di ogni scuderia
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	private void resetCarteAzione() {
+		for (Scuderia scuderia : listascuderie) {
+			scuderia.resetCarteAzione();
+		}
+		for (Giocatore player : arraygiocatori) {
+			player.resetCarteAzione();
+		}
+
+	}
+
+	private void resetScommesse() {
+		for (Scuderia scuderia : listascuderie) {
+			scuderia.clearscommessa();
+		}
 	}
 
 	/**
 	 * 
 	 * Fase di corsa del gioco:
 	 * 
-	 *
+	 * 
 	 * @exceptions
-	 *
+	 * 
 	 * @see
 	 */
 	public void corsa() {
@@ -773,7 +1014,25 @@ public class Partita {
 			posizione();
 			azioni.carteAzioneFotofinish(listascuderie);
 			classifica(arrivati);
+			aggiornaQuotazioni();
 		} while (checkArrivati() == false);
+	}
+
+	/**
+	 * Stampa la classfica dei giocatori con i dati aggiornati
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	private void leaderboard() {
+		Write.write("\nCLASSIFICA GIOCATORI\n");
+		for (Giocatore player : arraygiocatori) {
+			Write.write(player.getNome().toUpperCase() + " "
+					+ player.getScuderia() + " " + player.getSoldi() + " "
+					+ player.getPv());
+		}
+
 	}
 
 	/**
@@ -790,6 +1049,26 @@ public class Partita {
 		if (primogiocatore == ngiocatori - 1) {
 			primogiocatore = 0;
 		}
+	}
+
+	/**
+	 * 
+	 * Aggiorna le quotazioni delle scuderie in base all'arrivo
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	private void aggiornaQuotazioni() {
+		for (Scuderia scuderia : classifica) {
+			scuderia.aggiornaQuotazioni(scuderia.getClassifica());
+		}
+		Write.write("\nQUOTAZIONI AGGIORNATE\n");
+		for (Scuderia scuderia : listascuderie) {
+			Write.write(scuderia.getColore() + " Quotazione: "
+					+ scuderia.getQuotazione());
+		}
+
 	}
 
 }

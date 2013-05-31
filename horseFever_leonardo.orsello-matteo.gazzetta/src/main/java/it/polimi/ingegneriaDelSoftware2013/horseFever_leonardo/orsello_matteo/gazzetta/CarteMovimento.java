@@ -7,43 +7,46 @@ import java.io.*;
 import java.util.*;
 
 /**
- * @author matteo
+ * 
+ *  Struttura dati delle carte movimento
  * 
  */
 public class CarteMovimento {
-
+	private static List<String> listacartemovimento = new ArrayList<String>();
+	
 	/**
 	 * 
 	 * Legge un file txt contenente le carte movimento e le salva in una lista
 	 *
 	 * @return la lista delle carte movimento
-	 * @exceptions
+	 * @exceptions IOException
 	 *
 	 * @see
 	 */
 	public static List<String> setMovimento() {
-		List<String> linee = new ArrayList<String>();
 		try {
-			// File per linee to Lista di Stringhe
-			BufferedReader file = new BufferedReader(new FileReader("cartemovimento.txt"));
+			String filetxt = "cartemovimento.txt";
+			FileReader fr = new FileReader(filetxt);
+			BufferedReader file = new BufferedReader(fr);
 			
-
+			// Leggo una linea dal file
 			String linea = file.readLine();
 
 			while (linea != null) {
-				linee.add(linea);
+				listacartemovimento.add(linea);
 				linea = file.readLine();
 			}
 
 			// Chiudo File
+			fr.close();
 			file.close();
 			
-			return linee;			
+			return listacartemovimento;			
 
 		} catch (IOException e) {
 			Write.write("ERRORE: Lettura carte movimento");
 		}
-		return linee;
+		return listacartemovimento;
 	}
 	
 }

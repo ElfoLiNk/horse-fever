@@ -4,8 +4,12 @@
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
 /**
- * @author matteo
  * 
+ * {Descrizione}
+ *
+ *
+ *
+ * @see
  */
 public class Scommessa {
 	private String nomegiocatore;
