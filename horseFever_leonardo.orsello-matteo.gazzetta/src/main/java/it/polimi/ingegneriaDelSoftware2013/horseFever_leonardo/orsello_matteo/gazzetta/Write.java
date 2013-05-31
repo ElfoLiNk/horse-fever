@@ -6,21 +6,19 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 import java.io.PrintStream;
 
 /**
- * @author matteo
+ * Classe che scrive stringhe e interi su System.out
  * 
  */
 final class Write {
-	
+
 	private Write() {
 	}
-	
+
 	/**
 	 * 
-	 * {Descrizione}
-	 *
-	 * @param s
-	 * @exceptions
-	 *
+	 * Scrive una stringa su System.out
+	 * 
+	 * @param Riceve s la stringa da scrivere
 	 * @see
 	 */
 	public static void write(String s) {
@@ -30,11 +28,9 @@ final class Write {
 
 	/**
 	 * 
-	 * {Descrizione}
-	 *
-	 * @param i
-	 * @exceptions
-	 *
+	 * Scrive un intero su System.out
+	 * 
+	 * @param Riceve i l'intero da scrivere
 	 * @see
 	 */
 	public static void write(int i) {

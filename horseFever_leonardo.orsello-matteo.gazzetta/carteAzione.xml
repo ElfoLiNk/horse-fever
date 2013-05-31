@@ -110,7 +110,7 @@
 		<Lettera>X</Lettera>
 		<Effetto></Effetto>
 		<Agisce>Negative</Agisce>
-		<Descrizione>Tutte le carte Azione negative giocate sul Cavallo vengono rimosse. Non hanno effetto in questa Corsa.</Descrizione>
+		<Descrizione>Tutte le carte Azione negative giocate sul Cavallo vengono rimosse: Non hanno effetto in questa Corsa.</Descrizione>
 	</Carta>
 	<Carta ID="16">
 		<Nome>Steven Sting</Nome>
@@ -124,6 +124,6 @@
 		<Lettera>Y</Lettera>
 		<Effetto></Effetto>
 		<Agisce>Positive</Agisce>
-		<Descrizione>Tutte le carte Azione positive giocate sul Cavallo vengono rimosse. Non hanno effetto in questa Corsa.</Descrizione>
+		<Descrizione>Tutte le carte Azione positive giocate sul Cavallo vengono rimosse: Non hanno effetto in questa Corsa.</Descrizione>
 	</Carta>
 </carteAzione>

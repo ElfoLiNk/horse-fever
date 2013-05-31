@@ -17,7 +17,7 @@ import java.util.List;
 public class Scuderia {
 
 	private int posizione = 0;
-	private int segnalini;
+	private int segnalino;
 	private int classifica = 0;
 	private int quotazione;
 	private boolean arrivato = false;
@@ -34,7 +34,7 @@ public class Scuderia {
 
 	// getter
 
-	public int getquotazione() {
+	public int getQuotazione() {
 		return quotazione;
 	}
 
@@ -107,92 +107,98 @@ public class Scuderia {
 	 * un elemento nuovo nella lista scommessa in cui ho già salvato il nome del
 	 * giocatore che sta per effettuarla,sarà sicuramente in coda alla lista
 	 */
-	public void effettuascommessa() {
+	public int effettuaScommessa(int tocca) {
 
 		int flagsc = 1;
+		int tempint = 0;
+		BufferedReader br;
+		int pvtemp = 0;
+		int solditemp = 0;
+		String nometemp;
+		String stringtemp;
+		char chartemp = 'v';
+		Scommessa.Tiposcommessa tiposcommessatemp;
+
+		int i = scommessa.size() - 1;
+		nometemp = scommessa.get(i).getNomegiocatore();
+		solditemp = Partita.getarraygiocatori().get(tocca).getSoldi();
+		Write.write("Quanti soldi vuoi scommettere?"
+				+ "\nil tuo conto in banca è di : " + solditemp);
+
+		tempint = Read.readInt();
+
+		// controllo validità scommessa : scommessa>=pv*100
+		// controllo se il giocatore ha abbastanza soldi per effettuare la
+		// scommessa
+		// dell'importo da lui scelto
+
+		pvtemp = Partita.getarraygiocatori().get(tocca).getPv();
+
+		if (tempint > solditemp) {
+			Write.write("Non puoi scommettere più di quanti soldi possiedi)"
+					+ " Inserire un nuovo importo");
+			effettuaScommessa(tocca);
+		}
+
+		if (tempint >= pvtemp * 100) {
+			scommessa.get(i).setSoldi(tempint);
+		} else {
+			Write.write("l'importo scommesso non è valido, questo deve essere/n"
+					+ "come minimo pari a \"punti vittoria posseduti\" * 100, inserire"
+					+ "un nuovo importo :)");
+			effettuaScommessa(tocca);
+		}
+
 		do {
-			int tempint = 0;
-			Write.write("quanti soldi vuoi scommettere?");
-			BufferedReader br;
-			tempint = Read.readInt();
+			Write.write("Che tipo di scommessa vuoi giocare?\n"
+					+ "Digita v per vincente\n" + "       p per piazzato");
 
-			// controllo se la scommessa è valida
-			// controllo importo minimo e se la scommessa è già stata effettuata
-			// l'ultima scommessa effetuata sarà sempre all'ultimo posto
+			br = new BufferedReader(new InputStreamReader(System.in));
 
-			int i;
-			int n;
-			int pvtemp = 0;
-			String nometemp;
-			String stringtemp;
-			char chartemp;
-			Scommessa.Tiposcommessa tiposcommessatemp;
-
-			i = scommessa.size() - 1;
-			n = Partita.getarraygiocatori().size() - 1;
-			nometemp = scommessa.get(i).getNomegiocatore();
-			// tiposcommessatemp = scommessa.get(i).gettiposcommessa();
-
-			// controllo validità scommessa : scommessa>=pv*100
-			for (int a = 0; a <= n; a++) {
-				if (nometemp == Partita.getarraygiocatori().get(a).getNome()) {
-					pvtemp = Partita.getarraygiocatori().get(a).getPv();
-
-					if (tempint >= pvtemp * 100) {
-						scommessa.get(i).setSoldi(tempint);
-					} else {
-						Write.write("l'importo scommesso non è valido, questo deve essere/n"
-								+ "come minimo pari a \"punti vittoria posseduti\" * 100, inserire"
-								+ "un nuovo importo :)");
-						effettuascommessa();
-					}
-				}
-			}
-
-			// controllo se è già stata effettuata la scommessa
-
-			// int flagsc = 1;
-			// do{
-			do {
-				Write.write("che tipo di scommessa vuoi giocare?\n"
-						+ "digita v per vincente\n" + "       p per piazzato");
-
-				br = new BufferedReader(new InputStreamReader(System.in));
-
-				try {
-					while ((stringtemp = br.readLine()) != null)
-
-						if (stringtemp.length() > 1)
-							throw new NumberFormatException();
-					{
+			try {
+				stringtemp = br.readLine();
+				if (stringtemp.length() > 1)
+					throw new NumberFormatException();
+				{
+					if (stringtemp.length() < 1)
+						chartemp = 'e';
+					else
 						chartemp = stringtemp.charAt(0);
-					}
-				} catch (IOException e1) {
-					Write.write("errore di flusso");
-					chartemp = 'e';
-				} catch (NumberFormatException e2) {
-					Write.write("non hai inserito un carattere valido");
-					chartemp = 'e';
 				}
-			} while (chartemp != 'v' && chartemp != 'p');
+			} catch (IOException e1) {
+				Write.write("errore di flusso");
+				chartemp = 'e';
+			} catch (NumberFormatException e2) {
+				Write.write("non hai inserito un carattere valido");
+				chartemp = 'e';
+			}
+			if (chartemp != 'v' && chartemp != 'p')
+				Write.write("hai sbagliato a digitare, riprova");
 
-			scommessa.get(i).setTiposcommessa(chartemp);
-			tiposcommessatemp = scommessa.get(i).getTiposcommessa();
+		} while (chartemp != 'v' && chartemp != 'p');
 
-			for (int a = 0; a < i; a++) {
-				if (Partita.getarraygiocatori().get(a).getNome()
-						.equals(nometemp)) {
-					if (tiposcommessatemp == scommessa.get(i)
-							.getTiposcommessa()) {
-						Write.write("questa scommessa è già stata effettuata, non è possibile ripetere"
-								+ "la stessa scommessa. è possibile fare due scommesse sulla"
-								+ "stessa scuderia, ma bisogna modificare il tipo"
-								+ "di scommessa");
-						flagsc = 0;
-					}
+		scommessa.get(i).setTiposcommessa(chartemp);
+		tiposcommessatemp = scommessa.get(i).getTiposcommessa();
+
+		for (int a = 0; a < i; a++) {
+			if (nometemp == scommessa.get(a).getNomegiocatore()) {
+				if (tiposcommessatemp == scommessa.get(a).getTiposcommessa()) {
+					Write.write("Questa scommessa è già stata effettuata, non è possibile ripetere"
+							+ "la stessa scommessa. è possibile fare due scommesse sulla"
+							+ "stessa scuderia, ma bisogna modificare il tipo"
+							+ "di scommessa");
+					flagsc = 0;
 				}
 			}
-		} while (flagsc != 0);
+		}
+
+		if (flagsc == 1) {
+
+			// tolgo al giocatore i soldi che ha scommesso
+			Partita.getarraygiocatori().get(tocca).aggiornaSoldi(-tempint);
+		}
+
+		return flagsc;
 	}
 
 	/**
@@ -210,32 +216,31 @@ public class Scuderia {
 		i = scommessa.size() - 1;
 		Scommessa.Tiposcommessa tiposcommessatemp;
 		int solditemp;
-		int pvtemp;
 		int ngiocatori = Partita.getarraygiocatori().size();
 
 		for (int a = i; a >= 0; a--) {
 			nometemp = scommessa.get(a).getNomegiocatore();
-			for (int z = 0; z <= ngiocatori; z++) {
-				if (Partita.getarraygiocatori().get(z).getNome()
-						.equals(nometemp)) {
+			for (int z = 0; z < ngiocatori; z++) {
+				if (nometemp == Partita.getarraygiocatori().get(z).getNome()) {
 					solditemp = scommessa.get(a).getSoldi();
 					tiposcommessatemp = scommessa.get(a).getTiposcommessa();
 					if (tiposcommessatemp == Scommessa.Tiposcommessa.VINCENTE) {
-						if (arrivato) {
+						if (classifica == 1) {
 							Partita.getarraygiocatori().get(z)
-									.setSoldi(solditemp * quotazione);
+									.aggiornaSoldi(solditemp * quotazione);
 							Partita.getarraygiocatori().get(z).aggiornapv(3);
 						}
 					}
 					if (tiposcommessatemp == Scommessa.Tiposcommessa.PIAZZATO) {
 						Partita.getarraygiocatori().get(z)
-								.setSoldi(solditemp * 2);
+								.aggiornaSoldi(solditemp * 2);
 						Partita.getarraygiocatori().get(z).aggiornapv(1);
 					}
 				}
 			}
 		}
 		scommessa.clear();
+
 	}
 
 	// da utilizzare per pulire la lista scommessa delle scuderie perdenti
@@ -253,7 +258,7 @@ public class Scuderia {
 	 * 
 	 * @see
 	 */
-	public void aggiornaquotazioni(int arrivo) {
+	public void aggiornaQuotazioni(int arrivo) {
 		if (arrivo > quotazione - 1) {
 			quotazione += 1;
 		}
@@ -272,12 +277,12 @@ public class Scuderia {
 	 * @see
 	 */
 	public void removeCartaAzioneByID(int i) {
-		if(listacarteazione != null){
-		for (int j = 0; j < listacarteazione.size(); j++) {
-			if (listacarteazione.get(j).getId() == i) {
-				listacarteazione.remove(j);
+		if (listacarteazione != null) {
+			for (int j = 0; j < listacarteazione.size(); j++) {
+				if (listacarteazione.get(j).getId() == i) {
+					listacarteazione.remove(j);
+				}
 			}
-		}
 		}
 	}
 
@@ -356,22 +361,30 @@ public class Scuderia {
 	}
 
 	/**
-	 * @return the segnalini
+	 * @return the segnalino
 	 */
-	public int getSegnalini() {
-		return segnalini;
+	public int getSegnalino() {
+		return segnalino;
 	}
 
 	/**
-	 * @param segnalini
-	 *            the segnalini to set
+	 * @param segnalino
+	 *            the segnalino to set
 	 */
-	public void setSegnalini(int segnalini) {
-		this.segnalini = segnalini;
+	public void setSegnalino(int segnalino) {
+		this.segnalino = segnalino;
 	}
 
 	/**
-	 * @return 
+	 * @param segnalino
+	 *            the segnalino to add
+	 */
+	public void aggiornaSegnalino(int temp) {
+		this.segnalino += temp;
+	}
+
+	/**
+	 * @return
 	 */
 	public boolean isArrivato() {
 		return arrivato;
@@ -395,22 +408,22 @@ public class Scuderia {
 	 * @see
 	 */
 	public void checkCarteAzione() {
-		if(listacarteazione != null){
-		for (int i = 0;i < listacarteazione.size();i++) {
-			if (listacarteazione.get(i).getId() == 15) {
-				for (int j = 7; j < 14; j++) {
-					removeCartaAzioneByID(j);
-					// Rimuovo anche la carta stessa
-					removeCartaAzioneByID(15);
-				}
-			} else if (listacarteazione.get(i).getId() == 17) {
-				for (int j = 0; j < 7; j++) {
-					removeCartaAzioneByID(j);
-					// Rimuovo anche la carta stessa
-					removeCartaAzioneByID(17);
+		if (listacarteazione != null) {
+			for (int i = 0; i < listacarteazione.size(); i++) {
+				if (listacarteazione.get(i).getId() == 15) {
+					for (int j = 7; j < 14; j++) {
+						removeCartaAzioneByID(j);
+						// Rimuovo anche la carta stessa
+						removeCartaAzioneByID(15);
+					}
+				} else if (listacarteazione.get(i).getId() == 17) {
+					for (int j = 0; j < 7; j++) {
+						removeCartaAzioneByID(j);
+						// Rimuovo anche la carta stessa
+						removeCartaAzioneByID(17);
+					}
 				}
 			}
-		}
 		}
 	}
 
@@ -454,7 +467,8 @@ public class Scuderia {
 		for (int j = 0; j < listacarteazione.size(); j++) {
 			if (listacarteazione.get(j).getAgisce().equals("Traguardo")) {
 				if (listacarteazione.get(j).getEffetto() > 0) {
-					setPosizione(getPosizione() + listacarteazione.get(j).getEffetto());
+					setPosizione(getPosizione()
+							+ listacarteazione.get(j).getEffetto());
 				}
 				if (listacarteazione.get(j).getEffetto() == 0) {
 					setPosizione(12);
@@ -478,4 +492,15 @@ public class Scuderia {
 		this.classifica = classifica;
 	}
 
+	/**
+	 * 
+	 * Svuoto la lista delle carte azione
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void resetCarteAzione() {
+		listacarteazione.clear();
+	}
 }

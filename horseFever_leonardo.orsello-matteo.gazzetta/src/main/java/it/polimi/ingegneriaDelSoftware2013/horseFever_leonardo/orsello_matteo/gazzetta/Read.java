@@ -6,11 +6,9 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 /**
- * @author matteo
- * 
+ *  Classe per leggere stringe, caratteri e interi da System.in
  */
 final class Read {
 
@@ -24,19 +22,24 @@ final class Read {
 
 	/**
 	 * 
-	 * {Descrizione}
-	 * 
-	 * @return
-	 * @exceptions
-	 * 
+	 * Legge una stringa dal system.in 
+	 *
+	 * @return La stringa letta
+	 * @exceptions IOException
+	 *
 	 * @see
 	 */
 	public static String readString() {
 		br = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
-			do {stringa = br.readLine();}
-			while(stringa.isEmpty());
+			stringa = br.readLine();
+			if (stringa != null) {
+				while (stringa.isEmpty()) {
+					stringa = br.readLine();
+				}
+			}
+
 		} catch (IOException e) {
 			Write.write("Errore di flusso");
 		}
@@ -46,20 +49,20 @@ final class Read {
 
 	/**
 	 * 
-	 * {Descrizione}
-	 * 
-	 * @return
-	 * @throws UnsupportedEncodingException
-	 * @exceptions
-	 * 
+	 * Legge un intero dal system.in
+	 *
+	 * @return L' intero letto
+	 * @exceptions IOException, NumberFormatException
+	 *
 	 * @see
 	 */
 	public static int readInt() {
 		br = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
-			do {stringa = br.readLine();}
-			while(stringa.isEmpty());
+			do {
+				stringa = br.readLine();
+			} while (stringa.isEmpty());
 			intero = Integer.parseInt(stringa);
 		} catch (IOException e1) {
 			Write.write("Errore di flusso");
@@ -73,10 +76,10 @@ final class Read {
 
 	/**
 	 * 
-	 * {Descrizione}
+	 * Legge un Carattere dal system.in
 	 * 
-	 * @return
-	 * @exceptions
+	 * @return Il carattere letto
+	 * @exceptions IOException, NumberFormatException
 	 * 
 	 * @see
 	 */
@@ -85,8 +88,9 @@ final class Read {
 
 		try {
 
-			do {stringa = br.readLine();}
-			while(stringa.isEmpty());
+			do {
+				stringa = br.readLine();
+			} while (stringa.isEmpty());
 			if (stringa.length() > 1)
 				throw new NumberFormatException();
 

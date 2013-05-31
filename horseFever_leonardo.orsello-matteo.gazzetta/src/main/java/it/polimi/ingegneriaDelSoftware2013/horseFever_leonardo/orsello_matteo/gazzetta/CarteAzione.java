@@ -9,13 +9,22 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @author matteo {Descrizione}
  * 
- * 
+ * Struttura dati delle carte azione 
  * 
  * @see
  */
 public class CarteAzione {
+	/**
+	 * 
+	 * Attributi:
+	 * id: Numero identificativo della carta
+	 * lettera: Lettera della carta
+	 * agisce: Campo della partita in cui agisce
+	 * effetto: Numero che modifica il campo in cui agisce
+	 * descrizione: Descrizione della carta azione
+	 * 
+	 */
 	private int id;
 	private String lettera;
 	private String nome;
@@ -23,58 +32,10 @@ public class CarteAzione {
 	private String agisce;
 	private String descrizione;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getLettera() {
-		return lettera;
-	}
-
-	public void setLettera(String lettera) {
-		this.lettera = lettera;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getDescrizione() {
-		return descrizione;
-	}
-
-	public void setDescrizione(String descrizione) {
-		this.descrizione = descrizione;
-	}
-
-	public int getEffetto() {
-		return effetto;
-	}
-
-	public void setEffetto(int effetto) {
-		this.effetto = effetto;
-	}
-
-	public String getAgisce() {
-		return agisce;
-	}
-
 	/**
-	 * 
-	 * @param agisce
+	 * Override del metodo toString per stampare a video il nome e la
+	 * descrizione della carta azione
 	 */
-	public void setAgisce(String agisce) {
-		this.agisce = agisce;
-	}
-
 	@Override
 	public String toString() {
 		return this.nome + " : " + this.descrizione;
@@ -296,26 +257,114 @@ public class CarteAzione {
 			for (int j = 0; j < carte.size(); j++) {
 				if (carte.get(j).getAgisce().equals("Quotazione")) {
 					if (carte.get(j).getEffetto() > 0) {
-						if (listascuderie.get(i).getquotazione() > carte.get(j)
+						if (listascuderie.get(i).getQuotazione() > carte.get(j)
 								.getEffetto() + 1) {
 							listascuderie.get(i).setquotazione(
-									listascuderie.get(i).getquotazione()
+									listascuderie.get(i).getQuotazione()
 											- carte.get(j).getEffetto());
-							// TODO rimuovere carta?
 						}
 					}
 					if (carte.get(j).getEffetto() < 0) {
-						if (listascuderie.get(i).getquotazione() < carte.get(j)
+						if (listascuderie.get(i).getQuotazione() < carte.get(j)
 								.getEffetto() + 7) {
 							listascuderie.get(i).setquotazione(
-									listascuderie.get(i).getquotazione()
+									listascuderie.get(i).getQuotazione()
 											- carte.get(j).getEffetto());
-							// TODO rimuovere carta?
 						}
 					}
 				}
 			}
 		}
 
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the lettera
+	 */
+	public String getLettera() {
+		return lettera;
+	}
+
+	/**
+	 * @param lettera
+	 *            the lettera to set
+	 */
+	public void setLettera(String lettera) {
+		this.lettera = lettera;
+	}
+
+	/**
+	 * @return the nome
+	 */
+	public String getNome() {
+		return nome;
+	}
+
+	/**
+	 * @param nome
+	 *            the nome to set
+	 */
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	/**
+	 * @return the effetto
+	 */
+	public int getEffetto() {
+		return effetto;
+	}
+
+	/**
+	 * @param effetto
+	 *            the effetto to set
+	 */
+	public void setEffetto(int effetto) {
+		this.effetto = effetto;
+	}
+
+	/**
+	 * @return the agisce
+	 */
+	public String getAgisce() {
+		return agisce;
+	}
+
+	/**
+	 * @param agisce
+	 *            the agisce to set
+	 */
+	public void setAgisce(String agisce) {
+		this.agisce = agisce;
+	}
+
+	/**
+	 * @return the descrizione
+	 */
+	public String getDescrizione() {
+		return descrizione;
+	}
+
+	/**
+	 * @param descrizione
+	 *            the descrizione to set
+	 */
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
 	}
 }
