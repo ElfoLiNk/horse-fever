@@ -10,19 +10,17 @@ import java.util.List;
 
 /**
  * 
- * Struttura dati delle carte azione 
+ * Struttura dati delle carte azione
  * 
  * @see
  */
 public class CarteAzione {
 	/**
 	 * 
-	 * Attributi:
-	 * id: Numero identificativo della carta
-	 * lettera: Lettera della carta
-	 * agisce: Campo della partita in cui agisce
-	 * effetto: Numero che modifica il campo in cui agisce
-	 * descrizione: Descrizione della carta azione
+	 * Attributi: id: Numero identificativo della carta lettera: Lettera della
+	 * carta agisce: Campo della partita in cui agisce effetto: Numero che
+	 * modifica il campo in cui agisce descrizione: Descrizione della carta
+	 * azione
 	 * 
 	 */
 	private int id;
@@ -173,21 +171,21 @@ public class CarteAzione {
 			// Controllo tutte le carte della scuderia
 			for (int j = 0; j < carte.size(); j++) {
 				if (carte.get(j).getAgisce().equals("Sprint")) {
-					if (carte.get(j).getEffetto() == -1) {
-						if (listascuderie.get(i).getSprint() > 0) {
-							listascuderie.get(i).setSprint(
-									listascuderie.get(i).getSprint() - 1);
-						}
+					if (carte.get(j).getEffetto() == -1
+							&& listascuderie.get(i).getSprint() > 0) {
+						listascuderie.get(i).setSprint(
+								listascuderie.get(i).getSprint() - 1);
+
 					}
 					if (carte.get(j).getEffetto() == 0) {
 						listascuderie.get(i).setSprint(0);
 					}
-					if (carte.get(j).getEffetto() == +1) {
-						if (listascuderie.get(i).getSprint() > 0
-								&& listascuderie.get(i).getSprint() < 3) {
-							listascuderie.get(i).setSprint(
-									listascuderie.get(i).getSprint() + 1);
-						}
+					if (carte.get(j).getEffetto() == +1
+							&& listascuderie.get(i).getSprint() > 0
+							&& listascuderie.get(i).getSprint() < 3) {
+						listascuderie.get(i).setSprint(
+								listascuderie.get(i).getSprint() + 1);
+
 					}
 					if (carte.get(j).getEffetto() == 2) {
 						if (listascuderie.get(i).getSprint() > 0) {
@@ -259,7 +257,7 @@ public class CarteAzione {
 					if (carte.get(j).getEffetto() > 0) {
 						if (listascuderie.get(i).getQuotazione() > carte.get(j)
 								.getEffetto() + 1) {
-							listascuderie.get(i).setquotazione(
+							listascuderie.get(i).setQuotazione(
 									listascuderie.get(i).getQuotazione()
 											- carte.get(j).getEffetto());
 						}
@@ -267,7 +265,7 @@ public class CarteAzione {
 					if (carte.get(j).getEffetto() < 0) {
 						if (listascuderie.get(i).getQuotazione() < carte.get(j)
 								.getEffetto() + 7) {
-							listascuderie.get(i).setquotazione(
+							listascuderie.get(i).setQuotazione(
 									listascuderie.get(i).getQuotazione()
 											- carte.get(j).getEffetto());
 						}

@@ -3,9 +3,6 @@
  */
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,7 +77,7 @@ public class Scuderia {
 		this.colore = colore;
 	}
 
-	public void setquotazione(int temp) {
+	public void setQuotazione(int temp) {
 		quotazione = temp;
 	}
 
@@ -111,11 +108,9 @@ public class Scuderia {
 
 		int flagsc = 1;
 		int tempint = 0;
-		BufferedReader br;
 		int pvtemp = 0;
 		int solditemp = 0;
 		String nometemp;
-		String stringtemp;
 		char chartemp = 'v';
 		Scommessa.Tiposcommessa tiposcommessatemp;
 
@@ -143,52 +138,25 @@ public class Scuderia {
 		if (tempint >= pvtemp * 100) {
 			scommessa.get(i).setSoldi(tempint);
 		} else {
-			Write.write("l'importo scommesso non è valido, questo deve essere/n"
+			Write.write("l'importo scommesso non è valido, questo deve essere\n"
 					+ "come minimo pari a \"punti vittoria posseduti\" * 100, inserire"
-					+ "un nuovo importo :)");
+					+ " un nuovo importo :)");
 			effettuaScommessa(tocca);
 		}
-
-		do {
-			Write.write("Che tipo di scommessa vuoi giocare?\n"
-					+ "Digita v per vincente\n" + "       p per piazzato");
-
-			br = new BufferedReader(new InputStreamReader(System.in));
-
-			try {
-				stringtemp = br.readLine();
-				if (stringtemp.length() > 1)
-					throw new NumberFormatException();
-				{
-					if (stringtemp.length() < 1)
-						chartemp = 'e';
-					else
-						chartemp = stringtemp.charAt(0);
-				}
-			} catch (IOException e1) {
-				Write.write("errore di flusso");
-				chartemp = 'e';
-			} catch (NumberFormatException e2) {
-				Write.write("non hai inserito un carattere valido");
-				chartemp = 'e';
-			}
-			if (chartemp != 'v' && chartemp != 'p')
-				Write.write("hai sbagliato a digitare, riprova");
-
-		} while (chartemp != 'v' && chartemp != 'p');
+		 // Chiedo se scommessa v (vincente) o p (piazzata)
+		chartemp = Read.readTipoScommessa();
 
 		scommessa.get(i).setTiposcommessa(chartemp);
 		tiposcommessatemp = scommessa.get(i).getTiposcommessa();
 
 		for (int a = 0; a < i; a++) {
-			if (nometemp == scommessa.get(a).getNomegiocatore()) {
-				if (tiposcommessatemp == scommessa.get(a).getTiposcommessa()) {
-					Write.write("Questa scommessa è già stata effettuata, non è possibile ripetere"
-							+ "la stessa scommessa. è possibile fare due scommesse sulla"
-							+ "stessa scuderia, ma bisogna modificare il tipo"
-							+ "di scommessa");
-					flagsc = 0;
-				}
+			if (nometemp == scommessa.get(a).getNomegiocatore()
+					&& tiposcommessatemp == scommessa.get(a).getTiposcommessa()) {
+				Write.write("Questa scommessa è già stata effettuata, non è possibile ripetere"
+						+ "la stessa scommessa. è possibile fare due scommesse sulla"
+						+ "stessa scuderia, ma bisogna modificare il tipo"
+						+ "di scommessa");
+				flagsc = 0;
 			}
 		}
 
@@ -224,12 +192,12 @@ public class Scuderia {
 				if (nometemp == Partita.getarraygiocatori().get(z).getNome()) {
 					solditemp = scommessa.get(a).getSoldi();
 					tiposcommessatemp = scommessa.get(a).getTiposcommessa();
-					if (tiposcommessatemp == Scommessa.Tiposcommessa.VINCENTE) {
-						if (classifica == 1) {
-							Partita.getarraygiocatori().get(z)
-									.aggiornaSoldi(solditemp * quotazione);
-							Partita.getarraygiocatori().get(z).aggiornapv(3);
-						}
+					if (tiposcommessatemp == Scommessa.Tiposcommessa.VINCENTE
+							&& classifica == 1) {
+						Partita.getarraygiocatori().get(z)
+								.aggiornaSoldi(solditemp * quotazione);
+						Partita.getarraygiocatori().get(z).aggiornapv(3);
+
 					}
 					if (tiposcommessatemp == Scommessa.Tiposcommessa.PIAZZATO) {
 						Partita.getarraygiocatori().get(z)
