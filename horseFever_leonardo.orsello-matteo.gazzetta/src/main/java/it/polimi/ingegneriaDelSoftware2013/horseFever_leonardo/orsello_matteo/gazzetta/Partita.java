@@ -3,9 +3,6 @@
  */
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -87,29 +84,46 @@ public class Partita {
 		if (ngiocatori == 2 || ngiocatori == 3 || ngiocatori == 6) {
 			turni = 6;
 		}
+		if (ngiocatori == 4) {
+			turni = 4;
+		}
+		if (ngiocatori == 5) {
+			turni = 5;
+		}
+
+	}
+
+	/**
+	 * 
+	 * Imposto il numero di segnalini per scuderia in base al numero di
+	 * giocatori
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void setSegnalini() {
 		if (ngiocatori == 2) {
 			for (Scuderia scuderia : listascuderie) {
 				scuderia.setSegnalino(1);
 			}
-		} else if (ngiocatori == 3) {
+		}
+		if (ngiocatori == 3) {
 			for (Scuderia scuderia : listascuderie) {
 				scuderia.setSegnalino(2);
 			}
-
-		} else if (ngiocatori == 4) {
+		}
+		if (ngiocatori == 4) {
 			for (Scuderia scuderia : listascuderie) {
 				scuderia.setSegnalino(3);
 			}
 			turni = 4;
-		} else if (ngiocatori == 5) {
+		}
+		if (ngiocatori == 5 || ngiocatori == 6) {
 			for (Scuderia scuderia : listascuderie) {
 				scuderia.setSegnalino(4);
 			}
 			turni = 5;
-		} else if (ngiocatori == 6) {
-			for (Scuderia scuderia : listascuderie) {
-				scuderia.setSegnalino(4);
-			}
 		}
 	}
 
@@ -195,7 +209,7 @@ public class Partita {
 			}
 		}
 		for (int i = 0; i < list.size(); i++) {
-			listascuderie.get(i).setquotazione(list.get(i));
+			listascuderie.get(i).setQuotazione(list.get(i));
 		}
 	}
 
@@ -471,67 +485,35 @@ public class Partita {
 	public void secondaScommessa() {
 
 		int tocca = primogiocatore;
-		if (tocca < 0)
+		if (tocca < 0) {
 			tocca = arraygiocatori.size() - 1;
+		}
 		int salta = 0;
-		String stemp;
-		BufferedReader br;
-		String stringtemp;
 		char chartemp = 's';
 
 		do {
-
-			stemp = arraygiocatori.get(tocca).getNome();
-			Write.write("Tocca al giocatore : " + stemp.toUpperCase()
+			Write.write("Tocca al giocatore : "
+					+ arraygiocatori.get(tocca).getNome().toUpperCase()
 					+ " Scuderia: " + arraygiocatori.get(tocca).getScuderia());
 			salta = arraygiocatori.get(tocca).getSalta();
 			if (salta == 1) {
-				Write.write("il giocatore al primo giro di scommesse ha perso dei punti vittoria"
-						+ "pertanto salta anche il secondo giro di scommessa");
-			}
-			if (salta != 1) {
+				Write.write("Il giocatore al primo giro di scommesse ha perso dei punti vittoria"
+						+ " pertanto salta anche il secondo giro di scommessa");
+			} else {
 
 				// controllo se ha abbastanza soldi per fare una seconda
 				// scommessa
 
-				int soldi;
-				int pv;
 				int valido = 1;
 
-				soldi = arraygiocatori.get(tocca).getSoldi();
-				pv = arraygiocatori.get(tocca).getPv();
-				if (pv * 100 > soldi) {
+				if (arraygiocatori.get(tocca).getPv() * 100 > arraygiocatori
+						.get(tocca).getSoldi()) {
 					valido = 0;
-					Write.write("Il giocatore non ha abbastanza danari per effettuare la scommessa"
-							+ "minima, non puoi effettuare la seconda scommessa!");
+					Write.write("Il giocatore non ha abbastanza danari per effettuare la scommessa minima, non puoi effettuare la seconda scommessa!");
 				}
 				if (valido == 1) {
-					do {
-						Write.write("il secondo giro di scommesse è facoltativo, vuoi piazzare "
-								+ "una scommessa?\ndigita:\ns per scommettere\nn per saltare la scommmessa");
-						br = new BufferedReader(
-								new InputStreamReader(System.in));
-
-						try {
-							stringtemp = br.readLine();
-							if (stringtemp.length() > 1) {
-								// Write.write("hai sbagliato a digitare");
-								throw new NumberFormatException();
-							}
-							if (stringtemp.length() < 1)
-								chartemp = 'e';
-							else
-								chartemp = stringtemp.charAt(0);
-						} catch (IOException e1) {
-							Write.write("errore di flusso");
-							chartemp = 'e';
-						} catch (NumberFormatException e2) {
-							Write.write("non hai inserito un carattere valido");
-							chartemp = 'e';
-						}
-						if (chartemp != 's' && chartemp != 'n')
-							Write.write("hai sbagliato a digitare, riprova");
-					} while (chartemp != 's' && chartemp != 'n');
+					
+					chartemp = Read.readSecondaScommessa();
 
 					int valid = 1;
 					int check = 1;
@@ -539,17 +521,7 @@ public class Partita {
 					if (chartemp == 's') {
 						do {
 							do {
-								Write.write("Su che scuderia vuoi scommettere?");
-								for (int n = 0; n < listascuderie.size(); n++) {
-									Write.write(n + " ) "
-											+ listascuderie.get(n).getColore());
-								}
-								do {
-									Write.write("Seleziona scuderia: ");
-									s = Read.readInt();
-									if (s > listascuderie.size() - 1)
-										Write.write("non hai digitato un valore valido, riprova");
-								} while (s < 0 || s > listascuderie.size() - 1);
+								s = Read.readScuderiaScommessa(listascuderie);
 
 								int n;
 								n = listascuderie.get(s).getSegnalino();
@@ -565,7 +537,8 @@ public class Partita {
 							} while (valid != 1);
 
 							Scommessa scommessa = new Scommessa();
-							scommessa.setNomegiocatore(stemp);
+							scommessa.setNomegiocatore(arraygiocatori
+									.get(tocca).getNome());
 							listascuderie.get(s).getscommessa().add(scommessa);
 							check = listascuderie.get(s).effettuaScommessa(
 									tocca);
@@ -580,11 +553,14 @@ public class Partita {
 					}
 				}
 			}
-			if (arraygiocatori.get(tocca).getSalta() == 1)
+			if (arraygiocatori.get(tocca).getSalta() == 1) {
 				arraygiocatori.get(tocca).setSalta(0);
+			}
+
 			tocca--;
-			if (tocca < 0)
+			if (tocca < 0) {
 				tocca = arraygiocatori.size() - 1;
+			}
 
 		} while (tocca != primogiocatore);
 	}
@@ -639,12 +615,14 @@ public class Partita {
 
 				if (eliminato == 1) {
 					eliminato = 0;
-					if (tocca <= primogiocatore)
+					if (tocca <= primogiocatore) {
 						primogiocatore--;
+					}
 					arraygiocatori.remove(tocca);
 				}
-				if (valido == 0)
+				if (valido == 0) {
 					tocca++;
+				}
 
 			} while (valido != 1);
 
@@ -654,20 +632,8 @@ public class Partita {
 
 			do {
 				do {
-					Write.write("Su che scuderia vuoi scommettere?");
-					for (int n = 0; n < listascuderie.size(); n++) {
-						Write.write(n + " ) "
-								+ listascuderie.get(n).getColore()
-								+ "     Scommesse: "
-								+ listascuderie.get(n).getscommessa().size());
-					}
-					do {
-						Write.write("Seleziona scuderia: ");
-						s = Read.readInt();
-						if (s > listascuderie.size() - 1)
-							Write.write("non hai digitato un valore valido, riprova");
-					} while (s < 0 || s > listascuderie.size() - 1);
-
+					s = Read.readScuderiaScommessa(listascuderie);
+					
 					int n;
 					n = listascuderie.get(s).getSegnalino();
 					if (n == 0) {
@@ -888,6 +854,7 @@ public class Partita {
 			Write.write("\nTURNO " + (turno + 1));
 			setCarteAzione();
 			setCarteAzione();
+			setSegnalini();
 			primoGiocatoreOrario();
 			primascommessa();
 			truccoCorsa();
@@ -911,9 +878,11 @@ public class Partita {
 	}
 
 	/**
-	 * {Descrizione}
+	 * Trova il giocatore con il maggior numero di punti vittoria, se 2
+	 * giocatori hanno lo stesso numero di punti vittoria vince quello con piu
+	 * soldi
 	 * 
-	 * @return
+	 * @return il nome del giocatore con il maggior numero di punti vittoria
 	 * @exceptions
 	 * 
 	 * @see
@@ -928,11 +897,14 @@ public class Partita {
 				if (arraygiocatori.get(i).getPv() > max) {
 					max = arraygiocatori.get(i).getPv();
 					idmax = i;
-				} else if (max == arraygiocatori.get(i).getPv()) {
-					// gestione stessi pv
+				} else if (max == arraygiocatori.get(i).getPv()
+						&& arraygiocatori.get(i).getSoldi() > arraygiocatori
+								.get(idmax).getSoldi()) {
+					max = arraygiocatori.get(i).getPv();
+					idmax = i;
 				}
 			}
-			
+
 		}
 		return arraygiocatori.get(idmax).getNome();
 	}
@@ -1003,7 +975,7 @@ public class Partita {
 			}
 			CarteAzione azioni = new CarteAzione();
 			movimento();
-			if (partenza == true) {
+			if (partenza) {
 				azioni.carteAzionePartenza(listascuderie);
 				partenza = false;
 			} else {
@@ -1015,7 +987,7 @@ public class Partita {
 			azioni.carteAzioneFotofinish(listascuderie);
 			classifica(arrivati);
 			aggiornaQuotazioni();
-		} while (checkArrivati() == false);
+		} while (!checkArrivati());
 	}
 
 	/**
