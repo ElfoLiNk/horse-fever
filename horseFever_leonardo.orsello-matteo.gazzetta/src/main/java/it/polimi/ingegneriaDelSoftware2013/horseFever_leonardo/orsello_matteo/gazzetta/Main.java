@@ -23,7 +23,7 @@ public class Main {
 			partita.setGiocatori();
 			partita.randomPrimogiocatore();
 			partita.turno();
-
+			
 		}
 
 }

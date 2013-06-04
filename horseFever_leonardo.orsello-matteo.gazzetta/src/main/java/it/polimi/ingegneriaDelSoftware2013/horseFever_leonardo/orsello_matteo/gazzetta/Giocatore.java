@@ -16,6 +16,18 @@ import java.util.List;
  */
 public class Giocatore {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Giocatore " + nome.toUpperCase() + " | ( " + interpreta
+				+ " ) | Soldi: " + soldi + " | Scuderia: " + scuderia + " | PV: "
+				+ pv;
+	}
+
 	private String nome;
 	private String interpreta;
 	private int pv = 1;
@@ -24,13 +36,13 @@ public class Giocatore {
 	private String scuderia;
 	private List<CarteAzione> listaazioni = new ArrayList<CarteAzione>();
 
-
 	/**
 	 * 
 	 * Imposta il nome del player, chiedendolo all'utente
-	 *
-	 * @param i Numero del giocatore
-	 *
+	 * 
+	 * @param i
+	 *            Numero del giocatore
+	 * 
 	 * @see
 	 */
 	public void setNome(int i) {
@@ -39,7 +51,7 @@ public class Giocatore {
 			this.nome = Read.readString();
 		} while (nome == null);
 	}
-	
+
 	/**
 	 * 
 	 * Imposta il colore della scuderia in base alla quotazione del personaggio
@@ -63,7 +75,9 @@ public class Giocatore {
 
 	/**
 	 * Aggiunge la carta azione passata nella lista
-	 * @param carta azione da aggiungere
+	 * 
+	 * @param carta
+	 *            azione da aggiungere
 	 */
 	public void setCarteAzione(CarteAzione carta) {
 		this.listaazioni.add(carta);
@@ -71,7 +85,9 @@ public class Giocatore {
 
 	/**
 	 * Rimuove la carta azione passata dalla lista
-	 * @param i indice della carta da rimuovere
+	 * 
+	 * @param i
+	 *            indice della carta da rimuovere
 	 */
 	public void removeCarteAzione(int i) {
 		this.listaazioni.remove(i);
@@ -111,7 +127,8 @@ public class Giocatore {
 	}
 
 	/**
-	 * @param interpreta the interpreta to set
+	 * @param interpreta
+	 *            the interpreta to set
 	 */
 	public void setInterpreta(String interpreta) {
 		this.interpreta = interpreta;
@@ -125,7 +142,8 @@ public class Giocatore {
 	}
 
 	/**
-	 * @param pv the pv to set
+	 * @param pv
+	 *            the pv to set
 	 */
 	public void setPv(int pv) {
 		this.pv = pv;
@@ -137,16 +155,18 @@ public class Giocatore {
 	public int getSoldi() {
 		return soldi;
 	}
-	
+
 	/**
-	 * @param soldi the soldi to add
+	 * @param soldi
+	 *            the soldi to add
 	 */
-	public void aggiornaSoldi(int temp){
-		soldi +=temp;
+	public void aggiornaSoldi(int temp) {
+		soldi += temp;
 	}
-	
+
 	/**
-	 * @param soldi the soldi to set
+	 * @param soldi
+	 *            the soldi to set
 	 */
 	public void setSoldi(int soldi) {
 		this.soldi = soldi;
@@ -181,11 +201,11 @@ public class Giocatore {
 	}
 
 	/**
-	 * @param salta the salta to set
+	 * @param salta
+	 *            the salta to set
 	 */
 	public void setSalta(int salta) {
 		this.salta = salta;
 	}
-
 
 }

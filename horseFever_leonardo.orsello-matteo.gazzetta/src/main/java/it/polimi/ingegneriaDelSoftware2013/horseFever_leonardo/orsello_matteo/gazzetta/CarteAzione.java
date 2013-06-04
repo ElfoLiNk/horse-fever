@@ -44,7 +44,7 @@ public class CarteAzione {
 	 * Crea una lista di tipo <CarteAzione> effettuando il parsing di un file
 	 * xml contenente le carte azione.
 	 * 
-	 * @return
+	 * @return la lista delle carte azioni lette dal file xml
 	 * @exceptions
 	 * 
 	 * @see

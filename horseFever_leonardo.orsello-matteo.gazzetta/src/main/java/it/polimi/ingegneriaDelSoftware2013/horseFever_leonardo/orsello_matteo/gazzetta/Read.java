@@ -16,8 +16,9 @@ final class Read {
 	private Read() {
 	}
 
-	private static BufferedReader br;
-	private static String stringa;
+	private static BufferedReader br = new BufferedReader(
+			new InputStreamReader(System.in));;
+	private static String stringa = "temp";
 	private static int intero;
 	private static char carattere;
 
@@ -31,20 +32,19 @@ final class Read {
 	 * @see
 	 */
 	public static String readString() {
-		br = new BufferedReader(new InputStreamReader(System.in));
-
-		try {
-			stringa = br.readLine();
-			if (stringa != null) {
-				while (stringa.isEmpty()) {
-					stringa = br.readLine();
+		do {
+			try {
+				stringa = br.readLine();
+				if (!stringa.equals(null)) {
+					while (stringa.isEmpty()) {
+						stringa = br.readLine();
+					}
 				}
+
+			} catch (IOException e) {
+				Write.write("Errore di flusso");
 			}
-
-		} catch (IOException e) {
-			Write.write("Errore di flusso");
-		}
-
+		} while (stringa.equals("temp"));
 		return (stringa);
 	}
 
@@ -58,13 +58,11 @@ final class Read {
 	 * @see
 	 */
 	public static int readInt() {
-		br = new BufferedReader(new InputStreamReader(System.in));
-
 		try {
-			do {
-				stringa = br.readLine();
-			} while (stringa.isEmpty());
-			intero = Integer.parseInt(stringa);
+			stringa = br.readLine();
+			if (!stringa.equals(null)) {
+				intero = Integer.parseInt(stringa);
+			}
 		} catch (IOException e1) {
 			Write.write("Errore di flusso");
 		} catch (NumberFormatException e2) {
@@ -73,37 +71,6 @@ final class Read {
 		}
 
 		return (intero);
-	}
-
-	/**
-	 * 
-	 * Legge un Carattere dal system.in
-	 * 
-	 * @return Il carattere letto
-	 * @exceptions IOException, NumberFormatException
-	 * 
-	 * @see
-	 */
-	public static char readChar() {
-		br = new BufferedReader(new InputStreamReader(System.in));
-
-		try {
-
-			do {
-				stringa = br.readLine();
-			} while (stringa.isEmpty());
-			if (stringa.length() > 1) {
-				throw new NumberFormatException();
-			}
-			carattere = stringa.charAt(0);
-		} catch (IOException e1) {
-			Write.write("Errore di flusso");
-		} catch (NumberFormatException e2) {
-			Write.write("ERRORE: Non hai inserito un carattere valido!");
-			return (0);
-		}
-
-		return (carattere);
 	}
 
 	/**
@@ -116,39 +83,37 @@ final class Read {
 	 * @see
 	 */
 	public static char readTipoScommessa() {
-		String stringtemp;
-		char chartemp;
 		do {
 			Write.write("Che tipo di scommessa vuoi giocare?\n"
 					+ "Digita v per vincente\n" + "       p per piazzato");
 
-			br = new BufferedReader(new InputStreamReader(System.in));
-
 			try {
-				stringtemp = br.readLine();
-				if (stringtemp.length() > 1) {
-					throw new NumberFormatException();
-				}
-				{
-					if (stringtemp.length() < 1) {
-						chartemp = 'e';
-					} else {
-						chartemp = stringtemp.charAt(0);
+				stringa = br.readLine();
+				if (!stringa.equals(null)) {
+					if (stringa.length() > 1) {
+						throw new NumberFormatException();
 					}
+					if (stringa.length() < 1) {
+						carattere = 'e';
+					} else {
+						carattere = stringa.charAt(0);
+					}
+				} else {
+					carattere = 'e';
 				}
 			} catch (IOException e1) {
 				Write.write("errore di flusso");
-				chartemp = 'e';
+				carattere = 'e';
 			} catch (NumberFormatException e2) {
 				Write.write("non hai inserito un carattere valido");
-				chartemp = 'e';
+				carattere = 'e';
 			}
-			if (chartemp != 'v' && chartemp != 'p') {
+			if (carattere != 'v' && carattere != 'p') {
 				Write.write("hai sbagliato a digitare, riprova");
 			}
 
-		} while (chartemp != 'v' && chartemp != 'p');
-		return chartemp;
+		} while (carattere != 'v' && carattere != 'p');
+		return carattere;
 	}
 
 	/**
@@ -160,53 +125,51 @@ final class Read {
 	 * @see
 	 */
 	public static char readSecondaScommessa() {
-		String stringtemp;
-		char chartemp;
 		do {
 			Write.write("Il secondo giro di scommesse è facoltativo, vuoi piazzare "
 					+ "una scommessa?\ndigita:\ns per scommettere\nn per saltare la scommmessa");
 			try {
-				stringtemp = br.readLine();
-				if (stringtemp.length() > 1) {
-					// Write.write("hai sbagliato a digitare");
-					throw new NumberFormatException();
-				}
-				if (stringtemp.length() < 1) {
-					chartemp = 'e';
+				stringa = br.readLine();
+				if (!stringa.equals(null)) {
+					if (stringa.length() > 1) {
+						throw new NumberFormatException();
+					}
+					if (stringa.length() < 1) {
+						carattere = 'e';
+					} else {
+						carattere = stringa.charAt(0);
+					}
 				} else {
-					chartemp = stringtemp.charAt(0);
+					carattere = 'e';
 				}
 			} catch (IOException e1) {
 				Write.write("errore di flusso");
-				chartemp = 'e';
+				carattere = 'e';
 			} catch (NumberFormatException e2) {
 				Write.write("non hai inserito un carattere valido");
-				chartemp = 'e';
+				carattere = 'e';
 			}
-			if (chartemp != 's' && chartemp != 'n') {
+			if (carattere != 's' && carattere != 'n') {
 				Write.write("Hai sbagliato a digitare, riprova");
 			}
-		} while (chartemp != 's' && chartemp != 'n');
-		return chartemp;
+		} while (carattere != 's' && carattere != 'n');
+		return carattere;
 	}
 
 	/**
 	 * {Descrizione}
-	 *
+	 * 
 	 * @return
 	 * @exceptions
-	 *
+	 * 
 	 * @see
 	 */
 	public static int readScuderiaScommessa(List<Scuderia> listascuderie) {
 		int s;
-		int n=0;
+		int n = 0;
 		Write.write("\nSu che scuderia vuoi scommettere?");
-		for (Scuderia scuderia: listascuderie) {
-			Write.write(n + " ) "
-					+ scuderia.getColore()
-					+ "     Scommesse: "
-					+ scuderia.getscommessa().size()+ "    Quotazione: 1:"+ scuderia.getQuotazione());
+		for (Scuderia scuderia : listascuderie) {
+			Write.write(n + scuderia.toString());
 			n++;
 		}
 		do {

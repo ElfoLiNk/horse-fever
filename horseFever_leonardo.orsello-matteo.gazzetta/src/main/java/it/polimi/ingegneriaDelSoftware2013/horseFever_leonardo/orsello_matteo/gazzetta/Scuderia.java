@@ -96,66 +96,68 @@ public class Scuderia {
 		listacarteazione.add(carteAzione);
 	}
 
-	// metodi inerenti le scommesse
-
-	/*
-	 * nel main chiedo su che scuderia vuole puntare e accedo alla classe giusta
-	 * dopo faccio partire metodo giusto. una volta che accedo qua ho già creato
-	 * un elemento nuovo nella lista scommessa in cui ho già salvato il nome del
-	 * giocatore che sta per effettuarla,sarà sicuramente in coda alla lista
+	/**
+	 * 
+	 * Chiedo i soldi che l'utente vuole scommettere su questa scuderia e il
+	 * tipo di scommessa
+	 * 
+	 * @param tocca
+	 *            indice dell'array dei giocatori
+	 * @return 0 se la scommessa è dello stesso tipo di una già effettuata 1 se
+	 *         è valida
+	 * @exceptions
+	 * 
+	 * @see
 	 */
 	public int effettuaScommessa(int tocca) {
 
 		int flagsc = 1;
-		int tempint = 0;
-		int pvtemp = 0;
-		int solditemp = 0;
-		String nometemp;
 		char chartemp = 'v';
 		Scommessa.Tiposcommessa tiposcommessatemp;
 
 		int i = scommessa.size() - 1;
-		nometemp = scommessa.get(i).getNomegiocatore();
-		solditemp = Partita.getarraygiocatori().get(tocca).getSoldi();
-		Write.write("Quanti soldi vuoi scommettere?"
-				+ "\nil tuo conto in banca è di : " + solditemp);
+		String nomegiocatore = scommessa.get(i).getNomegiocatore();
+		int soldigiocatore = Partita.getarraygiocatori().get(tocca).getSoldi();
+		int pvgiocatore = Partita.getarraygiocatori().get(tocca).getPv();
+		int soldiscommessa;
 
-		tempint = Read.readInt();
+		Write.write("Quanti soldi vuoi scommettere?");
 
-		// controllo validità scommessa : scommessa>=pv*100
-		// controllo se il giocatore ha abbastanza soldi per effettuare la
+		boolean tryAgain;
+		do {
+			tryAgain = false;
+			soldiscommessa = Read.readInt();
+			// controllo se il giocatore ha abbastanza soldi per effettuare la
+			// scommessa dell'importo da lui scelto
+			if (soldiscommessa > soldigiocatore) {
+				Write.write("Non puoi scommettere più di quanti soldi possiedi.\n"
+						+ " Inserisci un nuovo importo:");
+				tryAgain = true;
+			}
+			// controllo validità scommessa : scommessa>=pv*100
+			if (soldiscommessa < pvgiocatore * 100) {
+				Write.write("L'importo scommesso non è valido, questo deve essere\n"
+						+ "come minimo pari a \"punti vittoria posseduti\" * 100.\n Inserire"
+						+ " un nuovo importo :");
+				tryAgain = true;
+			}
+		} while (tryAgain);
+
+		// Salvo i soldi scommessi nella scommessa
+		scommessa.get(i).setSoldi(soldiscommessa);
+
+		// Chiedo se scommessa v (vincente) o p (piazzata) e lo imposto nella
 		// scommessa
-		// dell'importo da lui scelto
-
-		pvtemp = Partita.getarraygiocatori().get(tocca).getPv();
-
-		if (tempint > solditemp) {
-			Write.write("Non puoi scommettere più di quanti soldi possiedi)"
-					+ " Inserire un nuovo importo");
-			effettuaScommessa(tocca);
-		}
-
-		if (tempint >= pvtemp * 100) {
-			scommessa.get(i).setSoldi(tempint);
-		} else {
-			Write.write("l'importo scommesso non è valido, questo deve essere\n"
-					+ "come minimo pari a \"punti vittoria posseduti\" * 100, inserire"
-					+ " un nuovo importo :)");
-			effettuaScommessa(tocca);
-		}
-		 // Chiedo se scommessa v (vincente) o p (piazzata)
 		chartemp = Read.readTipoScommessa();
-
 		scommessa.get(i).setTiposcommessa(chartemp);
-		tiposcommessatemp = scommessa.get(i).getTiposcommessa();
 
+		// Verifico che il giocatore non ha gia effettuato questo tipo di scommessa
+		tiposcommessatemp = scommessa.get(i).getTiposcommessa();
 		for (int a = 0; a < i; a++) {
-			if (nometemp == scommessa.get(a).getNomegiocatore()
+			if (nomegiocatore.equals(scommessa.get(a).getNomegiocatore())
 					&& tiposcommessatemp == scommessa.get(a).getTiposcommessa()) {
-				Write.write("Questa scommessa è già stata effettuata, non è possibile ripetere"
-						+ "la stessa scommessa. è possibile fare due scommesse sulla"
-						+ "stessa scuderia, ma bisogna modificare il tipo"
-						+ "di scommessa");
+				Write.write("\nQuesta scommessa è già stata effettuata, non è possibile ripeterela stessa scommessa."
+						+ "\nE' possibile fare due scommesse sulla stessa scuderia, ma bisogna modificare il tipo di scommessa");
 				flagsc = 0;
 			}
 		}
@@ -163,10 +165,22 @@ public class Scuderia {
 		if (flagsc == 1) {
 
 			// tolgo al giocatore i soldi che ha scommesso
-			Partita.getarraygiocatori().get(tocca).aggiornaSoldi(-tempint);
+			Partita.getarraygiocatori().get(tocca)
+					.aggiornaSoldi(-soldiscommessa);
 		}
 
 		return flagsc;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return " ) " + colore + "    Scommesse: " + scommessa.size()
+				+ "  Quotazione: 1:" + quotazione;
 	}
 
 	/**
@@ -178,41 +192,45 @@ public class Scuderia {
 	 * @see
 	 */
 	public void pagascommessa() {
-
-		int i;
-		String nometemp;
-		i = scommessa.size() - 1;
-		Scommessa.Tiposcommessa tiposcommessatemp;
-		int solditemp;
-		int ngiocatori = Partita.getarraygiocatori().size();
-
-		for (int a = i; a >= 0; a--) {
-			nometemp = scommessa.get(a).getNomegiocatore();
-			for (int z = 0; z < ngiocatori; z++) {
-				if (nometemp == Partita.getarraygiocatori().get(z).getNome()) {
-					solditemp = scommessa.get(a).getSoldi();
-					tiposcommessatemp = scommessa.get(a).getTiposcommessa();
-					if (tiposcommessatemp == Scommessa.Tiposcommessa.VINCENTE
+		// Ciclo tutte le scommesse
+		for (int a = scommessa.size() - 1; a >= 0; a--) {
+			// Ciclo tutti i giocatori
+			for (int z = 0; z < Partita.getarraygiocatori().size(); z++) {
+				// Verifico che il giocatore sia lo stesso che ha effettuato la scommessa
+				if (scommessa.get(a).getNomegiocatore().equals(Partita.getarraygiocatori().get(z)
+						.getNome())) {
+					
+					// Pago le scommesse vincenti
+					if (scommessa.get(a).getTiposcommessa() == Scommessa.Tiposcommessa.VINCENTE
 							&& classifica == 1) {
 						Partita.getarraygiocatori().get(z)
-								.aggiornaSoldi(solditemp * quotazione);
+								.aggiornaSoldi(scommessa.get(a).getSoldi() * quotazione);
 						Partita.getarraygiocatori().get(z).aggiornapv(3);
 
 					}
-					if (tiposcommessatemp == Scommessa.Tiposcommessa.PIAZZATO) {
+					// Pago le scommesse piazzate
+					if (scommessa.get(a).getTiposcommessa() == Scommessa.Tiposcommessa.PIAZZATO) {
 						Partita.getarraygiocatori().get(z)
-								.aggiornaSoldi(solditemp * 2);
+								.aggiornaSoldi(scommessa.get(a).getSoldi() * 2);
 						Partita.getarraygiocatori().get(z).aggiornapv(1);
 					}
 				}
 			}
 		}
+		// Resetto la lista delle scommesse
 		scommessa.clear();
 
 	}
 
-	// da utilizzare per pulire la lista scommessa delle scuderie perdenti
 
+	/**
+	 * 
+	 * Resetto la lista delle scommesse
+	 *
+	 * @exceptions
+	 *
+	 * @see
+	 */
 	public void clearscommessa() {
 		scommessa.clear();
 	}
