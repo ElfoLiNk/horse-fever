@@ -66,9 +66,9 @@ public class Giocatore {
 	 * @see
 	 */
 	public void setScuderia(int quotazione, List<Scuderia> listascuderie) {
-		for (Scuderia scuderia : listascuderie) {
-			if (scuderia.getQuotazione() == quotazione) {
-				this.scuderia = scuderia.getColore();
+		for (Scuderia cavallo : listascuderie) {
+			if (cavallo.getQuotazione() == quotazione) {
+				this.scuderia = cavallo.getColore();
 			}
 		}
 	}

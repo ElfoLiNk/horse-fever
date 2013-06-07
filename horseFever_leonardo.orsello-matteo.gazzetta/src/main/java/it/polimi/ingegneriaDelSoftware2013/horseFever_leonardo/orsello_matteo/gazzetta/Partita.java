@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-
 /**
  * 
  * Classe che gestisce tutta la partita: Crea le liste dei mazzi Imposta i
@@ -205,7 +204,7 @@ public class Partita {
 
 		// Continuo ad aggiungere un numero finche non trovo quello giusto
 		while (list.size() < listascuderie.size()) {
-			int num = rnd.nextInt(6) + 2;
+			int num = rnd.nextInt(Parametri.SEI) + Parametri.DUE;
 			if (!list.contains(num)) {
 				list.add(num);
 			}
@@ -373,7 +372,7 @@ public class Partita {
 
 		// Analizzo la stringa e Salvo il movimento corretto
 		Scanner scannerString = new Scanner(randomString);
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < Parametri.MOVIMENTI_SIZE; i++) {
 			movimenti[i] = scannerString.nextInt();
 		}
 
@@ -390,13 +389,13 @@ public class Partita {
 				scuderia.setMovimento(movimenti[2]);
 				break;
 			case (Parametri.CINQUE):
-				scuderia.setMovimento(movimenti[3]);
+				scuderia.setMovimento(movimenti[Parametri.TRE]);
 				break;
 			case (Parametri.SEI):
-				scuderia.setMovimento(movimenti[4]);
+				scuderia.setMovimento(movimenti[Parametri.QUATTRO]);
 				break;
 			case (Parametri.SETTE):
-				scuderia.setMovimento(movimenti[5]);
+				scuderia.setMovimento(movimenti[Parametri.CINQUE]);
 				break;
 			default:
 				break;
@@ -555,7 +554,7 @@ public class Partita {
 
 				// Controllo se ha abbastanza soldi per fare una seconda
 				// scommessa
-				if (arraygiocatori.get(i).getPv() * 100 > arraygiocatori.get(i)
+				if (arraygiocatori.get(i).getPv() * Parametri.MIN_SCOMMESSA > arraygiocatori.get(i)
 						.getSoldi()) {
 					valido = 0;
 					Write.write("Il giocatore non ha abbastanza danari per effettuare la scommessa minima, non puoi effettuare la seconda scommessa!");
@@ -611,7 +610,7 @@ public class Partita {
 					// Imposto la scommessa come non valida
 					valido = 0;
 					// Rimuovo 2 punti vittoria
-					arraygiocatori.get(i).aggiornapv(-2);
+					arraygiocatori.get(i).aggiornapv(Parametri.MENODUE);
 					// Salta la seconda scommessa
 					arraygiocatori.get(i).setSalta(1);
 
@@ -644,7 +643,8 @@ public class Partita {
 	}
 
 	/**
-	 * @param arraygiocatori the arraygiocatori to set
+	 * @param arraygiocatori
+	 *            the arraygiocatori to set
 	 */
 	public static void setArraygiocatori(List<Giocatore> arraygiocatori) {
 		Partita.arraygiocatori = arraygiocatori;
@@ -723,11 +723,6 @@ public class Partita {
 		while (scuderie.size() > 0) {
 			max = 0;
 			for (int i = 0; i < scuderie.size(); i++) {
-				/*
-				 * if (scuderie.get(i).getPosizione() < min) { min =
-				 * scuderie.get(i).getPosizione(); }
-				 */
-
 				if (scuderie.get(i).getPosizione() > max) {
 					max = scuderie.get(i).getPosizione();
 					idmax = i;
@@ -840,7 +835,7 @@ public class Partita {
 			truccoCorsa();
 			secondaScommessa();
 			corsa();
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < Parametri.PODIO_SIZE; i++) {
 				classifica.get(i).pagascommessa();
 			}
 			pagascuderie();
@@ -936,13 +931,13 @@ public class Partita {
 	private void pagascuderie() {
 		for (Giocatore player : arraygiocatori) {
 			if (player.getScuderia().equals(classifica.get(0).getColore())) {
-				player.setSoldi(player.getSoldi() + 600);
+				player.setSoldi(player.getSoldi() + Parametri.SOLDI_PRIMA_SCUDERIA);
 			}
 			if (player.getScuderia().equals(classifica.get(1).getColore())) {
-				player.setSoldi(player.getSoldi() + 400);
+				player.setSoldi(player.getSoldi() + Parametri.SOLDI_SECONDA_SCUDERIA);
 			}
 			if (player.getScuderia().equals(classifica.get(2).getColore())) {
-				player.setSoldi(player.getSoldi() + 200);
+				player.setSoldi(player.getSoldi() + Parametri.SOLDI_TERZA_SCUDERIA);
 			}
 		}
 
@@ -1074,7 +1069,7 @@ public class Partita {
 
 			int pv = arraygiocatori.get(i).getPv();
 			int soldi = arraygiocatori.get(i).getSoldi();
-			if (pv <= 2 && soldi < pv * 100) {
+			if (pv <= 2 && soldi < pv * Parametri.MIN_SCOMMESSA) {
 				Write.write("\nIl giocatore "
 						+ arraygiocatori.get(i).getNome().toUpperCase()
 						+ " non ha né abbastanza soldi né abbastanza punti vittoria"
