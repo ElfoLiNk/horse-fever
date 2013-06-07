@@ -72,7 +72,8 @@ public class CarteAzione {
 	 * 
 	 * Applico gli effetti delle carte azione che agiscono alla partenza
 	 * 
-	 * @param listscuderie La lista delle scuderie della partita
+	 * @param listscuderie
+	 *            La lista delle scuderie della partita
 	 * @exceptions
 	 * 
 	 * @see
@@ -122,7 +123,8 @@ public class CarteAzione {
 	 * 
 	 * Applico gli effetti delle carte azione che agiscono sul movimento
 	 * 
-	 * @param listascuderie La lista delle scuderie della partita
+	 * @param listascuderie
+	 *            La lista delle scuderie della partita
 	 * @exceptions
 	 * 
 	 * @see
@@ -137,9 +139,9 @@ public class CarteAzione {
 			// Controllo tutte le carte della scuderia
 			for (int j = 0; j < carte.size(); j++) {
 				if (carte.get(j).getAgisce().equals("Movimento")) {
-					if (carte.get(j).getEffetto() == 4
+					if (carte.get(j).getEffetto() == Parametri.QUATTRO
 							&& listascuderie.get(i).isUltimo()) {
-						listascuderie.get(i).setMovimento(4);
+						listascuderie.get(i).setMovimento(Parametri.QUATTRO);
 					}
 					if (carte.get(j).getEffetto() == 0
 							&& listascuderie.get(i).isPrimo()) {
@@ -155,7 +157,8 @@ public class CarteAzione {
 	 * 
 	 * Applico gli effetti delle carte azione che agiscono sullo sprint
 	 * 
-	 * @param listascuderie La lista delle scuderie della partita
+	 * @param listascuderie
+	 *            La lista delle scuderie della partita
 	 * @exceptions
 	 * 
 	 * @see
@@ -181,14 +184,14 @@ public class CarteAzione {
 					}
 					if (carte.get(j).getEffetto() == 1
 							&& listascuderie.get(i).getSprint() > 0
-							&& listascuderie.get(i).getSprint() < 3) {
+							&& listascuderie.get(i).getSprint() < Parametri.TRE) {
 						listascuderie.get(i).setSprint(
 								listascuderie.get(i).getSprint() + 1);
 
 					}
 					if (carte.get(j).getEffetto() == 2) {
 						if (listascuderie.get(i).getSprint() > 0) {
-							listascuderie.get(i).setSprint(3);
+							listascuderie.get(i).setSprint(Parametri.TRE);
 						} else {
 							listascuderie.get(i).setSprint(2);
 						}
@@ -238,7 +241,8 @@ public class CarteAzione {
 	 * Applico le carte azione che modificano la quotazione della scuderia,
 	 * l'algoritmo non si applica se la quotazione non rimane tra (1:1 - 1:7)
 	 * 
-	 * @param listascuderie la lista delle scuderie della partita
+	 * @param listascuderie
+	 *            la lista delle scuderie della partita
 	 * @exceptions
 	 * 
 	 * @see
@@ -253,21 +257,19 @@ public class CarteAzione {
 			// Controllo tutte le carte della scuderia
 			for (int j = 0; j < carte.size(); j++) {
 				if (carte.get(j).getAgisce().equals("Quotazione")) {
-					if (carte.get(j).getEffetto() > 0) {
-						if (listascuderie.get(i).getQuotazione() > carte.get(j)
-								.getEffetto() + 1) {
-							listascuderie.get(i).setQuotazione(
-									listascuderie.get(i).getQuotazione()
-											- carte.get(j).getEffetto());
-						}
-					}
-					if (carte.get(j).getEffetto() < 0) {
-						if (listascuderie.get(i).getQuotazione() < carte.get(j)
-								.getEffetto() + 7) {
-							listascuderie.get(i).setQuotazione(
-									listascuderie.get(i).getQuotazione()
-											- carte.get(j).getEffetto());
-						}
+					if (carte.get(j).getEffetto() > 0
+							&& listascuderie.get(i).getQuotazione() > carte
+									.get(j).getEffetto() + 1) {
+						listascuderie.get(i).setQuotazione(
+								listascuderie.get(i).getQuotazione()
+										- carte.get(j).getEffetto());
+
+					} else if (listascuderie.get(i).getQuotazione() < carte
+							.get(j).getEffetto() + Parametri.SETTE) {
+						listascuderie.get(i).setQuotazione(
+								listascuderie.get(i).getQuotazione()
+										- carte.get(j).getEffetto());
+
 					}
 				}
 			}

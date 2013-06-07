@@ -143,7 +143,7 @@ public class Scuderia {
 				tryAgain = true;
 			}
 			// controllo validità scommessa : scommessa>=pv*100
-			if (soldiscommessa < pvgiocatore * 100) {
+			if (soldiscommessa < pvgiocatore * Parametri.MIN_SCOMMESSA) {
 				Write.write("L'importo scommesso non è valido, questo deve essere\n"
 						+ "come minimo pari a \"punti vittoria posseduti\" * 100.\n Inserire"
 						+ " un nuovo importo :");
@@ -218,7 +218,7 @@ public class Scuderia {
 								.aggiornaSoldi(
 										scommessa.get(a).getSoldi()
 												* quotazione);
-						Partita.getarraygiocatori().get(z).aggiornapv(3);
+						Partita.getarraygiocatori().get(z).aggiornapv(Parametri.TRE);
 
 					}
 					// Pago le scommesse piazzate
@@ -408,18 +408,18 @@ public class Scuderia {
 	public void checkCarteAzione() {
 		if (listacarteazione != null) {
 			for (int i = 0; i < listacarteazione.size(); i++) {
-				if (listacarteazione.get(i).getId() == 15) {
-					for (int j = 7; j < 14; j++) {
+				if (listacarteazione.get(i).getId() == Parametri.FRITZ_FINDEN) {
+					for (int j = Parametri.MIN_NEGATIVE; j < Parametri.MAX_NEGATIVE; j++) {
 						removeCartaAzioneByID(j);
 					}
 					// Rimuovo anche la carta stessa
-					removeCartaAzioneByID(15);
-				} else if (listacarteazione.get(i).getId() == 17) {
-					for (int j = 0; j < 7; j++) {
+					removeCartaAzioneByID(Parametri.FRITZ_FINDEN);
+				} else if (listacarteazione.get(i).getId() == Parametri.ROCHELLE_RECHERCHE) {
+					for (int j = Parametri.MIN_POSITIVE; j < Parametri.MAX_POSITIVE; j++) {
 						removeCartaAzioneByID(j);
 					}
 					// Rimuovo anche la carta stessa
-					removeCartaAzioneByID(17);
+					removeCartaAzioneByID(Parametri.ROCHELLE_RECHERCHE);
 				}
 			}
 		}
@@ -469,7 +469,7 @@ public class Scuderia {
 							+ listacarteazione.get(j).getEffetto());
 				}
 				if (listacarteazione.get(j).getEffetto() == 0) {
-					setPosizione(12);
+					setPosizione(Parametri.TRAGUARDO);
 				}
 			}
 		}
