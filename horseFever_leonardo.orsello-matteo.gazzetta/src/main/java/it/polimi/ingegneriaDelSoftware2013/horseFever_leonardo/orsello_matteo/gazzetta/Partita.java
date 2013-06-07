@@ -644,6 +644,13 @@ public class Partita {
 	}
 
 	/**
+	 * @param arraygiocatori the arraygiocatori to set
+	 */
+	public static void setArraygiocatori(List<Giocatore> arraygiocatori) {
+		Partita.arraygiocatori = arraygiocatori;
+	}
+
+	/**
 	 * @return the flagscommessa
 	 */
 	public int getflagscommessa() {
