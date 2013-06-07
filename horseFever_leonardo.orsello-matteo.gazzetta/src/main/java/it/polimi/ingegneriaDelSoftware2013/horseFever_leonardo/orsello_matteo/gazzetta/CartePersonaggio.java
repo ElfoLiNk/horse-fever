@@ -46,7 +46,6 @@ public class CartePersonaggio {
 	 * 
 	 * @see
 	 */
-
 	public static List<CartePersonaggio> crealistapersonaggi() {
 		List<CartePersonaggio> carte = null;
 		try {

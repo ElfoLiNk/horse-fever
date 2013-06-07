@@ -35,16 +35,10 @@ final class Read {
 		do {
 			try {
 				stringa = br.readLine();
-				if (!stringa.equals(null)) {
-					while (stringa.isEmpty()) {
-						stringa = br.readLine();
-					}
-				}
-
 			} catch (IOException e) {
 				Write.write("Errore di flusso");
 			}
-		} while (stringa.equals("temp"));
+		} while (stringa.equals(""));
 		return (stringa);
 	}
 
@@ -60,9 +54,7 @@ final class Read {
 	public static int readInt() {
 		try {
 			stringa = br.readLine();
-			if (!stringa.equals(null)) {
-				intero = Integer.parseInt(stringa);
-			}
+			intero = Integer.parseInt(stringa);
 		} catch (IOException e1) {
 			Write.write("Errore di flusso");
 		} catch (NumberFormatException e2) {
@@ -74,10 +66,9 @@ final class Read {
 	}
 
 	/**
-	 * {Descrizione}
+	 * Chiede al giocatore che tipo di scommessa vuole effettuare
 	 * 
-	 * @return
-	 * 
+	 * @return carattere: v per vincente p per piazzato
 	 * @exceptions
 	 * 
 	 * @see
@@ -89,24 +80,20 @@ final class Read {
 
 			try {
 				stringa = br.readLine();
-				if (!stringa.equals(null)) {
-					if (stringa.length() > 1) {
-						throw new NumberFormatException();
-					}
-					if (stringa.length() < 1) {
-						carattere = 'e';
-					} else {
-						carattere = stringa.charAt(0);
-					}
-				} else {
-					carattere = 'e';
-				}
 			} catch (IOException e1) {
 				Write.write("errore di flusso");
 				carattere = 'e';
 			} catch (NumberFormatException e2) {
 				Write.write("non hai inserito un carattere valido");
 				carattere = 'e';
+			}
+			if (stringa.length() > 1) {
+				carattere = 'e';
+			}
+			if (stringa.length() < 1) {
+				carattere = 'e';
+			} else {
+				carattere = stringa.charAt(0);
 			}
 			if (carattere != 'v' && carattere != 'p') {
 				Write.write("hai sbagliato a digitare, riprova");
@@ -117,37 +104,34 @@ final class Read {
 	}
 
 	/**
-	 * {Descrizione}
+	 * Chiede al giocatore se vuole effettuare una seconda scommessa
 	 * 
-	 * @return
+	 * @return carattere: s effettua la seconda scommessa n non effettua la
+	 *         scommessa
 	 * @exceptions
 	 * 
 	 * @see
 	 */
 	public static char readSecondaScommessa() {
 		do {
-			Write.write("Il secondo giro di scommesse è facoltativo, vuoi piazzare "
+			Write.write("\nIl secondo giro di scommesse è facoltativo, vuoi piazzare "
 					+ "una scommessa?\ndigita:\ns per scommettere\nn per saltare la scommmessa");
 			try {
 				stringa = br.readLine();
-				if (!stringa.equals(null)) {
-					if (stringa.length() > 1) {
-						throw new NumberFormatException();
-					}
-					if (stringa.length() < 1) {
-						carattere = 'e';
-					} else {
-						carattere = stringa.charAt(0);
-					}
-				} else {
-					carattere = 'e';
-				}
 			} catch (IOException e1) {
 				Write.write("errore di flusso");
 				carattere = 'e';
 			} catch (NumberFormatException e2) {
 				Write.write("non hai inserito un carattere valido");
 				carattere = 'e';
+			}
+			if (stringa.length() > 1) {
+				carattere = 'e';
+			}
+			if (stringa.length() < 1) {
+				carattere = 'e';
+			} else {
+				carattere = stringa.charAt(0);
 			}
 			if (carattere != 's' && carattere != 'n') {
 				Write.write("Hai sbagliato a digitare, riprova");
@@ -157,9 +141,9 @@ final class Read {
 	}
 
 	/**
-	 * {Descrizione}
+	 * Chiede al giocatore su che scuderia vuole scommettere
 	 * 
-	 * @return
+	 * @return s l'indice della scuderia scelta nella lista
 	 * @exceptions
 	 * 
 	 * @see
