@@ -24,8 +24,8 @@ public class Giocatore {
 	@Override
 	public String toString() {
 		return "Giocatore " + nome.toUpperCase() + " | ( " + interpreta
-				+ " ) | Soldi: " + soldi + " | Scuderia: " + scuderia + " | PV: "
-				+ pv;
+				+ " ) | Soldi: " + soldi + " | Scuderia: " + scuderia
+				+ " | PV: " + pv;
 	}
 
 	private String nome;
@@ -206,6 +206,20 @@ public class Giocatore {
 	 */
 	public void setSalta(int salta) {
 		this.salta = salta;
+	}
+
+	/**
+	 * Imposta il nome del giocatore con la stringa passata come parametro
+	 * 
+	 * @param string
+	 *            il nome da dare al giocatore
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	public void setNomeGiocatore(String string) {
+		this.nome = string;
+
 	}
 
 }

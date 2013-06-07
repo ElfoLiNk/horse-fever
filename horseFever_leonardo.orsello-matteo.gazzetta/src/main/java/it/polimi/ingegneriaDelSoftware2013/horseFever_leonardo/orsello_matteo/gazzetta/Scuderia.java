@@ -53,6 +53,14 @@ public class Scuderia {
 		return scommessa;
 	}
 
+	/**
+	 * @param scommessa
+	 *            the scommessa to set
+	 */
+	public void setScommessa(List<Scommessa> scommessa) {
+		this.scommessa = scommessa;
+	}
+
 	public List<CarteAzione> getCarteAzione() {
 		return listacarteazione;
 	}
@@ -151,7 +159,8 @@ public class Scuderia {
 		chartemp = Read.readTipoScommessa();
 		scommessa.get(i).setTiposcommessa(chartemp);
 
-		// Verifico che il giocatore non ha gia effettuato questo tipo di scommessa
+		// Verifico che il giocatore non ha gia effettuato questo tipo di
+		// scommessa
 		tiposcommessatemp = scommessa.get(i).getTiposcommessa();
 		for (int a = 0; a < i; a++) {
 			if (nomegiocatore.equals(scommessa.get(a).getNomegiocatore())
@@ -196,15 +205,19 @@ public class Scuderia {
 		for (int a = scommessa.size() - 1; a >= 0; a--) {
 			// Ciclo tutti i giocatori
 			for (int z = 0; z < Partita.getarraygiocatori().size(); z++) {
-				// Verifico che il giocatore sia lo stesso che ha effettuato la scommessa
-				if (scommessa.get(a).getNomegiocatore().equals(Partita.getarraygiocatori().get(z)
-						.getNome())) {
-					
+				// Verifico che il giocatore sia lo stesso che ha effettuato la
+				// scommessa
+				if (scommessa.get(a).getNomegiocatore()
+						.equals(Partita.getarraygiocatori().get(z).getNome())) {
+
 					// Pago le scommesse vincenti
 					if (scommessa.get(a).getTiposcommessa() == Scommessa.Tiposcommessa.VINCENTE
 							&& classifica == 1) {
-						Partita.getarraygiocatori().get(z)
-								.aggiornaSoldi(scommessa.get(a).getSoldi() * quotazione);
+						Partita.getarraygiocatori()
+								.get(z)
+								.aggiornaSoldi(
+										scommessa.get(a).getSoldi()
+												* quotazione);
 						Partita.getarraygiocatori().get(z).aggiornapv(3);
 
 					}
@@ -222,13 +235,12 @@ public class Scuderia {
 
 	}
 
-
 	/**
 	 * 
 	 * Resetto la lista delle scommesse
-	 *
+	 * 
 	 * @exceptions
-	 *
+	 * 
 	 * @see
 	 */
 	public void clearscommessa() {
@@ -399,15 +411,15 @@ public class Scuderia {
 				if (listacarteazione.get(i).getId() == 15) {
 					for (int j = 7; j < 14; j++) {
 						removeCartaAzioneByID(j);
-						// Rimuovo anche la carta stessa
-						removeCartaAzioneByID(15);
 					}
+					// Rimuovo anche la carta stessa
+					removeCartaAzioneByID(15);
 				} else if (listacarteazione.get(i).getId() == 17) {
 					for (int j = 0; j < 7; j++) {
 						removeCartaAzioneByID(j);
-						// Rimuovo anche la carta stessa
-						removeCartaAzioneByID(17);
 					}
+					// Rimuovo anche la carta stessa
+					removeCartaAzioneByID(17);
 				}
 			}
 		}
