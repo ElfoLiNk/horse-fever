@@ -72,7 +72,7 @@ public class CarteAzione {
 	 * 
 	 * Applico gli effetti delle carte azione che agiscono alla partenza
 	 * 
-	 * @param scuderia
+	 * @param listscuderie La lista delle scuderie della partita
 	 * @exceptions
 	 * 
 	 * @see
@@ -93,7 +93,7 @@ public class CarteAzione {
 							// Applico l'effetto
 							listascuderie.get(i).setMovimento(
 									listascuderie.get(i).getMovimento()
-											- carte.get(j).getEffetto());
+											+ carte.get(j).getEffetto());
 						}
 						if (carte.get(j).getEffetto() == 0) {
 							// Applico l'effetto
@@ -104,8 +104,7 @@ public class CarteAzione {
 							listascuderie.get(i).setMovimento(
 									listascuderie.get(i).getMovimento() + 1);
 
-						}
-						if (carte.get(j).getEffetto() > 0) {
+						} else if (carte.get(j).getEffetto() > 0) {
 							// Applico l'effetto
 							listascuderie.get(i).setMovimento(
 									carte.get(j).getEffetto());
@@ -123,7 +122,7 @@ public class CarteAzione {
 	 * 
 	 * Applico gli effetti delle carte azione che agiscono sul movimento
 	 * 
-	 * @param listascuderie
+	 * @param listascuderie La lista delle scuderie della partita
 	 * @exceptions
 	 * 
 	 * @see
@@ -156,7 +155,7 @@ public class CarteAzione {
 	 * 
 	 * Applico gli effetti delle carte azione che agiscono sullo sprint
 	 * 
-	 * @param listascuderie
+	 * @param listascuderie La lista delle scuderie della partita
 	 * @exceptions
 	 * 
 	 * @see
@@ -180,7 +179,7 @@ public class CarteAzione {
 					if (carte.get(j).getEffetto() == 0) {
 						listascuderie.get(i).setSprint(0);
 					}
-					if (carte.get(j).getEffetto() == +1
+					if (carte.get(j).getEffetto() == 1
 							&& listascuderie.get(i).getSprint() > 0
 							&& listascuderie.get(i).getSprint() < 3) {
 						listascuderie.get(i).setSprint(
@@ -239,7 +238,7 @@ public class CarteAzione {
 	 * Applico le carte azione che modificano la quotazione della scuderia,
 	 * l'algoritmo non si applica se la quotazione non rimane tra (1:1 - 1:7)
 	 * 
-	 * @param listascuderie
+	 * @param listascuderie la lista delle scuderie della partita
 	 * @exceptions
 	 * 
 	 * @see

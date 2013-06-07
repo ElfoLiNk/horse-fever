@@ -3,10 +3,12 @@
  */
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+
 
 /**
  * 
@@ -39,10 +41,6 @@ public class Partita {
 
 	private String[] colori = { "NERO", "BLU", "VERDE", "ROSSO", "GIALLO",
 			"BIANCO" };
-	/**
-	 * Carta movimento
-	 */
-	private int[] movimenti = new int[colori.length];
 
 	private List<Scuderia> arrivati = new ArrayList<Scuderia>();
 	private List<Scuderia> classifica = new ArrayList<Scuderia>();
@@ -51,11 +49,13 @@ public class Partita {
 	 * 
 	 * Creo liste dei Mazzi Carte
 	 * 
+	 * @throws IOException
+	 * 
 	 * @exceptions
 	 * 
 	 * @see
 	 */
-	public void setListe() {
+	public void setListe() throws IOException {
 		// Creazione mazzo Personaggi
 		listapersonaggi = CartePersonaggio.crealistapersonaggi();
 		// Creazione mazzo Azioni
@@ -79,16 +79,18 @@ public class Partita {
 			Write.write("In quanti volete giocare?");
 			ngiocatori = Read.readInt();
 
-		} while (ngiocatori < 2 || ngiocatori > 6);
+		} while (ngiocatori < Parametri.MIN_GIOCATORI
+				|| ngiocatori > Parametri.MAX_GIOCATORI);
 
-		if (ngiocatori == 2 || ngiocatori == 3 || ngiocatori == 6) {
-			turni = 6;
+		if (ngiocatori == Parametri.DUE || ngiocatori == Parametri.TRE
+				|| ngiocatori == Parametri.SEI) {
+			turni = Parametri.SEI;
 		}
-		if (ngiocatori == 4) {
-			turni = 4;
+		if (ngiocatori == Parametri.QUATTRO) {
+			turni = Parametri.QUATTRO;
 		}
-		if (ngiocatori == 5) {
-			turni = 5;
+		if (ngiocatori == Parametri.CINQUE) {
+			turni = Parametri.CINQUE;
 		}
 
 	}
@@ -103,27 +105,27 @@ public class Partita {
 	 * @see
 	 */
 	public void setSegnalini() {
-		if (ngiocatori == 2) {
+		if (ngiocatori == Parametri.DUE) {
 			for (Scuderia scuderia : listascuderie) {
-				scuderia.setSegnalino(1);
+				scuderia.setSegnalino(Parametri.UNO);
 			}
 		}
-		if (ngiocatori == 3) {
+		if (ngiocatori == Parametri.TRE) {
 			for (Scuderia scuderia : listascuderie) {
-				scuderia.setSegnalino(2);
+				scuderia.setSegnalino(Parametri.DUE);
 			}
 		}
-		if (ngiocatori == 4) {
+		if (ngiocatori == Parametri.QUATTRO) {
 			for (Scuderia scuderia : listascuderie) {
-				scuderia.setSegnalino(3);
+				scuderia.setSegnalino(Parametri.TRE);
 			}
-			turni = 4;
+			turni = Parametri.CINQUE;
 		}
-		if (ngiocatori == 5 || ngiocatori == 6) {
+		if (ngiocatori == Parametri.CINQUE || ngiocatori == Parametri.SEI) {
 			for (Scuderia scuderia : listascuderie) {
-				scuderia.setSegnalino(4);
+				scuderia.setSegnalino(Parametri.QUATTRO);
 			}
-			turni = 5;
+			turni = Parametri.CINQUE;
 		}
 	}
 
@@ -178,7 +180,7 @@ public class Partita {
 	 */
 	public void setScuderie() {
 
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < Parametri.MAX_SCUDERIE; i++) {
 
 			Scuderia scuderia = new Scuderia();
 			listascuderie.add(scuderia);
@@ -355,6 +357,9 @@ public class Partita {
 	 * @see
 	 */
 	public void movimento() {
+		// Carta movimento
+		int[] movimenti = new int[colori.length];
+
 		// Selezione una linea random dalla Lista delle carte movimento
 		Random r = new Random();
 		int j = r.nextInt(listacartemovimento.size());
@@ -375,22 +380,22 @@ public class Partita {
 		// Salvo i movimenti nelle scuderie
 		for (Scuderia scuderia : listascuderie) {
 			switch (scuderia.getQuotazione()) {
-			case (2):
+			case (Parametri.DUE):
 				scuderia.setMovimento(movimenti[0]);
 				break;
-			case (3):
+			case (Parametri.TRE):
 				scuderia.setMovimento(movimenti[1]);
 				break;
-			case (4):
+			case (Parametri.QUATTRO):
 				scuderia.setMovimento(movimenti[2]);
 				break;
-			case (5):
+			case (Parametri.CINQUE):
 				scuderia.setMovimento(movimenti[3]);
 				break;
-			case (6):
+			case (Parametri.SEI):
 				scuderia.setMovimento(movimenti[4]);
 				break;
-			case (7):
+			case (Parametri.SETTE):
 				scuderia.setMovimento(movimenti[5]);
 				break;
 			default:
@@ -408,12 +413,9 @@ public class Partita {
 
 	/**
 	 * 
-	 * Riceve la lista delle scuderie e imposta lo sprint a 1 di 2 scuderie
-	 * diverse
+	 * Imposta lo sprint a 1 di 2 scuderie diverse
 	 * 
-	 * @param listascuderie
 	 * @exceptions
-	 * 
 	 * @see
 	 */
 	public void sprint() {
@@ -452,7 +454,7 @@ public class Partita {
 				}
 
 			}
-			if (listascuderie.get(i).getPosizione() >= 12) {
+			if (listascuderie.get(i).getPosizione() >= Parametri.TRAGUARDO) {
 				listascuderie.get(i).setArrivato(true);
 				listascuderie.get(i).carteAzioneTraguardo();
 				if (listascuderie.get(i).isArrivato()
@@ -761,6 +763,7 @@ public class Partita {
 	 * fotofinish
 	 * 
 	 * @param fotofinish
+	 *            Lista delle scuderie che partecipano al fotofinish
 	 * @exceptions
 	 * 
 	 * @see
@@ -811,11 +814,13 @@ public class Partita {
 	 * Turno di gioco, caratterizzato da una scommessa, truccare la corsa e una
 	 * seconda eventuale scommessa
 	 * 
+	 * @throws IOException
+	 * 
 	 * @exceptions
 	 * 
 	 * @see
 	 */
-	public void turno() {
+	public void turno() throws IOException {
 
 		int turno = 0;
 		do {
@@ -842,8 +847,10 @@ public class Partita {
 			setListe();
 			// Primogiocatore in senso orario
 			aggiornaprimogiocatore();
+			// Reset posizione e arrivo scuderie
+			resetScuderie();
 			turno++;
-			
+
 			// Controllo se è rimasto un solo giocatore che vince
 			// automaticamente la partita
 			if (arraygiocatori.size() == 1) {
@@ -853,6 +860,25 @@ public class Partita {
 		String vincitore = trovaVincitore();
 		Write.write("\nVince il giocatore: " + vincitore.toUpperCase());
 
+	}
+
+	/**
+	 * Resetta a 0 la posizione e imposta a false l'arrivo di ogni scuderia alla
+	 * fine del turno. Svuoto anche le liste di arrivo, classifica e fotofinish.
+	 * 
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	private void resetScuderie() {
+		for (Scuderia scuderia : listascuderie) {
+			scuderia.setPosizione(0);
+			scuderia.setArrivato(false);
+			scuderia.setSprint(-1);
+			scuderia.setFotofinish(-1);
+		}
+		arrivati.clear();
+		classifica.clear();
 	}
 
 	/**
@@ -870,10 +896,15 @@ public class Partita {
 		int idmax = -1;
 
 		if (arraygiocatori.size() > 0) {
+			// Ciclo tutti i giocatori rimasti
 			for (int i = 0; i < arraygiocatori.size(); i++) {
+				// Trovo il giocatore con i pv massimi
 				if (arraygiocatori.get(i).getPv() > max) {
 					max = arraygiocatori.get(i).getPv();
 					idmax = i;
+
+					// Se ci sono due giocatori con gli stessi pv vince quello
+					// con più soldi
 				} else if (max == arraygiocatori.get(i).getPv()
 						&& arraygiocatori.get(i).getSoldi() > arraygiocatori
 								.get(idmax).getSoldi()) {
@@ -929,7 +960,7 @@ public class Partita {
 
 	/**
 	 * 
-	 * {Descrizione}
+	 * Reset delle scommesse di tutte le scuderie
 	 * 
 	 * @exceptions
 	 * 
