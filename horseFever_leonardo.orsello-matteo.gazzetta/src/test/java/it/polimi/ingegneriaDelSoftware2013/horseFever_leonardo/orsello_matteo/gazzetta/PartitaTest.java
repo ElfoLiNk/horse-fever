@@ -368,7 +368,10 @@ public class PartitaTest {
 		Partita partita = new Partita();
 		partita.setQuotazioni();
 		List<Scuderia> scuderie = new ArrayList<Scuderia>();
-
+		for (int i = 0; i < 6; i++) {
+			Scuderia scuderia = new Scuderia();
+			scuderie.add(scuderia);
+		}
 		scuderie.get(0).setQuotazione(2);
 		scuderie.get(0).setColore("Giallo");
 		scuderie.get(1).setQuotazione(3);
@@ -381,7 +384,7 @@ public class PartitaTest {
 		scuderie.get(4).setColore("Bianco");
 		scuderie.get(5).setQuotazione(7);
 		scuderie.get(5).setColore("Rosso");
-		
+
 		partita.setListascuderie(scuderie);
 
 		List<Scuderia> classifica = new ArrayList<Scuderia>();
