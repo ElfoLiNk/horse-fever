@@ -38,9 +38,8 @@ final class Read {
 				stringa = br.readLine();
 			} catch (IOException e) {
 				Write.write("Errore di flusso");
-			}
-			if(stringa == null){
-				throw new NullPointerException();
+			}catch(NullPointerException e){
+				Write.write("stringa == null");
 			}
 		} while (stringa.equals(""));
 		return (stringa);
@@ -91,9 +90,6 @@ final class Read {
 				Write.write("non hai inserito un carattere valido");
 				carattere = 'e';
 			}
-			if(stringa == null){
-				throw new NullPointerException();
-			}
 			if (stringa.length() > 1) {
 				carattere = 'e';
 			}
@@ -131,9 +127,6 @@ final class Read {
 			} catch (NumberFormatException e2) {
 				Write.write("non hai inserito un carattere valido");
 				carattere = 'e';
-			}
-			if(stringa == null){
-				throw new NullPointerException();
 			}
 			if (stringa.length() > 1) {
 				carattere = 'e';
