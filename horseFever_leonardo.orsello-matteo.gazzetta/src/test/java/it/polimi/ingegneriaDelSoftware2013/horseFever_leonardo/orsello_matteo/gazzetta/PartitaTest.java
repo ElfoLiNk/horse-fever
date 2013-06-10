@@ -1,23 +1,340 @@
-/**
- * 
- */
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
 import static org.junit.Assert.*;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author leonardo
- *
+ * {Descrizione}
+ * 
+ * 
+ * 
+ * @see
  */
 public class PartitaTest {
+
+	/**
+	 * {Descrizione}
+	 * 
+	 * @throws java.lang.Exception
+	 * @exceptions
+	 * 
+	 * @see
+	 */
+	@Before
+	public void setUp() throws Exception {
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#setListe()}
+	 * .
+	 */
+	@Test
+	public void testSetListe() {
+		Partita partita = new Partita();
+		try {
+			partita.setListe();
+		} catch (IOException e) {
+			fail("Mancano i file");
+		}
+		assertNotNull("", partita.getListapersonaggi());
+		assertNotNull("", partita.getListaazioni());
+		assertNotNull("", partita.getListacartemovimento());
+	}
+
+	/**
+	 * Test method for
+	 * {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#setSegnalini()}
+	 * .
+	 */
+	@Test
+	public void testSetSegnalini() {
+		Partita partita = new Partita();
+		partita.setScuderie();
+		partita.setNgiocatori(2);
+		partita.setSegnalini();
+		assertEquals("", 1, partita.getListascuderie().get(0).getSegnalino());
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#setScuderie()}
+	 * .
+	 */
+	@Test
+	public void testSetScuderie() {
+		Partita partita = new Partita();
+		partita.setScuderie();
+		assertNotNull("", partita.getListascuderie());
+	}
+
+	/**
+	 * Test method for
+	 * {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#setQuotazioni()}
+	 * .
+	 */
+	@Test
+	public void testSetQuotazioni() {
+		Partita partita = new Partita();
+		partita.setScuderie();
+		assertNotNull("", partita.getScuderie().get(0).getQuotazione());
+	}
+
+	/**
+	 * Test method for
+	 * {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#setCarteAzione()}
+	 * .
+	 */
+	@Test
+	public void testSetCarteAzione() {
+		Partita partita = new Partita();
+		try {
+			partita.setListe();
+		} catch (IOException e) {
+			fail("Mancano i file");
+		}
+		// Costruisco il giocatore
+		Giocatore player = new Giocatore();
+
+		// Seleziono la carta personaggio del player
+		Random rnd = new Random();
+		int tempint = rnd.nextInt(partita.getListapersonaggi().size());
+
+		// Assegno il nome della carta a interpreta del player
+		player.setInterpreta(partita.getListapersonaggi().get(tempint)
+				.getNome());
+
+		// Assegno i corrispondenti soldi al player
+		player.setSoldi(partita.getListapersonaggi().get(tempint).getSoldi());
+
+		// Assegno la corrispettiva Scuderia al player
+		player.setScuderia(partita.getListapersonaggi().get(tempint)
+				.getQuotazione(), partita.getScuderie());
+
+		// Aggiungo il player alla lista di giocatori
+		partita.getarraygiocatori().add(player);
+
+		// Elimino la carta giocatore dalla lista
+		partita.getListapersonaggi().remove(tempint);
+		partita.setCarteAzione();
+		assertNotNull("", partita.getarraygiocatori().get(0).getCarteAzione());
+	}
+
+	/**
+	 * Test method for
+	 * {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#randomPrimogiocatore()}
+	 * .
+	 */
+	@Test
+	public void testRandomPrimogiocatore() {
+		Partita partita = new Partita();
+		partita.randomPrimogiocatore();
+		assertNotNull("", partita.getprimogiocatore());
+	}
+
+	/**
+	 * Test method for
+	 * {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#movimento()}
+	 * .
+	 */
+	@Test
+	public void testMovimento() {
+		Partita partita = new Partita();
+		try {
+			partita.setListe();
+		} catch (IOException e) {
+			fail("Mancano i file");
+		}
+		partita.movimento();
+		for (Scuderia scuderia : partita.getListascuderie()) {
+			assertNotNull("", scuderia.getMovimento());
+		}
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#sprint()}
+	 * .
+	 */
+	@Test
+	public void testSprint() {
+		Partita partita = new Partita();
+		partita.setScuderie();
+		int sprint = 0;
+		partita.sprint();
+		for (Scuderia scuderia : partita.getListascuderie()) {
+			if (scuderia.getSprint() == 1) {
+				sprint++;
+			}
+		}
+		assertEquals("", 2, sprint);
+	}
+
+	/**
+	 * Test method for
+	 * {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#posizione()}
+	 * .
+	 */
+	@Test
+	public void testPosizione() {
+		Partita partita = new Partita();
+		try {
+			partita.setListe();
+		} catch (IOException e) {
+			fail("Mancano i file");
+		}
+		partita.movimento();
+		partita.setScuderie();
+		List<Scuderia> listascuderie = new ArrayList<Scuderia>();
+		listascuderie = partita.getListascuderie();
+
+		listascuderie.get(0).setMovimento(4);
+		listascuderie.get(0).setSprint(1);
+		listascuderie.get(1).setMovimento(12);
+		listascuderie.get(1).setSprint(1);
+
+		partita.posizione();
+		assertEquals("", 5, listascuderie.get(0).getPosizione());
+		assertEquals("", 13, listascuderie.get(1).getPosizione());
+		assertEquals("", true, listascuderie.get(1).isArrivato());
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#aggiornaprimogiocatore()}
+	 * .
+	 */
+	@Test
+	public void testAggiornaprimogiocatore() {
+		Partita partita = new Partita();
+		List<Giocatore> giocatori = new ArrayList<Giocatore>();
+		for (int i = 0; i < 6; i++) {
+			Giocatore player = new Giocatore();
+			giocatori.add(player);
+		}
+		partita.setArraygiocatori(giocatori);
+		partita.aggiornaprimogiocatore();
+		assertEquals("", 1, partita.getprimogiocatore());
+	}
+
+	/**
+	 * Test method for
+	 * {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#classifica(java.util.List)}
+	 * .
+	 */
+	@Test
+	public void testClassifica() {
+		Partita partita = new Partita();
+		List<Scuderia> arrivati = new ArrayList<Scuderia>();
+
+		for (int i = 0; i < 3; i++) {
+			Scuderia scuderia = new Scuderia();
+			arrivati.add(scuderia);
+		}
+		arrivati.get(0).setPosizione(14);
+		arrivati.get(0).setColore("PRIMO");
+		arrivati.get(1).setPosizione(12);
+		arrivati.get(1).setColore("TERZO");
+		arrivati.get(2).setPosizione(13);
+		arrivati.get(2).setColore("SECONDO");
+		partita.classifica(arrivati);
+		assertEquals("", "PRIMO", partita.getClassifica().get(0).getColore());
+		assertEquals("", "TERZO", partita.getClassifica().get(2).getColore());
+		assertEquals("", "SECONDO", partita.getClassifica().get(1).getColore());
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#checkFotofinish(java.util.List)}
+	 * .
+	 */
+	@Test
+	public void testCheckFotofinish() {
+		Partita partita = new Partita();
+		List<Scuderia> arrivati = new ArrayList<Scuderia>();
+
+		for (int i = 0; i < 2; i++) {
+			Scuderia scuderia = new Scuderia();
+			arrivati.add(scuderia);
+		}
+		arrivati.get(0).setPosizione(14);
+		arrivati.get(0).setColore("SECONDO");
+		arrivati.get(0).setQuotazione(4);
+		arrivati.get(1).setPosizione(14);
+		arrivati.get(1).setQuotazione(2);
+		arrivati.get(1).setColore("PRIMO");
+		partita.checkFotofinish(arrivati);
+		assertEquals("", "PRIMO", partita.getClassifica().get(0).getColore());
+		assertEquals("", "SECONDO", partita.getClassifica().get(1).getColore());
+
+		// TEST UGUALI QUOTAZIONI CON GIA ALCUNE SCUDERIE IN CLASSIFICA
+		Partita partita2 = new Partita();
+		List<Scuderia> fotofinish = new ArrayList<Scuderia>();
+
+		for (int i = 0; i < 2; i++) {
+			Scuderia scuderia = new Scuderia();
+			fotofinish.add(scuderia);
+		}
+		List<Scuderia> classifica = new ArrayList<Scuderia>();
+
+		for (int i = 0; i < 2; i++) {
+			Scuderia scuderia = new Scuderia();
+			classifica.add(scuderia);
+		}
+		partita2.setClassifica(classifica);
+		fotofinish.get(0).setPosizione(14);
+		fotofinish.get(0).setColore("SECONDO");
+		fotofinish.get(0).setQuotazione(4);
+		fotofinish.get(1).setPosizione(14);
+		fotofinish.get(1).setQuotazione(4);
+		fotofinish.get(1).setColore("PRIMO");
+		partita2.checkFotofinish(fotofinish);
+		assertEquals("", "SECONDO", partita2.getClassifica().get(2).getColore());
+		assertEquals("", "PRIMO", partita2.getClassifica().get(3).getColore());
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#trovaVincitore()}
+	 * .
+	 */
+	@Test
+	public void testTrovaVincitore() {
+		Partita partita = new Partita();
+		List<Giocatore> giocatori = new ArrayList<Giocatore>();
+
+		for (int i = 0; i < 2; i++) {
+			Giocatore giocatore = new Giocatore();
+			giocatori.add(giocatore);
+		}
+		giocatori.get(0).setPv(5);
+		giocatori.get(0).setNomeGiocatore("VINCE");
+		partita.setArraygiocatori(giocatori);
+		assertEquals("", "VINCE", partita.trovaVincitore());
+
+		giocatori.get(0).setPv(5);
+		giocatori.get(0).setSoldi(3000);
+		giocatori.get(0).setNomeGiocatore("VINCE");
+		giocatori.get(1).setPv(5);
+		giocatori.get(1).setSoldi(1991);
+		giocatori.get(1).setNomeGiocatore("PERDE");
+		partita.setArraygiocatori(giocatori);
+		assertEquals("", "VINCE", partita.trovaVincitore());
+
+	}
 
 	/**
 	 * Test method for {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#checkArrivati()}.
@@ -30,19 +347,11 @@ public class PartitaTest {
 			Giocatore giocatore = new Giocatore();
 			giocatore.setPv(4);
 			giocatore.setSoldi(12313);
-			giocatore.setnomegiocatore("prova");
+			giocatore.setNomeGiocatore("prova");
 			partita.getarraygiocatori().add(giocatore);
 		}
 
-		String[] colori = { "NERO", "BLU", "VERDE", "ROSSO", "GIALLO",
-		"BIANCO" };
-		for (int i = 0; i < Parametri.MAX_SCUDERIE; i++) {
-
-			Scuderia scuderia = new Scuderia();
-			partita.getScuderie().add(scuderia);
-			partita.getScuderie().get(i).setColore(colori[i]);
-
-		}
+		partita.setScuderie();
 		partita.getScuderie().get(3).setArrivato(false);
 
 		assertFalse(partita.checkArrivati());
@@ -52,212 +361,4 @@ public class PartitaTest {
 
 	}
 
-	/**
-	 * Test method for {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#movimento()}.
-	 * @throws IOException 
-	 */
-	@Test
-	public void testMovimento() throws IOException {
-
-		Partita partita = new Partita();
-
-		//creo scuderie con quotazioni dalla più bassa alla più alta
-		String[] colori = { "NERO", "BLU", "VERDE", "ROSSO", "GIALLO",
-		"BIANCO" };
-
-		for (int i = 0; i < Parametri.MAX_SCUDERIE; i++) {
-
-			Scuderia scuderia = new Scuderia();
-			partita.getScuderie().add(scuderia);
-			partita.getScuderie().get(i).setColore(colori[i]);
-			partita.getScuderie().get(i).setQuotazione(i+2);
-		}
-
-		//creo la lista delle carte movimento con una sola carta al suo interno
-		String filetxt = "cartemovimentoTest";
-		BufferedReader file = null;
-		String linea = null;
-		try {
-			file = new BufferedReader(new FileReader(filetxt));
-			linea = file.readLine();
-			partita.getlistacartemovimento().add(linea);
-		} catch (IOException e) {
-			Write.write("ERRORE: Lettura carte movimento");
-		}finally {
-
-			if (file != null) {
-				file.close();
-			}
-		}
-			partita.movimento();
-
-			int n;
-			for (int i = 0; i < Parametri.MAX_SCUDERIE; i++) {
-				n = partita.getScuderie().get(i).getMovimento();
-				assertEquals(Parametri.MAX_SCUDERIE-i,n);
-			}
-
-
-		}
-
-		/**
-		 * Test method for {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#sprint()}.
-		 *
-		 *creo le scuderie e dopo aver invocato il metodo sprint controllo che in 2
-		 *scuderie il valore sprint sia 1 */
-		@Test
-		public void testSprint() {
-			
-			Partita partita = new Partita();
-			
-			String[] colori = { "NERO", "BLU", "VERDE", "ROSSO", "GIALLO",
-			"BIANCO" };
-			
-			for (int i = 0; i < Parametri.MAX_SCUDERIE; i++) {
-				Scuderia scuderia = new Scuderia();
-				partita.getScuderie().add(scuderia);
-				partita.getScuderie().get(i).setColore(colori[i]);
-			}
-			
-			partita.sprint();
-			 
-			int n = 0;
-			
-			for (int i = 0; i < Parametri.MAX_SCUDERIE; i++) {
-				if(partita.getScuderie().get(i).getSprint() == 1)
-					n++;				
-			}
-			
-			assertEquals(2,n);
-			
-			partita.getarraygiocatori().clear();
-						
-		}
-
-		/**
-		 * Test method for {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#checkFotofinish(java.util.List)}.
-		 */
-		@Test
-		public void testCheckFotofinish() {
-			fail("Not yet implemented");
-		}
-
-		/**
-		 * Test method for {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#trovaVincitore()}.
-		 *
-		 *inizializzo un vettore di 6 giocatori, metto il primo e l'ultimo con lo stesso 
-		 *numero di punti vittoria ma l'ultimo ha più soldi.
-		 *deve vincere l'ultimo di nome pietro
-		 */
-		@Test
-		public void testTrovaVincitore() {
-
-			Partita partita = new Partita();
-			for(int i = 0; i<6; i++){
-				Giocatore giocatore = new Giocatore();
-				giocatore.setPv(4);
-				giocatore.setSoldi(12313);
-				giocatore.setnomegiocatore("prova");
-				partita.getarraygiocatori().add(giocatore);
-			}
-
-			partita.getarraygiocatori().get(0).setPv(6);
-			partita.getarraygiocatori().get(0).setSoldi(100);
-
-			partita.getarraygiocatori().get(5).setnomegiocatore("pietro");
-			partita.getarraygiocatori().get(5).setPv(6);
-			partita.getarraygiocatori().get(5).setSoldi(300);
-
-
-			String x = partita.trovaVincitore();
-
-			Assert.assertTrue(x.contains("pietro"));	
-
-			partita.getarraygiocatori().clear();
-
-		}
-
-		/**
-		 * Test method for {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#pagascuderie()}.
-		 */
-		@Test
-		public void testPagascuderie() {
-
-			Partita partita = new Partita();
-			for(int i = 0; i<6; i++){
-				Giocatore giocatore = new Giocatore();
-				giocatore.setPv(4);
-				giocatore.setSoldi(12313);
-				giocatore.setnomegiocatore("prova");
-				giocatore.setScuderia("lilla");
-				partita.getarraygiocatori().add(giocatore);
-			}
-
-			partita.getarraygiocatori().get(2).setScuderia("Giallo");
-			partita.getarraygiocatori().get(2).setSoldi(0);
-			partita.getarraygiocatori().get(3).setScuderia("Verde");
-			partita.getarraygiocatori().get(3).setSoldi(0);
-			partita.getarraygiocatori().get(4).setScuderia("Blu");
-			partita.getarraygiocatori().get(4).setSoldi(0);
-
-			Scuderia giallo = new Scuderia();
-			giallo.setColore("Giallo");
-			partita.getclassifica().add(giallo);
-
-			Scuderia verde = new Scuderia();
-			verde.setColore("Verde");
-			partita.getclassifica().add(verde);
-
-			Scuderia blu = new Scuderia();
-			blu.setColore("Blu");
-			partita.getclassifica().add(blu);
-
-			partita.pagascuderie();
-
-			assertEquals(600, partita.getarraygiocatori().get(2).getSoldi());
-			assertEquals(400, partita.getarraygiocatori().get(3).getSoldi());
-			assertEquals(200, partita.getarraygiocatori().get(4).getSoldi());
-
-			partita.getarraygiocatori().clear();
-			partita.getclassifica().clear();
-		}
-
-		/**
-		 * Test method for {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#corsa()}.
-		 */
-		@Test
-		public void testCorsa() {
-			fail("Not yet implemented");
-		}
-
-		/**
-		 * Test method for {@link it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta.Partita#checkeliminato()}.
-		 *
-		 *inizializza il vettore giocatori settanto il primo e l'ultimo in modo tale
-		 *da essere eliminati
-		 */
-		@Test
-		public void testCheckeliminato() {
-			Partita partita = new Partita();
-			for(int i = 0; i<6; i++){
-				Giocatore giocatore = new Giocatore();
-				giocatore.setPv(4);
-				giocatore.setSoldi(12313);
-				giocatore.setnomegiocatore("prova");
-				partita.getarraygiocatori().add(giocatore);
-			}
-
-			partita.getarraygiocatori().get(0).setPv(1);
-			partita.getarraygiocatori().get(0).setSoldi(0);
-
-			partita.getarraygiocatori().get(5).setPv(2);
-			partita.getarraygiocatori().get(5).setSoldi(100);
-
-			partita.checkeliminato();
-			assertEquals("devo avere 4", 4, partita.getarraygiocatori().size());
-
-			partita.getarraygiocatori().clear();
-
-		}
-
-	}
+}
