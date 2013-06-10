@@ -1037,7 +1037,7 @@ public class Partita {
 	 * 
 	 * @see
 	 */
-	private void pagascuderie() {
+	public void pagascuderie() {
 		for (Giocatore player : arraygiocatori) {
 			if (player.getScuderia().equals(classifica.get(0).getColore())) {
 				player.setSoldi(player.getSoldi()
@@ -1175,7 +1175,7 @@ public class Partita {
 	 * 
 	 * @see
 	 */
-	private void checkeliminato() {
+	public void checkeliminato() {
 		// Ciclo tutti i giocatori
 		for (int i = 0; i < arraygiocatori.size(); i++) {
 
