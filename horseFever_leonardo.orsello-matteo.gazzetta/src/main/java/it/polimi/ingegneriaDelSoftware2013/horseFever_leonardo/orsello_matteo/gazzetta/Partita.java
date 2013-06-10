@@ -23,9 +23,9 @@ public class Partita {
 	/**
 	 * Liste delle carte del mazzo
 	 */
-	private List<CartePersonaggio> listapersonaggi;
+	private List<CartePersonaggio> listapersonaggi = null;
 	private List<CarteAzione> listaazioni;
-	private List<String> listacartemovimento;
+	private List<String> listacartemovimento = null;
 
 	private int turni = 0;
 	private int ngiocatori = 0;
@@ -406,8 +406,6 @@ public class Partita {
 	 * 
 	 * @return true se sono tutte arrivate, false se non sono ancora tutte
 	 *         arrivate
-	 * @exceptions
-	 * 
 	 * @see
 	 */
 	public boolean checkArrivati() {
@@ -422,6 +420,7 @@ public class Partita {
 		} else {
 			return false;
 		}
+
 	}
 
 	/**
@@ -501,7 +500,7 @@ public class Partita {
 		listascuderie.get(i).setSprint(1);
 		if (i != j) {
 			listascuderie.get(j).setSprint(1);
-		}else{
+		} else {
 			listascuderie.get(i).setSprint(-1);
 			sprint();
 		}
@@ -855,7 +854,8 @@ public class Partita {
 	}
 
 	/**
-	 * @param classifica the classifica to set
+	 * @param classifica
+	 *            the classifica to set
 	 */
 	public void setClassifica(List<Scuderia> classifica) {
 		this.classifica = classifica;
@@ -897,12 +897,11 @@ public class Partita {
 						idmax = i;
 					} else if (fotofinish.get(i).getQuotazione() == max) {
 						if (classifica.size() > 0) {
-							classifica.add(i+ classifica.size() - 1,
+							classifica.add(i + classifica.size() - 1,
 									fotofinish.get(i));
 							fotofinish.remove(i);
 						} else {
-							classifica.add(i -1,
-									fotofinish.get(i));
+							classifica.add(i - 1, fotofinish.get(i));
 							fotofinish.remove(i);
 						}
 					}
@@ -969,7 +968,8 @@ public class Partita {
 			}
 		} while (turno < turni);
 		String vincitore = trovaVincitore();
-		Write.write("\nVince il giocatore: " + vincitore.toUpperCase(Locale.getDefault()));
+		Write.write("\nVince il giocatore: "
+				+ vincitore.toUpperCase(Locale.getDefault()));
 
 	}
 
@@ -1183,11 +1183,13 @@ public class Partita {
 			int soldi = arraygiocatori.get(i).getSoldi();
 			if (pv <= 2 && soldi < pv * Parametri.MIN_SCOMMESSA) {
 				Write.write("\nIl giocatore "
-						+ arraygiocatori.get(i).getNome().toUpperCase(Locale.getDefault())
+						+ arraygiocatori.get(i).getNome()
+								.toUpperCase(Locale.getDefault())
 						+ " non ha né abbastanza soldi né abbastanza punti vittoria"
 						+ " per proseguire la partita, pertento è eliminato"
 						+ "\nCIAO CIAO "
-						+ arraygiocatori.get(i).getNome().toUpperCase(Locale.getDefault()));
+						+ arraygiocatori.get(i).getNome()
+								.toUpperCase(Locale.getDefault()));
 				arraygiocatori.remove(i);
 				ngiocatori--;
 				i--;

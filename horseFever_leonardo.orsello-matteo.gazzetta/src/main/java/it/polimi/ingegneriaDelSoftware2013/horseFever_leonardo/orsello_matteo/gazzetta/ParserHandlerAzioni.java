@@ -12,11 +12,9 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * 
- * {Descrizione}
+ * Parser Handler delle Carte Azione
  *
- *
- *
- * @see
+ * @see CarteAzione XmlReader
  */
 public class ParserHandlerAzioni extends DefaultHandler {
 	// Lista da popolare mentre faccio il parsing del file XML
@@ -65,7 +63,8 @@ public class ParserHandlerAzioni extends DefaultHandler {
 			throws SAXException {
 		String stringa = new String(ch, start, length).trim();
 		if (stringa.length() == 0) {
-			return; // Ignoro gli spazi bianchi
+			return; 
+			// Ignoro gli spazi bianchi
 		}
 
 		// Gestisco il valore in base a quale elemento appartiene
@@ -101,7 +100,7 @@ public class ParserHandlerAzioni extends DefaultHandler {
 	 *
 	 * @return cartaList
 
-	 * @see
+	 * @see CartaAzione
 	 */
 	public List<CarteAzione> getCarte() {
 		return cartaList;
