@@ -6,6 +6,7 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -62,6 +63,66 @@ public class Partita {
 		// Creazione mazzo Movimento
 		listacartemovimento = CarteMovimento.setMovimento();
 
+	}
+
+	/**
+	 * @return the listapersonaggi
+	 */
+	public List<CartePersonaggio> getListapersonaggi() {
+		return listapersonaggi;
+	}
+
+	/**
+	 * @param listapersonaggi
+	 *            the listapersonaggi to set
+	 */
+	public void setListapersonaggi(List<CartePersonaggio> listapersonaggi) {
+		this.listapersonaggi = listapersonaggi;
+	}
+
+	/**
+	 * @return the listacartemovimento
+	 */
+	public List<String> getListacartemovimento() {
+		return listacartemovimento;
+	}
+
+	/**
+	 * @param listacartemovimento
+	 *            the listacartemovimento to set
+	 */
+	public void setListacartemovimento(List<String> listacartemovimento) {
+		this.listacartemovimento = listacartemovimento;
+	}
+
+	/**
+	 * @return the listascuderie
+	 */
+	public List<Scuderia> getListascuderie() {
+		return listascuderie;
+	}
+
+	/**
+	 * @param listascuderie
+	 *            the listascuderie to set
+	 */
+	public void setListascuderie(List<Scuderia> listascuderie) {
+		this.listascuderie = listascuderie;
+	}
+
+	/**
+	 * @return the ngiocatori
+	 */
+	public int getNgiocatori() {
+		return ngiocatori;
+	}
+
+	/**
+	 * @param ngiocatori
+	 *            the ngiocatori to set
+	 */
+	public void setNgiocatori(int ngiocatori) {
+		this.ngiocatori = ngiocatori;
 	}
 
 	/**
@@ -143,24 +204,40 @@ public class Partita {
 		for (int i = 0; i < ngiocatori; i++) {
 			// Costruisco il giocatore
 			Giocatore player = new Giocatore();
+			int valid;
 
-			// Chiedo a terminale il nome del player
-			player.setNome(i + 1);
+			do {
+				valid = 1;
 
-			// Seleziono la carta personaggio del player
-			Random rnd = new Random();
-			tempint = rnd.nextInt(listapersonaggi.size());
+				// Chiedo a terminale il nome del player
+				player.setNome(i + 1);
 
-			// Assegno il nome della carta a interpreta del player
-			player.setInterpreta(listapersonaggi.get(tempint).getNome());
+				// Seleziono la carta personaggio del player
+				Random rnd = new Random();
+				tempint = rnd.nextInt(listapersonaggi.size());
 
-			// Assegno i corrispondenti soldi al player
-			player.setSoldi(listapersonaggi.get(tempint).getSoldi());
+				// Assegno il nome della carta a interpreta del player
+				player.setInterpreta(listapersonaggi.get(tempint).getNome());
 
-			// Assegno la corrispettiva Scuderia al player
-			player.setScuderia(listapersonaggi.get(tempint).getQuotazione(),
-					listascuderie);
+				// Assegno i corrispondenti soldi al player
+				player.setSoldi(listapersonaggi.get(tempint).getSoldi());
 
+				// Assegno la corrispettiva Scuderia al player
+				player.setScuderia(
+						listapersonaggi.get(tempint).getQuotazione(),
+						listascuderie);
+
+				for (int n = 0; n < arraygiocatori.size(); n++) {
+					// Controllo se il nome è gia stato scelto
+					if (player.getNome()
+							.equals(arraygiocatori.get(n).getNome())) {
+						valid = 0;
+						Write.write("esiste già un altro giocatore con questo nome, cambia nome");
+						break;
+					}
+				}
+
+			} while (valid == 0);
 			// Aggiungo il player alla lista di giocatori
 			arraygiocatori.add(player);
 
@@ -333,7 +410,7 @@ public class Partita {
 	 * 
 	 * @see
 	 */
-	private boolean checkArrivati() {
+	public boolean checkArrivati() {
 		int arrivate = 0;
 		for (Scuderia scuderia : listascuderie) {
 			if (scuderia.isArrivato()) {
@@ -439,11 +516,14 @@ public class Partita {
 	 */
 	public void posizione() {
 		for (int i = 0; i < listascuderie.size(); i++) {
+			// Controllo se la scuderia è arrivata
 			if (!listascuderie.get(i).isArrivato()) {
-
+				// Applico il movimento
 				listascuderie.get(i).setPosizione(
 						listascuderie.get(i).getPosizione()
 								+ listascuderie.get(i).getMovimento());
+
+				// Controllo se deve fare lo sprint
 				if (listascuderie.get(i).getSprint() > 0) {
 					listascuderie.get(i).setPosizione(
 							listascuderie.get(i).getPosizione()
@@ -453,9 +533,14 @@ public class Partita {
 				}
 
 			}
+			// Controllo se ha superato il traguardo
 			if (listascuderie.get(i).getPosizione() >= Parametri.TRAGUARDO) {
+				// Imposto Arrivato = TRUE
 				listascuderie.get(i).setArrivato(true);
+				// Applico le carte Azione del traguardo
 				listascuderie.get(i).carteAzioneTraguardo();
+				// Se è arrivato e non è ancora nella classifica lo aggiungo
+				// agli lista degli arrivati
 				if (listascuderie.get(i).isArrivato()
 						&& !classifica.contains(listascuderie.get(i))) {
 					arrivati.add(listascuderie.get(i));
@@ -463,6 +548,7 @@ public class Partita {
 
 			}
 
+			// DEBUG
 			Write.write(listascuderie.get(i).getColore() + " : "
 					+ listascuderie.get(i).getPosizione() + " Arrivato  "
 					+ listascuderie.get(i).isArrivato()
@@ -515,7 +601,7 @@ public class Partita {
 			// giocatore e la aggiungo alla lista delle scommesse della scuderia
 			// scelta
 			Scommessa scommessa = new Scommessa();
-			scommessa.setNomegiocatore(arraygiocatori.get(i).getNome());
+			scommessa.setNomeGiocatore(arraygiocatori.get(i).getNome());
 			listascuderie.get(s).getscommessa().add(scommessa);
 
 			// Effettuo la scommessa chiedendo i soldi al giocatore
@@ -554,8 +640,8 @@ public class Partita {
 
 				// Controllo se ha abbastanza soldi per fare una seconda
 				// scommessa
-				if (arraygiocatori.get(i).getPv() * Parametri.MIN_SCOMMESSA > arraygiocatori.get(i)
-						.getSoldi()) {
+				if (arraygiocatori.get(i).getPv() * Parametri.MIN_SCOMMESSA > arraygiocatori
+						.get(i).getSoldi()) {
 					valido = 0;
 					Write.write("Il giocatore non ha abbastanza danari per effettuare la scommessa minima, non puoi effettuare la seconda scommessa!");
 				}
@@ -603,8 +689,8 @@ public class Partita {
 				Write.write("Tocca al " + arraygiocatori.get(i).toString());
 
 				// Verifico la validità della scommessa minima
-				if (arraygiocatori.get(i).getPv() * 100 > arraygiocatori.get(i)
-						.getSoldi()) {
+				if (arraygiocatori.get(i).getPv() * Parametri.MIN_SCOMMESSA > arraygiocatori
+						.get(i).getSoldi()) {
 					Write.write("Il giocatore non ha abbastanza danari per effettuare la scommessa"
 							+ " minima, pertanto perde 2 punti vittoria!");
 					// Imposto la scommessa come non valida
@@ -759,6 +845,20 @@ public class Partita {
 	}
 
 	/**
+	 * @return the classifica
+	 */
+	public List<Scuderia> getClassifica() {
+		return classifica;
+	}
+
+	/**
+	 * @param classifica the classifica to set
+	 */
+	public void setClassifica(List<Scuderia> classifica) {
+		this.classifica = classifica;
+	}
+
+	/**
 	 * 
 	 * Imposto chi vince il fotofinish, confrontando le quotazioni e
 	 * controllando se gli è stata applicata una carta azione che modifica il
@@ -793,9 +893,15 @@ public class Partita {
 						max = fotofinish.get(i).getQuotazione();
 						idmax = i;
 					} else if (fotofinish.get(i).getQuotazione() == max) {
-						classifica
-								.add(classifica.size() + i, fotofinish.get(i));
-						fotofinish.remove(i);
+						if (classifica.size() > 0) {
+							classifica.add(i+ classifica.size() - 1,
+									fotofinish.get(i));
+							fotofinish.remove(i);
+						} else {
+							classifica.add(i -1,
+									fotofinish.get(i));
+							fotofinish.remove(i);
+						}
 					}
 				}
 				if (classifica.size() > 0) {
@@ -860,7 +966,7 @@ public class Partita {
 			}
 		} while (turno < turni);
 		String vincitore = trovaVincitore();
-		Write.write("\nVince il giocatore: " + vincitore.toUpperCase());
+		Write.write("\nVince il giocatore: " + vincitore.toUpperCase(Locale.getDefault()));
 
 	}
 
@@ -931,13 +1037,16 @@ public class Partita {
 	private void pagascuderie() {
 		for (Giocatore player : arraygiocatori) {
 			if (player.getScuderia().equals(classifica.get(0).getColore())) {
-				player.setSoldi(player.getSoldi() + Parametri.SOLDI_PRIMA_SCUDERIA);
+				player.setSoldi(player.getSoldi()
+						+ Parametri.SOLDI_PRIMA_SCUDERIA);
 			}
 			if (player.getScuderia().equals(classifica.get(1).getColore())) {
-				player.setSoldi(player.getSoldi() + Parametri.SOLDI_SECONDA_SCUDERIA);
+				player.setSoldi(player.getSoldi()
+						+ Parametri.SOLDI_SECONDA_SCUDERIA);
 			}
 			if (player.getScuderia().equals(classifica.get(2).getColore())) {
-				player.setSoldi(player.getSoldi() + Parametri.SOLDI_TERZA_SCUDERIA);
+				player.setSoldi(player.getSoldi()
+						+ Parametri.SOLDI_TERZA_SCUDERIA);
 			}
 		}
 
@@ -1018,7 +1127,7 @@ public class Partita {
 	private void leaderboard() {
 		Write.write("\nCLASSIFICA GIOCATORI\n");
 		for (Giocatore player : arraygiocatori) {
-			Write.write(player.getNome().toUpperCase() + " "
+			Write.write(player.getNome().toUpperCase(Locale.getDefault()) + " "
 					+ player.getScuderia() + " " + player.getSoldi() + " "
 					+ player.getPv());
 		}
@@ -1071,11 +1180,11 @@ public class Partita {
 			int soldi = arraygiocatori.get(i).getSoldi();
 			if (pv <= 2 && soldi < pv * Parametri.MIN_SCOMMESSA) {
 				Write.write("\nIl giocatore "
-						+ arraygiocatori.get(i).getNome().toUpperCase()
+						+ arraygiocatori.get(i).getNome().toUpperCase(Locale.getDefault())
 						+ " non ha né abbastanza soldi né abbastanza punti vittoria"
 						+ " per proseguire la partita, pertento è eliminato"
 						+ "\nCIAO CIAO "
-						+ arraygiocatori.get(i).getNome().toUpperCase());
+						+ arraygiocatori.get(i).getNome().toUpperCase(Locale.getDefault()));
 				arraygiocatori.remove(i);
 				ngiocatori--;
 				i--;

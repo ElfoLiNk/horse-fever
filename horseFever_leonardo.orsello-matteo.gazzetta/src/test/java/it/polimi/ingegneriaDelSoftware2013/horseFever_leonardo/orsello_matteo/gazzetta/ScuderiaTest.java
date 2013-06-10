@@ -52,7 +52,7 @@ public class ScuderiaTest {
 		Scommessa scommessa = new Scommessa();
 		scommessa.setSoldi(1000);
 		scommessa.setTiposcommessa(vincente);
-		scommessa.setNomegiocatore("vincente");
+		scommessa.setNomeGiocatore("vincente");
 		scommesse.add(scommessa);
 
 		// Giocatore vincente
@@ -78,7 +78,7 @@ public class ScuderiaTest {
 		Scommessa Spiazzata = new Scommessa();
 		Spiazzata.setSoldi(1000);
 		Spiazzata.setTiposcommessa(piazzata);
-		Spiazzata.setNomegiocatore("piazzata");
+		Spiazzata.setNomeGiocatore("piazzata");
 		scommesse.add(Spiazzata);
 
 		// Giocatore piazzato
