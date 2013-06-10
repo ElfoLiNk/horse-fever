@@ -124,7 +124,7 @@ public class Scuderia {
 		Scommessa.Tiposcommessa tiposcommessatemp;
 
 		int i = scommessa.size() - 1;
-		String nomegiocatore = scommessa.get(i).getNomegiocatore();
+		String nomegiocatore = scommessa.get(i).getNomeGiocatore();
 		int soldigiocatore = Partita.getarraygiocatori().get(tocca).getSoldi();
 		int pvgiocatore = Partita.getarraygiocatori().get(tocca).getPv();
 		int soldiscommessa;
@@ -163,7 +163,7 @@ public class Scuderia {
 		// scommessa
 		tiposcommessatemp = scommessa.get(i).getTiposcommessa();
 		for (int a = 0; a < i; a++) {
-			if (nomegiocatore.equals(scommessa.get(a).getNomegiocatore())
+			if (nomegiocatore.equals(scommessa.get(a).getNomeGiocatore())
 					&& tiposcommessatemp == scommessa.get(a).getTiposcommessa()) {
 				Write.write("\nQuesta scommessa è già stata effettuata, non è possibile ripeterela stessa scommessa."
 						+ "\nE' possibile fare due scommesse sulla stessa scuderia, ma bisogna modificare il tipo di scommessa");
@@ -207,7 +207,7 @@ public class Scuderia {
 			for (int z = 0; z < Partita.getarraygiocatori().size(); z++) {
 				// Verifico che il giocatore sia lo stesso che ha effettuato la
 				// scommessa
-				if (scommessa.get(a).getNomegiocatore()
+				if (scommessa.get(a).getNomeGiocatore()
 						.equals(Partita.getarraygiocatori().get(z).getNome())) {
 
 					// Pago le scommesse vincenti
