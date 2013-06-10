@@ -501,6 +501,9 @@ public class Partita {
 		listascuderie.get(i).setSprint(1);
 		if (i != j) {
 			listascuderie.get(j).setSprint(1);
+		}else{
+			listascuderie.get(i).setSprint(-1);
+			sprint();
 		}
 	}
 
