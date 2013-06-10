@@ -6,6 +6,7 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ final class Read {
 	}
 
 	private static BufferedReader br = new BufferedReader(
-			new InputStreamReader(System.in));;
+			new InputStreamReader(System.in, Charset.defaultCharset()));;
 	private static String stringa = "temp";
 	private static int intero;
 	private static char carattere;
@@ -37,6 +38,9 @@ final class Read {
 				stringa = br.readLine();
 			} catch (IOException e) {
 				Write.write("Errore di flusso");
+			}
+			if(stringa == null){
+				throw new NullPointerException();
 			}
 		} while (stringa.equals(""));
 		return (stringa);
@@ -87,6 +91,9 @@ final class Read {
 				Write.write("non hai inserito un carattere valido");
 				carattere = 'e';
 			}
+			if(stringa == null){
+				throw new NullPointerException();
+			}
 			if (stringa.length() > 1) {
 				carattere = 'e';
 			}
@@ -124,6 +131,9 @@ final class Read {
 			} catch (NumberFormatException e2) {
 				Write.write("non hai inserito un carattere valido");
 				carattere = 'e';
+			}
+			if(stringa == null){
+				throw new NullPointerException();
 			}
 			if (stringa.length() > 1) {
 				carattere = 'e';

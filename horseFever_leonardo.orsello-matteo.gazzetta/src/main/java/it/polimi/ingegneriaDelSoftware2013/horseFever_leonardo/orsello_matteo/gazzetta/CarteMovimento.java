@@ -6,6 +6,8 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class CarteMovimento {
 	 * Legge un file txt contenente le carte movimento e le salva in una lista
 	 * 
 	 * @return la lista delle carte movimento
-	 * @throws IOException 
+	 * @throws IOException
 	 * @exceptions IOException
 	 * 
 	 * @see

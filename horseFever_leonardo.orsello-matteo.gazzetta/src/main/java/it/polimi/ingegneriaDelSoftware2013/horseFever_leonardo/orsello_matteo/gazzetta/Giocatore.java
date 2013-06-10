@@ -5,6 +5,7 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 
@@ -23,12 +24,12 @@ public class Giocatore {
 	 */
 	@Override
 	public String toString() {
-		return "Giocatore " + nome.toUpperCase() + " | ( " + interpreta
+		return "Giocatore " + nome.toUpperCase(Locale.getDefault() ) + " | ( " + interpreta
 				+ " ) | Soldi: " + soldi + " | Scuderia: " + scuderia
 				+ " | PV: " + pv;
 	}
 
-	private String nome;
+	private String nome = null;
 	private String interpreta;
 	private int pv = 1;
 	private int soldi = 0;
