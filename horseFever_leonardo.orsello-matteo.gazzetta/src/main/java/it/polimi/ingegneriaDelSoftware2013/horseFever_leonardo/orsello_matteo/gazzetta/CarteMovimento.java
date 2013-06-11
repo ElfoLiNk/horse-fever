@@ -4,8 +4,10 @@
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,8 @@ public class CarteMovimento {
 		BufferedReader file = null;
 		try {
 
-			file = new BufferedReader(new FileReader(filetxt));
+			file = new BufferedReader(new InputStreamReader(
+					new FileInputStream(filetxt), Charset.defaultCharset()));
 
 			// Leggo una linea dal file
 			String linea = file.readLine();

@@ -21,7 +21,7 @@ final class Read {
 			new InputStreamReader(System.in, Charset.defaultCharset()));;
 	private static String stringa = "temp";
 	private static int intero;
-	private static char carattere;
+	private static char carattere = "e".charAt(0);
 
 	/**
 	 * 
@@ -38,8 +38,6 @@ final class Read {
 				stringa = br.readLine();
 			} catch (IOException e) {
 				Write.write("Errore di flusso");
-			}catch(NullPointerException e){
-				Write.write("stringa == null");
 			}
 		} while (stringa.equals(""));
 		return (stringa);
@@ -81,22 +79,13 @@ final class Read {
 			Write.write("Che tipo di scommessa vuoi giocare?\n"
 					+ "Digita v per vincente\n" + "       p per piazzato");
 
-			try {
-				stringa = br.readLine();
-			} catch (IOException e1) {
-				Write.write("errore di flusso");
-				carattere = 'e';
-			} catch (NumberFormatException e2) {
-				Write.write("non hai inserito un carattere valido");
-				carattere = 'e';
-			}
-			if (stringa.length() > 1) {
-				carattere = 'e';
-			}
-			if (stringa.length() < 1) {
-				carattere = 'e';
-			} else {
-				carattere = stringa.charAt(0);
+			stringa = readString();
+			if (stringa != null) {
+				if (stringa.length() > 1) {
+					carattere = 'e';
+				} else {
+					carattere = stringa.charAt(0);
+				}
 			}
 			if (carattere != 'v' && carattere != 'p') {
 				Write.write("hai sbagliato a digitare, riprova");
@@ -119,19 +108,8 @@ final class Read {
 		do {
 			Write.write("\nIl secondo giro di scommesse è facoltativo, vuoi piazzare "
 					+ "una scommessa?\ndigita:\ns per scommettere\nn per saltare la scommmessa");
-			try {
-				stringa = br.readLine();
-			} catch (IOException e1) {
-				Write.write("errore di flusso");
-				carattere = 'e';
-			} catch (NumberFormatException e2) {
-				Write.write("non hai inserito un carattere valido");
-				carattere = 'e';
-			}
+			stringa = readString();
 			if (stringa.length() > 1) {
-				carattere = 'e';
-			}
-			if (stringa.length() < 1) {
 				carattere = 'e';
 			} else {
 				carattere = stringa.charAt(0);
@@ -146,10 +124,9 @@ final class Read {
 	/**
 	 * Chiede al giocatore su che scuderia vuole scommettere
 	 * 
+	 * @param listascuderie la lista delle scuderie della partita
 	 * @return s l'indice della scuderia scelta nella lista
-	 * @exceptions
-	 * 
-	 * @see
+	 * @see Scuderie
 	 */
 	public static int readScuderiaScommessa(List<Scuderia> listascuderie) {
 		int s;
@@ -168,6 +145,27 @@ final class Read {
 		} while (s < 0 || s > listascuderie.size() - 1);
 
 		return s;
+	}
+	/**
+	 * 
+	 * Chiede al giocatore quale carte azione vuole giocare
+	 *
+	 * @param carteplayer le carte del giocatore attuale
+	 * @return k la carta scelta
+	 * @see CarteAzione
+	 */
+	public static int readCartaAzione(List<CarteAzione> carteplayer) {
+		// Print carte azione del player
+		for (int j = 0; j < carteplayer.size(); j++) {
+			Write.write(j + ") " + carteplayer.get(j).toString());
+		}
+		// Scelta Carta
+		int k = -1;
+		do {
+			Write.write("Seleziona la Carta Azione da giocare: ");
+			k = Read.readInt();
+		} while (k < 0 || k > carteplayer.size() - 1);
+		return k;
 	}
 
 }

@@ -24,7 +24,10 @@ public class ParserHandlerAzioni extends DefaultHandler {
 	// Quando finisco un blocco XML faccio una push della CartaAzione in questo
 	// Stack
 	private Stack<CarteAzione> oggettoStack = new Stack<CarteAzione>();
-
+	
+	/**
+	 *  Creo la carta
+	 */
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
 		// Push nello stack degli elementi
@@ -43,6 +46,9 @@ public class ParserHandlerAzioni extends DefaultHandler {
 		}
 	}
 
+	/**
+	 *  Chiudo la carta
+	 */
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
 		// Rimuovo l'ultima </carta> aggiunta
