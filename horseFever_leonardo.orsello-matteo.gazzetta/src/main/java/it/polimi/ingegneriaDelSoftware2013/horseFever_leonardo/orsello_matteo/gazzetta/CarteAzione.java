@@ -88,6 +88,7 @@ public class CarteAzione {
 			if (carte != null) {
 				// Controllo tutte le carte della scuderia
 				for (int j = 0; j < carte.size(); j++) {
+					// Analizzo solo le carte azione che influiscono la partenza
 					if (carte.get(j).getAgisce().equals("Partenza")) {
 						if (carte.get(j).getEffetto() < 0
 								&& listascuderie.get(i).getMovimento() > 0) {
@@ -138,13 +139,18 @@ public class CarteAzione {
 
 			// Controllo tutte le carte della scuderia
 			for (int j = 0; j < carte.size(); j++) {
+				// Analizzo solo le carte azione che influiscono il movimento
 				if (carte.get(j).getAgisce().equals("Movimento")) {
+					// Se la scuderia è ultima
 					if (carte.get(j).getEffetto() == Parametri.QUATTRO
 							&& listascuderie.get(i).isUltimo()) {
+						// Si muove di 4
 						listascuderie.get(i).setMovimento(Parametri.QUATTRO);
 					}
+					// Se la scuderia è prima
 					if (carte.get(j).getEffetto() == 0
 							&& listascuderie.get(i).isPrimo()) {
+						// Non si muove
 						listascuderie.get(i).setMovimento(0);
 					}
 				}
@@ -172,6 +178,7 @@ public class CarteAzione {
 
 			// Controllo tutte le carte della scuderia
 			for (int j = 0; j < carte.size(); j++) {
+				// Analizzo solo le carte azione che influiscono lo sprint
 				if (carte.get(j).getAgisce().equals("Sprint")) {
 					if (carte.get(j).getEffetto() == -1
 							&& listascuderie.get(i).getSprint() > 0) {
@@ -223,6 +230,7 @@ public class CarteAzione {
 
 			// Controllo tutte le carte della scuderia
 			for (int j = 0; j < carte.size(); j++) {
+				// Analizzo solo le carte azione che influiscono il fotofinish
 				if (carte.get(j).getAgisce().equals("Fotofinish")) {
 					if (carte.get(j).getEffetto() == 0) {
 						listascuderie.get(i).setFotofinish(0);
@@ -256,6 +264,7 @@ public class CarteAzione {
 
 			// Controllo tutte le carte della scuderia
 			for (int j = 0; j < carte.size(); j++) {
+				// Analizzo solo le carte azione che influiscono le quotazioni
 				if (carte.get(j).getAgisce().equals("Quotazione")) {
 					if (carte.get(j).getEffetto() > 0
 							&& listascuderie.get(i).getQuotazione() > carte
