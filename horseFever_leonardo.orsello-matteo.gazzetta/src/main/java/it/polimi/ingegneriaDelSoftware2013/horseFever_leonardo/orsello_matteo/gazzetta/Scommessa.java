@@ -11,7 +11,10 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 public class Scommessa {
 	private String nomegiocatore;
 	private int soldi = 0;
-
+	
+	/**
+	 *  Tipo della scommessa
+	 */
 	public enum Tiposcommessa {
 		PIAZZATO, VINCENTE
 	};

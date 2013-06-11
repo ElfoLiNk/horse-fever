@@ -361,16 +361,8 @@ public class Partita {
 						.getCarteAzione();
 				Write.write("\n" + arraygiocatori.get(i).toString()
 						+ "\nScegli la carta azione da giocare:");
-				// Print carte azione del player
-				for (int j = 0; j < carteplayer.size(); j++) {
-					Write.write(j + ") " + carteplayer.get(j).toString());
-				}
-				// Scelta Carta
-				int k = -1;
-				do {
-					Write.write("Seleziona la Carta Azione da giocare: ");
-					k = Read.readInt();
-				} while (k < 0 || k > carteplayer.size() - 1);
+				// Scelta Carta Azione
+				int k = Read.readCartaAzione(carteplayer);
 				// Scelta Scuderia
 				Write.write("A quale corsia vuoi applicarla?");
 				for (int n = 0; n < listascuderie.size(); n++) {
@@ -625,9 +617,9 @@ public class Partita {
 	 * @see
 	 */
 	public void secondaScommessa() {
-
 		char chartemp = 's';
 
+		// Ciclo i giocatori in senso anti orario
 		boolean finisco = true;
 		for (int i = primogiocatore - 1; i > -1 && finisco; i--) {
 			Write.write("Tocca al " + arraygiocatori.get(i).toString());
@@ -636,6 +628,9 @@ public class Partita {
 			if (arraygiocatori.get(i).getSalta() == 1) {
 				Write.write("Il giocatore al primo giro di scommesse ha perso dei punti vittoria"
 						+ " pertanto salta anche il secondo giro di scommessa");
+				// Resetto salta del giocatore che ha saltato la scommessa
+				arraygiocatori.get(i).setSalta(0);
+
 			} else {
 
 				int valido = 1;
@@ -657,10 +652,6 @@ public class Partita {
 						sceltaScuderiaScommessa(i);
 					}
 				}
-			}
-			// Resetto salta del giocatore che ha saltato la scommessa
-			if (arraygiocatori.get(i).getSalta() == 1) {
-				arraygiocatori.get(i).setSalta(0);
 			}
 
 			// Check per ciclare tutti i giocatori in senso anti orario

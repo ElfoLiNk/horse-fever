@@ -28,6 +28,9 @@ public class ParserHandlerPersonaggi extends DefaultHandler {
 	// Stack
 	private Stack<CartePersonaggio> oggettoStack = new Stack<CartePersonaggio>();
 
+	/**
+	 *  Creo la carta
+	 */
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
 		// Push nello stack degli elementi
@@ -47,6 +50,9 @@ public class ParserHandlerPersonaggi extends DefaultHandler {
 		}
 	}
 
+	/**
+	 *  Chiudo la carta
+	 */
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
 		// Rimuovo l'ultima </carta> aggiunta
