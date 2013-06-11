@@ -1,9 +1,7 @@
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
 /**
- * {Descrizione}
- *
- *
+ * Parametri e costanti del gioco  
  *
  * @see
  */
@@ -18,6 +16,7 @@ public final class Parametri {
 		    
 	    public static final int TRAGUARDO = 12;
 	    
+	    // Scommesse e pagamenti
 	    public static final int MIN_SCOMMESSA = 100;
 	    public static final int PODIO_SIZE = 3;
 	    public static final int SOLDI_PRIMA_SCUDERIA = 600;

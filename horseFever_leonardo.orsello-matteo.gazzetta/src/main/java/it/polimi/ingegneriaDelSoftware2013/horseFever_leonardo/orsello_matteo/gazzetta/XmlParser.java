@@ -3,11 +3,6 @@
  */
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
-/**
- * @author Matteo
- *
- */
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -22,21 +17,17 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * 
  * Xml Parser
  * 
- * 
- * 
- * @see
+ * @see CarteAzione, ParserHandlerPersonaggi, ParserHandlerAzioni
  */
 public class XmlParser {
 	
 	/**
 	 * 
-	 * {Descrizione}
+	 * Funzione che fa il parsing del file xml delle carte personaggio.
 	 * 
-	 * @param in
-	 * @return
-	 * @exceptions
-	 * 
-	 * @see
+	 * @param in stream di input del file xml
+	 * @return carte la lista delle carte personaggio lette dal file xml
+	 * @see CarteAzione, ParserHandlerPersonaggi
 	 */
 	public List<CartePersonaggio> parseXmlPersonaggi(InputStream in) {
 		// Creo una lista vuota delle carte personaggio
@@ -63,7 +54,6 @@ public class XmlParser {
 		} catch (SAXException e) {
 			Write.write("Errore nel parser SAX");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			Write.write("Errore nella lettura del file xml");
 		}
 		return carte;
@@ -71,13 +61,11 @@ public class XmlParser {
 
 	/**
 	 * 
+	 * Funzione che fa il parsing del file xml delle carte azione.
 	 * 
-	 * 
-	 * @param in
-	 * @return la carte lista delle carte azioni
-	 * @exceptions
-	 * 
-	 * @see
+	 * @param in stream di input del file xml
+	 * @return carte la lista delle carte azione lette dal file xml
+	 * @see CarteAzione, ParserHandlerAzioni
 	 */
 	public List<CarteAzione> parseXmlAzioni(InputStream in) {
 		// Creo una lista vuota di carte azione
@@ -104,7 +92,6 @@ public class XmlParser {
 		} catch (SAXException e) {
 			Write.write("Errore nel parser SAX");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			Write.write("Errore nella lettura del file xml");
 		}
 		return carte;

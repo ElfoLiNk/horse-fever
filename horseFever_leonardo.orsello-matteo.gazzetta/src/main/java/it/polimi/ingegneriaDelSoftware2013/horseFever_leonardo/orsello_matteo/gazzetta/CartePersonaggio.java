@@ -49,13 +49,13 @@ public class CartePersonaggio {
 	public static List<CartePersonaggio> crealistapersonaggi() {
 		List<CartePersonaggio> carte = null;
 		try {
-			// Locate the file
+			// Cerco il file
 			File xmlFile = new File("cartePersonaggio.xml");
 
-			// Create the parser instance
+			// Creo l'istanza parser
 			XmlParser parser = new XmlParser();
 
-			// Parse the file
+			// Parso il file
 			carte = parser.parseXmlPersonaggi(new FileInputStream(xmlFile));
 
 		} catch (IOException e) {
