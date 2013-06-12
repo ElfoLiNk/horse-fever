@@ -5,28 +5,28 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 
 import java.io.IOException;
 
-
 /**
- * @author amministratore
- *
+ *  Main del gioco
  */
 public class Main {
 
+	/**
+	 * @param args
+	 * @throws IOException
+	 */
+	public static void main(String[] args) throws IOException {
+		Write.write("------------------------------------------------");
+		Write.write("|                Horse Fever                   |");
+		Write.write("------------------------------------------------");
+		Partita partita = new Partita();
+		partita.setListe();
+		partita.setScuderie();
+		partita.setQuotazioni();
+		partita.setNumGiocatori();
+		partita.setGiocatori();
+		partita.randomPrimogiocatore();
+		partita.turno();
 
-		/**
-		 * @param args
-		 * @throws IOException 
-		 */
-		public static void main(String[] args) throws IOException {
-			Partita partita = new Partita();
-			partita.setListe();
-			partita.setScuderie();
-			partita.setQuotazioni();
-			partita.setNumGiocatori();
-			partita.setGiocatori();
-			partita.randomPrimogiocatore();
-			partita.turno();
-			
-		}
+	}
 
 }
