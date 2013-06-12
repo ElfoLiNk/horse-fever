@@ -359,12 +359,12 @@ public class Partita {
 
 				List<CarteAzione> carteplayer = arraygiocatori.get(i)
 						.getCarteAzione();
-				Write.write("\n" + arraygiocatori.get(i).toString()
-						+ "\nScegli la carta azione da giocare:");
+				Write.write(arraygiocatori.get(i).toString());
+				Write.write("\nScegli la carta azione da giocare:");
 				// Scelta Carta Azione
 				int k = Read.readCartaAzione(carteplayer);
 				// Scelta Scuderia
-				Write.write("A quale corsia vuoi applicarla?");
+				Write.write("\nA quale corsia vuoi applicarla?");
 				for (int n = 0; n < listascuderie.size(); n++) {
 					Write.write(n + " ) " + listascuderie.get(n).getColore()
 							+ "    Carte Applicate: "
@@ -381,6 +381,9 @@ public class Partita {
 
 				// Rimuovo Carta dalla lista del player
 				arraygiocatori.get(i).removeCarteAzione(k);
+
+				// Clear console
+				Write.clear();
 
 				// Check per ciclare tutti i giocatori
 				if (i == ngiocatori - 1 && primogiocatore > 0) {
@@ -434,9 +437,6 @@ public class Partita {
 
 		// Elimino la linea dalla lista
 		listacartemovimento.remove(j);
-
-		// Debug
-		Write.write(randomString);
 
 		// Analizzo la stringa e Salvo il movimento corretto
 		Scanner scannerString = new Scanner(randomString);
@@ -541,13 +541,6 @@ public class Partita {
 				}
 
 			}
-
-			// DEBUG
-			Write.write(listascuderie.get(i).getColore() + " : "
-					+ listascuderie.get(i).getPosizione() + " Arrivato  "
-					+ listascuderie.get(i).isArrivato()
-					+ "         Quotazione: "
-					+ listascuderie.get(i).getQuotazione());
 		}
 	}
 
@@ -654,6 +647,8 @@ public class Partita {
 				}
 			}
 
+			// Clear console
+			Write.clear();
 			// Check per ciclare tutti i giocatori in senso anti orario
 			if (i == 0 && primogiocatore > 0) {
 				i = ngiocatori;
@@ -704,6 +699,9 @@ public class Partita {
 			// L'utente sceglie la scuderia su cui scommettere
 			sceltaScuderiaScommessa(i);
 
+			// Clear console
+			Write.clear();
+
 			// Check per ciclare tutti i giocatori in senso orario
 			if (i == ngiocatori - 1 && primogiocatore > 0) {
 				i = -1;
@@ -712,6 +710,7 @@ public class Partita {
 				finisco = false;
 			}
 		}
+
 	}
 
 	/**
@@ -790,9 +789,10 @@ public class Partita {
 	 * Metodo che riempie la lista classifica con le scuderie in ordine di
 	 * arrivo
 	 * 
-	 * @exceptions
+	 * @param lista
+	 *            delle scuderie arrivate
 	 * 
-	 * @see
+	 * @see Scuderia
 	 */
 	public void classifica(List<Scuderia> scuderie) {
 		int max = 0;
@@ -829,11 +829,11 @@ public class Partita {
 				scuderie.remove(scuderie.get(idmax));
 			}
 		}
+
+		// Imposto l'intero classifica delle scuderie in classifica
 		int i = 1;
-		Write.write("\nCLASSIFICA\n");
 		for (Scuderia scuderia : classifica) {
 			scuderia.setClassifica(i++);
-			Write.write(scuderia.getColore() + "   " + scuderia.getClassifica());
 		}
 	}
 
@@ -874,7 +874,7 @@ public class Partita {
 				classifica.add(classifica.size(), fotofinish.get(j));
 				fotofinish.remove(j);
 			} else if (fotofinish.get(j).getFotofinish() == 0) {
-				classifica.add(classifica.size() + fotofinish.size(),
+				classifica.add(classifica.size() + fotofinish.size() -1,
 						fotofinish.get(j));
 				fotofinish.remove(j);
 			}
@@ -925,7 +925,8 @@ public class Partita {
 
 		int turno = 0;
 		do {
-			Write.write("\nTURNO " + (turno + 1));
+			Write.clear();
+			Write.header("TURNO " + (turno + 1));
 			setCarteAzione();
 			setCarteAzione();
 			setSegnalini();
@@ -939,6 +940,8 @@ public class Partita {
 			}
 			pagascuderie();
 			checkeliminato();
+			Write.printClassifica(classifica);
+			Write.printQuotazioni(listascuderie);
 			leaderboard();
 			// Reset Carte Azione Player
 			resetCarteAzione();
@@ -1108,6 +1111,7 @@ public class Partita {
 			azioni.carteAzioneFotofinish(listascuderie);
 			classifica(arrivati);
 			aggiornaQuotazioni();
+			Write.printCorsa(listascuderie);
 		} while (!checkArrivati());
 	}
 
@@ -1125,6 +1129,8 @@ public class Partita {
 					+ player.getScuderia() + " " + player.getSoldi() + " "
 					+ player.getPv());
 		}
+		Write.write("\n Premi invio per passare al turno successivo");
+		Read.readInt();
 
 	}
 
@@ -1140,12 +1146,6 @@ public class Partita {
 		for (Scuderia scuderia : classifica) {
 			scuderia.aggiornaQuotazioni(scuderia.getClassifica());
 		}
-		Write.write("\nQUOTAZIONI AGGIORNATE\n");
-		for (Scuderia scuderia : listascuderie) {
-			Write.write(scuderia.getColore() + " Quotazione: "
-					+ scuderia.getQuotazione());
-		}
-
 	}
 
 	/**
