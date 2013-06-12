@@ -3,9 +3,6 @@
  */
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -48,19 +45,13 @@ public class CartePersonaggio {
 	 */
 	public static List<CartePersonaggio> crealistapersonaggi() {
 		List<CartePersonaggio> carte = null;
-		try {
-			// Cerco il file
-			File xmlFile = new File("cartePersonaggio.xml");
-
+		
 			// Creo l'istanza parser
 			XmlParser parser = new XmlParser();
 
 			// Parso il file
-			carte = parser.parseXmlPersonaggi(new FileInputStream(xmlFile));
+			carte = parser.parseXmlPersonaggi(ResourceLoader.load("cartePersonaggio.xml"));
 
-		} catch (IOException e) {
-			Write.write("Errore nell'apertura e/o parsing del file xml");
-		}
 
 		return carte;
 

@@ -8,13 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * 
  * Struttura dati della scuderia
- * 
- * 
- * 
- * 
- * @see
  */
 public class Scuderia {
 	private List<Scommessa> scommessa = new ArrayList<Scommessa>();
@@ -24,7 +18,7 @@ public class Scuderia {
 	private int segnalino;
 	private String colore;
 	private int quotazione;
-	
+
 	private boolean arrivato = false;
 	private int classifica = 0;
 
