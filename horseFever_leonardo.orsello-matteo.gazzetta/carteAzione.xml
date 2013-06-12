@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<carteAzione>
+	<Carta ID="0">
+		<Nome>Magna Velocitas</Nome>
+		<Lettera>A</Lettera>
+		<Effetto>4</Effetto>
+		<Agisce>Partenza</Agisce>
+		<Descrizione>Alla Partenza, il Cavallo avanza di 4 caselle invece che avanzare del numero di caselle indicato sulla carta Movimento.</Descrizione>
+	</Carta>
+	<Carta ID="1">
+		<Nome>Fortuna benevola</Nome>
+		<Lettera>B</Lettera>
+		<Effetto>+1</Effetto>
+		<Agisce>Partenza</Agisce>
+		<Descrizione>Alla Partenza il Cavallo avanza di una casella in più rispetto a quanto indicato sulla carta Movimento.</Descrizione>
+	</Carta>
+	<Carta ID="2">
+		<Nome>Flagellum Fulguris</Nome>
+		<Lettera>C</Lettera>
+		<Effetto>+1</Effetto>
+		<Agisce>Sprint</Agisce>
+		<Descrizione>In caso di Sprint, il Cavallo avanza di una casella addizionale.</Descrizione>
+	</Carta>
+	<Carta ID="3">
+		<Nome>Herba Magica</Nome>
+		<Lettera>D</Lettera>
+		<Effetto>2</Effetto>
+		<Agisce>Sprint</Agisce>
+		<Descrizione>In caso di Sprint, il Cavallo avanza di due caselle anziché di una.</Descrizione>
+	</Carta>
+	<Carta ID="4">
+		<Nome>In Igni Veritas</Nome>
+		<Lettera>F</Lettera>
+		<Effetto>1</Effetto>
+		<Agisce>Fotofinish</Agisce>
+		<Descrizione>In caso di parità con uno o più Cavalli vince automaticamente il Fotofinish anche se la Quotazione è più bassa.</Descrizione>
+	</Carta>
+	<Carta ID="5">
+		<Nome>Fustis et Radix</Nome>
+		<Lettera>E</Lettera>
+		<Effetto>+2</Effetto>
+		<Agisce>Traguardo</Agisce>
+		<Descrizione>Quando la pedina Cavallo raggiunge o supera il Traguardo, avanza di due caselle addizionali, prima di tirare gli Sprint.</Descrizione>
+	</Carta>
+	<Carta ID="6">
+		<Nome>Vigor Ferreum</Nome>
+		<Lettera>G</Lettera>
+		<Effetto>4</Effetto>
+		<Agisce>Movimento</Agisce>
+		<Descrizione>Se quando viene girata una carta Movimento il Cavallo è in ultima posizione, anche a pari merito, avanza di quattro caselle invece che del numero di caselle indicato sulla carta Movimento stessa. Questa abilità non si applica alla Partenza.</Descrizione>
+	</Carta>
+	<Carta ID="7">
+		<Nome>Globus Obscurus</Nome>
+		<Lettera>A</Lettera>
+		<Effetto>0</Effetto>
+		<Agisce>Partenza</Agisce>
+		<Descrizione>Alla Partenza, il Cavallo rimane fermo invece che avanzare del numero di caselle indicato sulla carta Movimento.</Descrizione>
+	</Carta>
+	<Carta ID="8">
+		<Nome>Aqua Putrida</Nome>
+		<Lettera>B</Lettera>
+		<Effetto>-1</Effetto>
+		<Agisce>Partenza</Agisce>
+		<Descrizione>Alla Partenza, il Cavallo avanza di una casella in meno rispetto a quanto indicato sulla carta Movimento.Attenzione: un Cavallo non può mai retrocedere.</Descrizione>
+	</Carta>
+	<Carta ID="9">
+		<Nome>Serum Maleficum</Nome>
+		<Lettera>C</Lettera>
+		<Effetto>0</Effetto>
+		<Agisce>Sprint</Agisce>
+		<Descrizione>In caso di Sprint, il Cavallo non avanza di nessuna casella e resta fermo. Il Cavallo non può mai fare Sprint.</Descrizione>
+	</Carta>
+	<Carta ID="10">
+		<Nome>Venenum Veneficum</Nome>
+		<Lettera>D</Lettera>
+		<Effetto>-1</Effetto>
+		<Agisce>Sprint</Agisce>:
+		<Descrizione>In caso di Sprint, il Cavallo si muove di una casella in meno.</Descrizione>
+	</Carta>
+	<Carta ID="11">
+		<Nome>Mala Tempora</Nome>
+		<Lettera>F</Lettera>
+		<Effetto>0</Effetto>
+		<Agisce>Fotofinish</Agisce>
+		<Descrizione>In caso di parità con uno o più Cavalli perde automaticamente il Fotofinish anche se la Quotazione è più alta.</Descrizione>
+	</Carta>
+	<Carta ID="12">
+		<Nome>XIII</Nome>
+		<Lettera>E</Lettera>
+		<Effetto>0</Effetto>
+		<Agisce>Traguardo</Agisce>
+		<Descrizione>Quando il Cavallo raggiunge il Traguardo, si ferma immediatamente ma non ignora eventuali Sprint.</Descrizione>
+	</Carta>
+	<Carta ID="13">
+		<Nome>Felix Infernalis</Nome>
+		<Lettera>G</Lettera>
+		<Effetto>0</Effetto>
+		<Agisce>Movimento</Agisce>
+		<Descrizione>Se quando viene girata una carta Movimento il Cavallo è in prima posizione, anche a pari merito, rimane fermo invece di avanzare del numero di caselle indicato sulla carta Movimento.	Questa abilità non si applica alla Partenza.</Descrizione>
+	</Carta>
+	<Carta ID="14">
+		<Nome>Alfio Allibratore</Nome>
+		<Lettera>Neutro</Lettera>
+		<Effetto>+2</Effetto>
+		<Agisce>Quotazione</Agisce>
+		<Descrizione>Quando viene girata questa carta la Quotazione	della Scuderia sale di due livelli</Descrizione>
+	</Carta>
+	<Carta ID="15">
+		<Nome>Fritz Finden</Nome>
+		<Lettera>X</Lettera>
+		<Effetto></Effetto>
+		<Agisce>Negative</Agisce>
+		<Descrizione>Tutte le carte Azione negative giocate sul Cavallo vengono rimosse: Non hanno effetto in questa Corsa.</Descrizione>
+	</Carta>
+	<Carta ID="16">
+		<Nome>Steven Sting</Nome>
+		<Lettera>Neutra</Lettera>
+		<Effetto>-2</Effetto>
+		<Agisce>Quotazione</Agisce>
+		<Descrizione>Quando viene girata questa carta la Quotazione della Scuderia scende di due livelli</Descrizione>
+	</Carta>
+	<Carta ID="17">
+		<Nome>Rochelle Recherche</Nome>
+		<Lettera>Y</Lettera>
+		<Effetto></Effetto>
+		<Agisce>Positive</Agisce>
+		<Descrizione>Tutte le carte Azione positive giocate sul Cavallo vengono rimosse: Non hanno effetto in questa Corsa.</Descrizione>
+	</Carta>
+</carteAzione>
