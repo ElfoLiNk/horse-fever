@@ -6,6 +6,9 @@ import java.io.InputStream;
  * Utility class per caricare i file dal jar
  */
 public final class ResourceLoader {
+	
+	private ResourceLoader() {
+	}
 
 	/**
 	 * 
