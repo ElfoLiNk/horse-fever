@@ -46,7 +46,9 @@ public final class Parametri {
 		public static final int MIN_POSITIVE = 0;
 		
 		
-		
+		// Console
+		public static final int CLEAR = 30;
+		public static final long SLEEP = 1000;
 		
 	    
 }

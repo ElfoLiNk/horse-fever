@@ -17,7 +17,7 @@ final class Write {
 
 	/**
 	 * 
-	 * Scrive una stringa su System.out
+	 * Scrive una stringa su una nuova linea su System.out 
 	 * 
 	 * @param Riceve
 	 *            s la stringa da scrivere
@@ -44,7 +44,7 @@ final class Write {
 
 	/**
 	 * 
-	 * Scrive un intero su System.out
+	 * Scrive un intero su una nuova linea su System.out
 	 * 
 	 * @param Riceve
 	 *            i l'intero da scrivere
@@ -59,7 +59,7 @@ final class Write {
 	 * Pulisco la console
 	 */
 	public static void clear() {
-		for (int i = 0; i < 26; i++) {
+		for (int i = 0; i < Parametri.CLEAR; i++) {
 			Write.write("\n");
 		}
 	}
@@ -67,7 +67,8 @@ final class Write {
 	/**
 	 * Stampa la classifica di arrivo delle scuderie
 	 * 
-	 * @param classifica lista delle scuderie secondo l'ordine di arrivo
+	 * @param classifica
+	 *            lista delle scuderie secondo l'ordine di arrivo
 	 * @see Scuderia
 	 */
 	public static void printClassifica(List<Scuderia> classifica) {
@@ -76,14 +77,16 @@ final class Write {
 			Write.write(scuderia.getColore() + "   " + scuderia.getClassifica());
 		}
 	}
+
 	/**
 	 * 
 	 * Stampa le quotazioni delle scuderie
-	 *
-	 * @param scuderie la lista delle scuderie
+	 * 
+	 * @param scuderie
+	 *            la lista delle scuderie
 	 * @see Scuderia
 	 */
-	public static void printQuotazioni(List<Scuderia> scuderie){
+	public static void printQuotazioni(List<Scuderia> scuderie) {
 		Write.write("\nQUOTAZIONI AGGIORNATE\n");
 		for (Scuderia scuderia : scuderie) {
 			Write.write(scuderia.getColore() + " Quotazione: "
@@ -92,47 +95,73 @@ final class Write {
 	}
 
 	/**
-	 * {Descrizione}
-	 *
-	 * @exceptions
-	 *
-	 * @see
+	 * Stampo la corsa le scuderie sono #
+	 * 
+	 * @param la
+	 *            lista delle scuderie
+	 * @see Scuderie
 	 */
 	public static void printCorsa(List<Scuderia> scuderie) {
 		Write.clear();
-		for(int i = 0;i< scuderie.size(); i++){
-			
+		for (int i = 0; i < scuderie.size(); i++) {
+			// Stampo il colore della scuderia
 			Write.simple(scuderie.get(i).getColore());
-			switch(i){
-			case(0): Write.simple(" ");Write.simple(" ");Write.simple(" ");
+			switch (i) {
+			case (0):
+				Write.simple(" ");
+				Write.simple(" ");
+				Write.simple(" ");
 				break;
-			case(1): Write.simple(" ");Write.simple(" ");Write.simple(" ");Write.simple(" ");
-			break;
-			case(2): Write.simple(" ");Write.simple(" ");
-			break;
-			case(3): Write.simple(" ");Write.simple(" ");
-			break;
-			case(4): Write.simple(" ");
-			break;
-			case(5): Write.simple(" ");
-			break;
+			case (1):
+				Write.simple(" ");
+				Write.simple(" ");
+				Write.simple(" ");
+				Write.simple(" ");
+				break;
+			case (2):
+				Write.simple(" ");
+				Write.simple(" ");
+				break;
+			case (Parametri.TRE):
+				Write.simple(" ");
+				Write.simple(" ");
+				break;
+			case (Parametri.QUATTRO):
+				Write.simple(" ");
+				break;
+			case (Parametri.CINQUE):
+				Write.simple(" ");
+				break;
+			default:
+				break;
 			}
-			for(int j = 0; j < scuderie.get(i).getPosizione();j++){
+			// Stampo tot # in base alla posizione della scuderia
+			for (int j = 0; j < scuderie.get(i).getPosizione(); j++) {
 				Write.simple("#");
 			}
-			Write.simple(" "+scuderie.get(i).getPosizione());
-			if (scuderie.get(i).getClassifica() > 0){
-				Write.simple(" "+scuderie.get(i).getClassifica()+"°");
+			Write.simple(" " + scuderie.get(i).getPosizione());
+			// Stampo la classifica di arrivo della scuderia
+			if (scuderie.get(i).getClassifica() > 0) {
+				Write.simple(" " + scuderie.get(i).getClassifica() + "°");
 			}
 			Write.write("");
 		}
 		try {
-			Thread.sleep(1000);
+			// Sleep per animazione corsa
+			Thread.sleep(Parametri.SLEEP);
 		} catch (InterruptedException e) {
 			write("Errore nella sleep");
 		}
 	}
-
+	
+	/**
+	 * 
+	 * Scrive una stringa sulla stessa linea su System.out 
+	 * 
+	 * @param Riceve
+	 *            string la stringa da scrivere
+	 * @see
+	 */
 	private static void simple(String string) {
 		PrintStream out = System.out;
 		out.print(string);
