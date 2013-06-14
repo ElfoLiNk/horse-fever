@@ -278,8 +278,8 @@ public class PartitaTest {
 		arrivati.get(1).setQuotazione(2);
 		arrivati.get(1).setColore("PRIMO");
 		partita.checkFotofinish(arrivati);
-		assertEquals("", "PRIMO", partita.getClassifica().get(0).getColore());
-		assertEquals("", "SECONDO", partita.getClassifica().get(1).getColore());
+		assertEquals("", "PRIMO", partita.getClassifica().get(1).getColore());
+		assertEquals("", "SECONDO", partita.getClassifica().get(0).getColore());
 
 		// TEST UGUALI QUOTAZIONI CON GIA ALCUNE SCUDERIE IN CLASSIFICA
 		Partita partita2 = new Partita();
