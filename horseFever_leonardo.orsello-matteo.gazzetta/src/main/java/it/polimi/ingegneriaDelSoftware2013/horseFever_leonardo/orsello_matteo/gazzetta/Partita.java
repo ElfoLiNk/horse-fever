@@ -809,16 +809,14 @@ public class Partita {
 					// Aggiungo al fotofinish la scuderia con quotazione uguale
 					// al massimo
 					fotofinish.add(scuderie.get(i));
+					// Aggiungo al fotofinish scuderia precedente con
+					// quotazione uguale alla nuova
+					fotofinish.add(scuderie.get(idmax));
 					// Rimuovo nuova scuderia con quotazione uguale al massimo
 					scuderie.remove(scuderie.get(i));
-					if (fotofinish.size() == 0) {
-						// Aggiungo al fotofinish scuderia precedente con
-						// quotazione uguale alla nuova
-						fotofinish.add(scuderie.get(idmax));
-						// Rimuovo scuderia precedente con quotazione uguale
-						// alla nuova
-						scuderie.remove(scuderie.get(idmax));
-					}
+					// Rimuovo scuderia precedente con quotazione uguale
+					// alla nuova
+					scuderie.remove(scuderie.get(idmax));
 
 				}
 			}
@@ -871,12 +869,14 @@ public class Partita {
 		// Controllo se è stata applicata una carta azione fotofinish
 		for (int j = 0; j < fotofinish.size(); j++) {
 			if (fotofinish.get(j).getFotofinish() == 1) {
-				classifica.add(classifica.size(), fotofinish.get(j));
+				// Lo aggiungo subito alla classifica
+				classifica.add(fotofinish.get(j));
+				// Lo rimuovo dal fotofinish
 				fotofinish.remove(j);
 			} else if (fotofinish.get(j).getFotofinish() == 0) {
-				classifica.add(classifica.size() + fotofinish.size() -1,
-						fotofinish.get(j));
-				fotofinish.remove(j);
+				// Imposto la quotazione 1 cosi da farlo sempre perdere nel
+				// confronto successivo
+				fotofinish.get(j).setQuotazione(1);
 			}
 
 			while (fotofinish.size() > 0) {
@@ -887,25 +887,12 @@ public class Partita {
 						max = fotofinish.get(i).getQuotazione();
 						idmax = i;
 					} else if (fotofinish.get(i).getQuotazione() == max) {
-						if (classifica.size() > 0) {
-							classifica.add(i + classifica.size() - 1,
-									fotofinish.get(i));
-							fotofinish.remove(i);
-						} else {
-							classifica.add(i - 1, fotofinish.get(i));
-							fotofinish.remove(i);
-						}
+						classifica.add(fotofinish.get(idmax));
+						fotofinish.remove(idmax);
 					}
 				}
-				if (classifica.size() > 0) {
-					classifica.add(idmax + classifica.size() - 1,
-							fotofinish.get(idmax));
-					fotofinish.remove(idmax);
-				} else {
-					classifica.add(idmax + classifica.size(),
-							fotofinish.get(idmax));
-					fotofinish.remove(idmax);
-				}
+				classifica.add(fotofinish.get(idmax));
+				fotofinish.remove(idmax);
 
 			}
 		}
@@ -960,6 +947,10 @@ public class Partita {
 			if (arraygiocatori.size() == 1) {
 				turno = turni;
 			}
+			if (turno < turni) {
+				Write.write("\n Premi invio per passare al turno successivo");
+				Read.readInt();
+			}
 		} while (turno < turni);
 		String vincitore = trovaVincitore();
 		Write.write("\nVince il giocatore: "
@@ -978,6 +969,7 @@ public class Partita {
 	private void resetScuderie() {
 		for (Scuderia scuderia : listascuderie) {
 			scuderia.setPosizione(0);
+			scuderia.setClassifica(0);
 			scuderia.setArrivato(false);
 			scuderia.setSprint(-1);
 			scuderia.setFotofinish(-1);
@@ -1092,7 +1084,8 @@ public class Partita {
 	public void corsa() {
 		boolean partenza = true;
 		do {
-			// Controllo carte
+			// Controllo carte stessa lettera e quelle che eliminano le
+			// negative/positive
 			for (Scuderia scuderia : listascuderie) {
 				scuderia.checkCarteAzione();
 				scuderia.checkLetteraCarteAzione();
@@ -1129,9 +1122,6 @@ public class Partita {
 					+ player.getScuderia() + " " + player.getSoldi() + " "
 					+ player.getPv());
 		}
-		Write.write("\n Premi invio per passare al turno successivo");
-		Read.readInt();
-
 	}
 
 	/**
@@ -1187,5 +1177,4 @@ public class Partita {
 			}
 		}
 	}
-
 }

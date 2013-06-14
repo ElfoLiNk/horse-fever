@@ -289,6 +289,8 @@ public class Scuderia {
 				if (listacarteazione.get(j).getEffetto() == 0) {
 					setPosizione(Parametri.TRAGUARDO);
 				}
+				// Rimuovo la carta
+				listacarteazione.remove(j);
 			}
 		}
 	}
