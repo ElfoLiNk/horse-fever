@@ -614,7 +614,14 @@ public class Partita {
 
 		// Ciclo i giocatori in senso anti orario
 		boolean finisco = true;
-		for (int i = primogiocatore - 1; i > -1 && finisco; i--) {
+		int j;
+		// Controllo specifico se il primogiocatore è 0 e faceva uscire subito dal ciclo
+		if(primogiocatore == 0){
+			j = ngiocatori - 1;
+		} else{
+			j = primogiocatore - 1;
+		}
+		for (int i = j; i > -1 && finisco; i--) {
 			Write.write("Tocca al " + arraygiocatori.get(i).toString());
 
 			// Controllo se il giocatore salta il secondo giro di scommesse
