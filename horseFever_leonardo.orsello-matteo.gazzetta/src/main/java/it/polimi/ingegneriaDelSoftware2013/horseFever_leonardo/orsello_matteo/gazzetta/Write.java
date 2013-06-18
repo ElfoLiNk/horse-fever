@@ -74,7 +74,7 @@ final class Write {
 	public static void printClassifica(List<Scuderia> classifica) {
 		Write.write("\nCLASSIFICA\n");
 		for (Scuderia scuderia : classifica) {
-			Write.write(scuderia.getColore() + "   " + scuderia.getClassifica());
+			Write.write(scuderia.getColore() + "\t" + scuderia.getClassifica());
 		}
 	}
 
@@ -89,7 +89,7 @@ final class Write {
 	public static void printQuotazioni(List<Scuderia> scuderie) {
 		Write.write("\nQUOTAZIONI AGGIORNATE\n");
 		for (Scuderia scuderia : scuderie) {
-			Write.write(scuderia.getColore() + " Quotazione: "
+			Write.write(scuderia.getColore() + "\tQuotazione: "
 					+ scuderia.getQuotazione());
 		}
 	}
@@ -105,36 +105,7 @@ final class Write {
 		Write.clear();
 		for (int i = 0; i < scuderie.size(); i++) {
 			// Stampo il colore della scuderia
-			Write.simple(scuderie.get(i).getColore());
-			switch (i) {
-			case (0):
-				Write.simple(" ");
-				Write.simple(" ");
-				Write.simple(" ");
-				break;
-			case (1):
-				Write.simple(" ");
-				Write.simple(" ");
-				Write.simple(" ");
-				Write.simple(" ");
-				break;
-			case (2):
-				Write.simple(" ");
-				Write.simple(" ");
-				break;
-			case (Parametri.TRE):
-				Write.simple(" ");
-				Write.simple(" ");
-				break;
-			case (Parametri.QUATTRO):
-				Write.simple(" ");
-				break;
-			case (Parametri.CINQUE):
-				Write.simple(" ");
-				break;
-			default:
-				break;
-			}
+			Write.simple(scuderie.get(i).getColore()+"\t");
 			// Stampo tot # in base alla posizione della scuderia
 			for (int j = 0; j < scuderie.get(i).getPosizione(); j++) {
 				Write.simple("#");
