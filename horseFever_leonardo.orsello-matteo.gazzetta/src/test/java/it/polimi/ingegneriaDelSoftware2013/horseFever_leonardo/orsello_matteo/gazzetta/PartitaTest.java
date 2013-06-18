@@ -14,26 +14,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * {Descrizione}
+ * Test per la classe Partita 
  * 
- * 
- * 
- * @see
+ * @see Partita
  */
 public class PartitaTest {
-
-	/**
-	 * {Descrizione}
-	 * 
-	 * @throws java.lang.Exception
-	 * @exceptions
-	 * 
-	 * @see
-	 */
-	@Before
-	public void setUp() throws Exception {
-
-	}
 
 	/**
 	 * Test method for
