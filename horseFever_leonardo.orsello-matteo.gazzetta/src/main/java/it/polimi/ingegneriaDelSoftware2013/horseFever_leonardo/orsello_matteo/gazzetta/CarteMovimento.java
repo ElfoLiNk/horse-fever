@@ -16,6 +16,7 @@ import java.util.List;
  * 
  */
 public class CarteMovimento {
+	private CarteMovimento(){}
 	private static List<String> listacartemovimento = new ArrayList<String>();
 
 	/**
