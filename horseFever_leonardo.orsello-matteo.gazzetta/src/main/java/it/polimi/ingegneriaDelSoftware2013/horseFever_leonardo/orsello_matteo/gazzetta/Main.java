@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  *  Main del gioco
  */
-public class Main {
+public final class Main {
 	private Main(){}
 	/**
 	 * @param args
@@ -18,7 +18,7 @@ public class Main {
 		Write.write("------------------------------------------------");
 		Write.write("|                Horse Fever                   |");
 		Write.write("------------------------------------------------");
-		Audio audio = new Audio("soundtrack.mp3");
+		new Audio("soundtrack.mp3");
 		Partita partita = new Partita();
 		partita.setListe();
 		partita.setScuderie();

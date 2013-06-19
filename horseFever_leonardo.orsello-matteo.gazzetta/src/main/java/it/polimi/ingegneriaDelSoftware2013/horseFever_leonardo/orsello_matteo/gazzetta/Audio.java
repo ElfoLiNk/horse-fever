@@ -16,13 +16,18 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * 
  */
 public class Audio {
-
+	
+	/**
+	 * 
+	 * Costruttore della classe Audio
+	 *
+	 * @param filename nome del file audio da riprodurre
+	 * @see Audio
+	 */
 	public Audio(final String filename) {
 		// Nuovo thread per ogni file audio riprodotto
 		Thread audio = new Thread() {
-			/**
-			 * Run del thread audio
-			 */
+			@Override
 			public void run() {
 				play(filename);
 			}
