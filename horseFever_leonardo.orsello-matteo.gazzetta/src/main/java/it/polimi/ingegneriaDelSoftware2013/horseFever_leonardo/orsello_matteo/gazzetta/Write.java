@@ -5,6 +5,7 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Classe che scrive stringhe e interi su System.out
@@ -17,7 +18,7 @@ final class Write {
 
 	/**
 	 * 
-	 * Scrive una stringa su una nuova linea su System.out 
+	 * Scrive una stringa su una nuova linea su System.out
 	 * 
 	 * @param Riceve
 	 *            s la stringa da scrivere
@@ -105,7 +106,7 @@ final class Write {
 		Write.clear();
 		for (int i = 0; i < scuderie.size(); i++) {
 			// Stampo il colore della scuderia
-			Write.simple(scuderie.get(i).getColore()+"\t");
+			Write.simple(scuderie.get(i).getColore() + "\t");
 			// Stampo tot # in base alla posizione della scuderia
 			for (int j = 0; j < scuderie.get(i).getPosizione(); j++) {
 				Write.simple("#");
@@ -124,10 +125,26 @@ final class Write {
 			write("Errore nella sleep");
 		}
 	}
-	
+
+	/**
+	 * Stampa la classfica dei giocatori con i dati aggiornati
+	 * 
+	 * @see Giocatore
+	 */
+	public static void leaderboard(List<Giocatore> arraygiocatori) {
+		write("\nCLASSIFICA GIOCATORI\n");
+		write("Nome\tScuderia Soldi\tPV");
+		for (Giocatore player : arraygiocatori) {
+			// Informazioni sul giocatore: Nome scuderia soldi pv
+			write(player.getNome().toUpperCase(Locale.getDefault())
+					+ "\t" + player.getScuderia() + "\t" + player.getSoldi()
+					+ "\t" + player.getPv() + "\n");
+		}
+	}
+
 	/**
 	 * 
-	 * Scrive una stringa sulla stessa linea su System.out 
+	 * Scrive una stringa sulla stessa linea su System.out
 	 * 
 	 * @param Riceve
 	 *            string la stringa da scrivere

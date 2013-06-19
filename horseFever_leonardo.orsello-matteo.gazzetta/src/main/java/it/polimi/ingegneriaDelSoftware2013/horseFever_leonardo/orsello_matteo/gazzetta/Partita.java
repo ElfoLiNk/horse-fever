@@ -615,10 +615,11 @@ public class Partita {
 		// Ciclo i giocatori in senso anti orario
 		boolean finisco = true;
 		int j;
-		// Controllo specifico se il primogiocatore è 0 e faceva uscire subito dal ciclo
-		if(primogiocatore == 0){
+		// Controllo specifico se il primogiocatore è 0 e faceva uscire subito
+		// dal ciclo
+		if (primogiocatore == 0) {
 			j = ngiocatori - 1;
-		} else{
+		} else {
 			j = primogiocatore - 1;
 		}
 		for (int i = j; i > -1 && finisco; i--) {
@@ -936,7 +937,7 @@ public class Partita {
 			checkeliminato();
 			Write.printClassifica(classifica);
 			Write.printQuotazioni(listascuderie);
-			leaderboard();
+			Write.leaderboard(arraygiocatori);
 			// Reset Carte Azione Player
 			resetCarteAzione();
 			// Reset Scommesse
@@ -1113,22 +1114,6 @@ public class Partita {
 			aggiornaQuotazioni();
 			Write.printCorsa(listascuderie);
 		} while (!checkArrivati());
-	}
-
-	/**
-	 * Stampa la classfica dei giocatori con i dati aggiornati
-	 * 
-	 * @exceptions
-	 * 
-	 * @see
-	 */
-	private void leaderboard() {
-		Write.write("\nCLASSIFICA GIOCATORI\n");
-		for (Giocatore player : arraygiocatori) {
-			Write.write(player.getNome().toUpperCase(Locale.getDefault()) + " "
-					+ player.getScuderia() + " " + player.getSoldi() + " "
-					+ player.getPv());
-		}
 	}
 
 	/**
