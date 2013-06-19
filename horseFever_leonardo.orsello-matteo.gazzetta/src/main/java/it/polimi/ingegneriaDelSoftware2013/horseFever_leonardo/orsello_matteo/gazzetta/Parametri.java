@@ -6,7 +6,8 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
  * @see
  */
 public final class Parametri {
-	 private Parametri () {}
+
+	private Parametri () {}
 	 
 	    public static final int MIN_GIOCATORI = 2;
 	    public static final int MAX_GIOCATORI = 6;
@@ -49,6 +50,10 @@ public final class Parametri {
 		// Console
 		public static final int CLEAR = 30;
 		public static final long SLEEP = 1000;
+		
+		// Audio
+		public static final int AUDIO_BYTE = 4096;
+		public static final int SAMPLESIZE = 16;
 		
 	    
 }
