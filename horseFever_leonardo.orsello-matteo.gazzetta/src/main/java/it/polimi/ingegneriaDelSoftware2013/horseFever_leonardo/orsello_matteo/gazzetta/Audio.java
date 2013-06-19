@@ -20,7 +20,9 @@ public class Audio {
 	public Audio(final String filename) {
 		// Nuovo thread per ogni file audio riprodotto
 		Thread audio = new Thread() {
-			@Override
+			/**
+			 * Run del thread audio
+			 */
 			public void run() {
 				play(filename);
 			}
@@ -44,18 +46,18 @@ public class Audio {
 			AudioInputStream in = AudioSystem.getAudioInputStream(file);
 			AudioInputStream din = null;
 			AudioFormat baseFormat = in.getFormat();
-			
+
 			AudioFormat decodedFormat = new AudioFormat(
 					AudioFormat.Encoding.PCM_SIGNED,
-					baseFormat.getSampleRate(), Parametri.SAMPLESIZE, baseFormat.getChannels(),
-					baseFormat.getChannels() * 2, baseFormat.getSampleRate(),
-					false);
-			
+					baseFormat.getSampleRate(), Parametri.SAMPLESIZE,
+					baseFormat.getChannels(), baseFormat.getChannels() * 2,
+					baseFormat.getSampleRate(), false);
+
 			din = AudioSystem.getAudioInputStream(decodedFormat, in);
 			// Play now.
 			rawplay(decodedFormat, din);
 			in.close();
-			
+
 		} catch (UnsupportedAudioFileException | IOException
 				| LineUnavailableException e) {
 			Write.write("ERRORE AUDIO");
@@ -70,12 +72,12 @@ public class Audio {
 		if (line != null) {
 			// Start
 			line.start();
-			int nBytesRead = 0;
+			int nBytesRead = 0, nBytesWritten = 0;
 			while (nBytesRead != -1) {
 				nBytesRead = din.read(data, 0, data.length);
-				if (nBytesRead != -1){
-					int nBytesWritten;
-					nBytesWritten = line.write(data, 0, nBytesRead);}
+				if (nBytesRead != -1) {
+					nBytesWritten = line.write(data, 0, nBytesRead);
+				}
 			}
 			// Stop
 			line.drain();
