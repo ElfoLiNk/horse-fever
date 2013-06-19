@@ -15,7 +15,7 @@ import java.util.List;
  * Struttura dati delle carte movimento
  * 
  */
-public class CarteMovimento {
+public final class CarteMovimento {
 	private CarteMovimento(){}
 	private static List<String> listacartemovimento = new ArrayList<String>();
 
