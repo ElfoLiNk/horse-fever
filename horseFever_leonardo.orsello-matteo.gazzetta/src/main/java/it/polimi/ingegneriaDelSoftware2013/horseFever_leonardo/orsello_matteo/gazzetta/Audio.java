@@ -12,7 +12,7 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
- * Classe che gestice l'audio del gioco per ora esegue solo la soundtrack
+ * Classe che gestisce l'audio del gioco per ora esegue solo la soundtrack
  * 
  */
 public class Audio {
@@ -58,8 +58,11 @@ public class Audio {
 			rawplay(decodedFormat, din);
 			in.close();
 
-		} catch (UnsupportedAudioFileException | IOException
-				| LineUnavailableException e) {
+		} catch (IOException e) {
+			Write.write("ERRORE IO FILE AUDIO");
+		} catch (UnsupportedAudioFileException e) {
+			Write.write("ERRORE AUDIO NON SUPPORTATO");
+		} catch (LineUnavailableException e) {
 			Write.write("ERRORE AUDIO");
 		}
 
