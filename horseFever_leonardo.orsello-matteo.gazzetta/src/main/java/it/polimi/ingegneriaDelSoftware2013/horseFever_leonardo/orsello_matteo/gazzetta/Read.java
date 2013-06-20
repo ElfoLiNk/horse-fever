@@ -38,6 +38,8 @@ final class Read {
 				stringa = br.readLine();
 			} catch (IOException e) {
 				Write.write("Errore di flusso");
+			} catch(NullPointerException e){
+				Write.write("Errore NULL");
 			}
 		} while (stringa.equals(""));
 		return (stringa);

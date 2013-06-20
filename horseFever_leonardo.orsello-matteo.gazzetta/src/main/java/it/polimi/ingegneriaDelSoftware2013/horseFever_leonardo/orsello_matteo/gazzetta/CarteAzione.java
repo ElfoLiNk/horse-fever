@@ -33,7 +33,7 @@ public class CarteAzione {
 	 */
 	@Override
 	public String toString() {
-		return this.nome + " : " + this.descrizione;
+		return this.nome + " :\n\t" + this.descrizione+"\n";
 	}
 
 	/**

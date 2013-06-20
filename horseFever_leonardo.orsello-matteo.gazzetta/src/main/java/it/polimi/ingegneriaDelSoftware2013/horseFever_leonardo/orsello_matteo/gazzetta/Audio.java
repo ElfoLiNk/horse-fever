@@ -1,6 +1,5 @@
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.sound.sampled.AudioFormat;
@@ -45,10 +44,8 @@ public class Audio {
 	 */
 	public void play(String filename) {
 		try {
-			// Creo il file
-			File file = new File(filename);
 			// Input stream del file audio
-			AudioInputStream in = AudioSystem.getAudioInputStream(file);
+			AudioInputStream in = AudioSystem.getAudioInputStream(ResourceLoader.load(filename));
 			AudioInputStream din = null;
 			AudioFormat baseFormat = in.getFormat();
 
@@ -64,7 +61,7 @@ public class Audio {
 			in.close();
 
 		} catch (IOException e) {
-			Write.write("ERRORE IO FILE AUDIO");
+			Write.write("ERRORE IO FILE AUDIO /"+filename);
 		} catch (UnsupportedAudioFileException e) {
 			Write.write("ERRORE AUDIO NON SUPPORTATO");
 		} catch (LineUnavailableException e) {
