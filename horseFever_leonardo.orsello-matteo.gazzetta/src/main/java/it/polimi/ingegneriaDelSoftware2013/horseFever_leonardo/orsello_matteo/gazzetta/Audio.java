@@ -15,22 +15,33 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * 
  */
 public class Audio {
-	
+	Thread audio;
+
 	/**
 	 * 
 	 * Costruttore della classe Audio
-	 *
-	 * @param filename nome del file audio da riprodurre
+	 * 
+	 * @param filename
+	 *            nome del file audio da riprodurre
 	 * @see Audio
 	 */
 	public Audio(final String filename) {
 		// Nuovo thread per ogni file audio riprodotto
-		Thread audio = new Thread() {
+		audio = new Thread() {
 			@Override
 			public void run() {
 				play(filename);
 			}
 		};
+	}
+
+	/**
+	 * Avvia un thread dove riproduce il file passato al costruttore della
+	 * classe
+	 * 
+	 * @see Threads, Audio
+	 */
+	public void start() {
 		audio.start();
 	}
 
@@ -45,7 +56,8 @@ public class Audio {
 	public void play(String filename) {
 		try {
 			// Input stream del file audio
-			AudioInputStream in = AudioSystem.getAudioInputStream(ResourceLoader.load(filename));
+			AudioInputStream in = AudioSystem
+					.getAudioInputStream(ResourceLoader.load(filename));
 			AudioInputStream din = null;
 			AudioFormat baseFormat = in.getFormat();
 
@@ -61,13 +73,14 @@ public class Audio {
 			in.close();
 
 		} catch (IOException e) {
-			Write.write("ERRORE IO FILE AUDIO /"+filename);
+			Write.write("ERRORE IO FILE AUDIO /" + filename);
 		} catch (UnsupportedAudioFileException e) {
 			Write.write("ERRORE AUDIO NON SUPPORTATO");
 		} catch (LineUnavailableException e) {
 			Write.write("ERRORE AUDIO");
 		}
-
+		// LOOP AUDIO SOUNDTRACK
+		play(filename);
 	}
 
 	private void rawplay(AudioFormat targetFormat, AudioInputStream din)
@@ -77,11 +90,11 @@ public class Audio {
 		if (line != null) {
 			// Start
 			line.start();
-			int nBytesRead = 0, nBytesWritten = 0;
+			int nBytesRead = 0;
 			while (nBytesRead != -1) {
 				nBytesRead = din.read(data, 0, data.length);
 				if (nBytesRead != -1) {
-					nBytesWritten = line.write(data, 0, nBytesRead);
+					line.write(data, 0, nBytesRead);
 				}
 			}
 			// Stop
