@@ -882,12 +882,12 @@ public class Partita {
 			} else if (fotofinish.get(j).getFotofinish() == 0) {
 				// Imposto la quotazione 1 cosi da farlo sempre perdere nel
 				// confronto successivo
-				fotofinish.get(j).setQuotazione(8);
+				fotofinish.get(j).setQuotazione(Parametri.OTTO);
 			}
 
 			while (fotofinish.size() > 0) {
 				// Trovo la scuderia con quotazione piu alta (1:2)
-				max = 10;
+				max = Parametri.DIECI;
 				for (int i = 0; i < fotofinish.size(); i++) {
 					if (fotofinish.get(i).getQuotazione() < max) {
 						max = fotofinish.get(i).getQuotazione();
