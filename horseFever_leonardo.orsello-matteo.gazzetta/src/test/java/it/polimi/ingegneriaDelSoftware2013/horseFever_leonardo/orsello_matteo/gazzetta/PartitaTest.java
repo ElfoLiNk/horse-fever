@@ -3,6 +3,7 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test per la classe Partita 
+ * Test per la classe Partita
  * 
  * @see Partita
  */
@@ -47,9 +48,26 @@ public class PartitaTest {
 	public void testSetSegnalini() {
 		Partita partita = new Partita();
 		partita.setScuderie();
+		// 2 Giocatori
 		partita.setNgiocatori(2);
 		partita.setSegnalini();
 		assertEquals("", 1, partita.getListascuderie().get(0).getSegnalino());
+		// 3 Giocatori
+		partita.setNgiocatori(3);
+		partita.setSegnalini();
+		assertEquals("", 2, partita.getListascuderie().get(0).getSegnalino());
+		// 4 Giocatori
+		partita.setNgiocatori(4);
+		partita.setSegnalini();
+		assertEquals("", 3, partita.getListascuderie().get(0).getSegnalino());
+		// 5 Giocatori
+		partita.setNgiocatori(5);
+		partita.setSegnalini();
+		assertEquals("", 4, partita.getListascuderie().get(0).getSegnalino());
+		// 6 Giocatori
+		partita.setNgiocatori(6);
+		partita.setSegnalini();
+		assertEquals("", 4, partita.getListascuderie().get(0).getSegnalino());
 
 	}
 
@@ -142,9 +160,34 @@ public class PartitaTest {
 		} catch (IOException e) {
 			fail("Mancano i file");
 		}
+		partita.setScuderie();
+		partita.setQuotazioni();
 		partita.movimento();
+		// Verifico che ogni scuderie ha un movimento
 		for (Scuderia scuderia : partita.getListascuderie()) {
-			assertNotNull("", scuderia.getMovimento());
+			switch (scuderia.getQuotazione()) {
+			case (Parametri.DUE):
+				assertNotNull("", scuderia.getMovimento());
+				break;
+			case (Parametri.TRE):
+				assertNotNull("", scuderia.getMovimento());
+				break;
+			case (Parametri.QUATTRO):
+				assertNotNull("", scuderia.getMovimento());
+				break;
+			case (Parametri.CINQUE):
+				assertNotNull("", scuderia.getMovimento());
+				break;
+			case (Parametri.SEI):
+				assertNotNull("", scuderia.getMovimento());
+				break;
+			case (Parametri.SETTE):
+				assertNotNull("", scuderia.getMovimento());
+				break;
+			default:
+				break;
+			}
+
 		}
 
 	}
@@ -249,6 +292,7 @@ public class PartitaTest {
 	 */
 	@Test
 	public void testCheckFotofinish() {
+		// Test con quotazioni diverse vince la quotazione piu alta
 		Partita partita = new Partita();
 		List<Scuderia> arrivati = new ArrayList<Scuderia>();
 
@@ -263,8 +307,8 @@ public class PartitaTest {
 		arrivati.get(1).setQuotazione(2);
 		arrivati.get(1).setColore("PRIMO");
 		partita.checkFotofinish(arrivati);
-		assertEquals("", "PRIMO", partita.getClassifica().get(1).getColore());
-		assertEquals("", "SECONDO", partita.getClassifica().get(0).getColore());
+		assertEquals("", "PRIMO", partita.getClassifica().get(0).getColore());
+		assertEquals("", "SECONDO", partita.getClassifica().get(1).getColore());
 
 		// TEST UGUALI QUOTAZIONI CON GIA ALCUNE SCUDERIE IN CLASSIFICA
 		Partita partita2 = new Partita();
@@ -288,8 +332,9 @@ public class PartitaTest {
 		fotofinish.get(1).setQuotazione(4);
 		fotofinish.get(1).setColore("PRIMO");
 		partita2.checkFotofinish(fotofinish);
-		assertEquals("", "SECONDO", partita2.getClassifica().get(2).getColore());
-		assertEquals("", "PRIMO", partita2.getClassifica().get(3).getColore());
+		assertEquals("", "PRIMO", partita2.getClassifica().get(2).getColore());
+		assertEquals("", "SECONDO", partita2.getClassifica().get(3).getColore());
+		
 	}
 
 	/**
@@ -338,11 +383,15 @@ public class PartitaTest {
 			giocatore.setNomeGiocatore("prova");
 			partita.getarraygiocatori().add(giocatore);
 		}
-
+		// Controllo il caso in cui non tutte sono arrivate
 		partita.setScuderie();
 		partita.getScuderie().get(3).setArrivato(false);
-
 		assertFalse(partita.checkArrivati());
+		// Controllo il caso in cui tutte le scuderie sono arrivate
+		for (Scuderia scuderia : partita.getScuderie()) {
+			scuderia.setArrivato(true);
+		}
+		assertTrue(partita.checkArrivati());
 	}
 
 	/**
@@ -439,5 +488,4 @@ public class PartitaTest {
 		partita.checkeliminato();
 		assertEquals("devo avere 4", 4, partita.getarraygiocatori().size());
 	}
-
 }

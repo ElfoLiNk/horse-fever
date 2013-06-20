@@ -412,10 +412,8 @@ public class Partita {
 		}
 		if (arrivate == listascuderie.size()) {
 			return true;
-		} else {
-			return false;
 		}
-
+		return false;
 	}
 
 	/**
@@ -884,19 +882,20 @@ public class Partita {
 			} else if (fotofinish.get(j).getFotofinish() == 0) {
 				// Imposto la quotazione 1 cosi da farlo sempre perdere nel
 				// confronto successivo
-				fotofinish.get(j).setQuotazione(1);
+				fotofinish.get(j).setQuotazione(8);
 			}
 
 			while (fotofinish.size() > 0) {
-				// Trovo la scuderia quotazione massima
-				max = 0;
+				// Trovo la scuderia con quotazione piu alta (1:2)
+				max = 10;
 				for (int i = 0; i < fotofinish.size(); i++) {
-					if (fotofinish.get(i).getQuotazione() > max) {
+					if (fotofinish.get(i).getQuotazione() < max) {
 						max = fotofinish.get(i).getQuotazione();
 						idmax = i;
 					} else if (fotofinish.get(i).getQuotazione() == max) {
-						classifica.add(fotofinish.get(idmax));
-						fotofinish.remove(idmax);
+						// Vince il fotofinish l'utlimo giocatore con quotazione piu alta
+						classifica.add(fotofinish.get(i));
+						fotofinish.remove(i);
 					}
 				}
 				classifica.add(fotofinish.get(idmax));
@@ -972,7 +971,7 @@ public class Partita {
 	 * 
 	 * @exceptions
 	 * 
-	 * @see
+	 * @see Scuderia
 	 */
 	private void resetScuderie() {
 		for (Scuderia scuderia : listascuderie) {
@@ -994,7 +993,7 @@ public class Partita {
 	 * @return il nome del giocatore con il maggior numero di punti vittoria
 	 * @exceptions
 	 * 
-	 * @see
+	 * @see Giocatore
 	 */
 	public String trovaVincitore() {
 		int max = 0;
