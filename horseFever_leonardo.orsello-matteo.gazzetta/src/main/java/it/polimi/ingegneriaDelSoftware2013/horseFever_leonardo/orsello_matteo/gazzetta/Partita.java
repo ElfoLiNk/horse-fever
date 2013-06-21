@@ -39,7 +39,7 @@ public class Partita {
 	private int tempint;
 	private int flagscommessa = 1;
 
-	private String[] colori = { "NERO", "BLU", "VERDE", "ROSSO", "GIALLO",
+	private String[] colori = { "NERO", "BLU ", "VERDE", "ROSSO", "GIALLO",
 			"BIANCO" };
 
 	private List<Scuderia> arrivati = new ArrayList<Scuderia>();
@@ -365,9 +365,10 @@ public class Partita {
 				int k = Read.readCartaAzione(carteplayer);
 				// Scelta Scuderia
 				Write.write("\nA quale corsia vuoi applicarla?");
+				Write.write("\n     COLORE\tCARTE APPLICATE");
 				for (int n = 0; n < listascuderie.size(); n++) {
 					Write.write(n + " ) " + listascuderie.get(n).getColore()
-							+ "    Carte Applicate: "
+							+ "\t"
 							+ listascuderie.get(n).getCarteAzione().size());
 				}
 				int s = 0;
@@ -893,7 +894,8 @@ public class Partita {
 						max = fotofinish.get(i).getQuotazione();
 						idmax = i;
 					} else if (fotofinish.get(i).getQuotazione() == max) {
-						// Vince il fotofinish l'utlimo giocatore con quotazione piu alta
+						// Vince il fotofinish l'utlimo giocatore con quotazione
+						// piu alta
 						classifica.add(fotofinish.get(i));
 						fotofinish.remove(i);
 					}
@@ -955,7 +957,7 @@ public class Partita {
 				turno = turni;
 			}
 			if (turno < turni) {
-				Write.write("\n Premi invio per passare al turno successivo");
+				Write.write("\nPremi invio per passare al turno successivo");
 				Read.readInt();
 			}
 		} while (turno < turni);

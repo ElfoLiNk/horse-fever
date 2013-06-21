@@ -133,11 +133,11 @@ final class Write {
 	 */
 	public static void leaderboard(List<Giocatore> arraygiocatori) {
 		write("\nCLASSIFICA GIOCATORI\n");
-		write("Nome\tScuderia Soldi\tPV");
+		write("Nome\tScuderia\tSoldi\tPV");
 		for (Giocatore player : arraygiocatori) {
 			// Informazioni sul giocatore: Nome scuderia soldi pv
 			write(player.getNome().toUpperCase(Locale.getDefault())
-					+ "\t" + player.getScuderia() + "\t" + player.getSoldi()
+					+ "\t" + player.getScuderia() + "\t\t" + player.getSoldi()
 					+ "\t" + player.getPv() + "\n");
 		}
 	}
