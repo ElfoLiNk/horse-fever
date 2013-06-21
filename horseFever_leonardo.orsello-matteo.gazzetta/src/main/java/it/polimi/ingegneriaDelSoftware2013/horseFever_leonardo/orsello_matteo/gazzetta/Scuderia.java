@@ -39,8 +39,8 @@ public class Scuderia {
 	 */
 	@Override
 	public String toString() {
-		return " ) " + colore + "\tScommesse: " + scommessa.size()
-				+ "\tQuotazione: 1:" + quotazione;
+		return " ) " + colore + "\t" + scommessa.size()
+				+ "\t\t1:" + quotazione;
 	}
 
 	/**

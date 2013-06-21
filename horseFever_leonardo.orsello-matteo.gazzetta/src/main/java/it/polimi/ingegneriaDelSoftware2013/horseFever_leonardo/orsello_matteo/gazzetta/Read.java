@@ -132,6 +132,7 @@ final class Read {
 		int s;
 		int n = 0;
 		Write.write("\nSu che scuderia vuoi scommettere?");
+		Write.write("\n    COLORE\tN.SCOMMESSE\tQUOTAZIONE");
 		for (Scuderia scuderia : listascuderie) {
 			Write.write(n + scuderia.toString());
 			n++;
