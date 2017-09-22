@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
@@ -11,49 +11,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
  * Struttura dati delle carte movimento
- * 
  */
 public final class CarteMovimento {
-	private CarteMovimento(){}
-	private static List<String> listacartemovimento = new ArrayList<String>();
+    private static List<String> listacartemovimento = new ArrayList<String>();
 
-	/**
-	 * 
-	 * Legge un file txt contenente le carte movimento e le salva in una lista
-	 * 
-	 * @return la lista delle carte movimento
-	 * @throws IOException
-	 * @exceptions IOException
-	 * 
-	 * @see
-	 */
-	public static List<String> setMovimento() throws IOException {
-		BufferedReader file = null;
-		try {
+    private CarteMovimento() {
+    }
 
-			file = new BufferedReader(new InputStreamReader(
-					ResourceLoader.load("cartemovimento.txt"), Charset.defaultCharset()));
+    /**
+     * Legge un file txt contenente le carte movimento e le salva in una lista
+     *
+     * @return la lista delle carte movimento
+     * @throws IOException ERRORE: Lettura carte movimento
+     */
+    public static List<String> setMovimento() throws IOException {
+        BufferedReader file = null;
+        try {
 
-			// Leggo una linea dal file
-			String linea = file.readLine();
+            file = new BufferedReader(new InputStreamReader(
+                    ResourceLoader.load("cartemovimento.txt"), Charset.defaultCharset()));
 
-			while (linea != null) {
-				listacartemovimento.add(linea);
-				linea = file.readLine();
-			}
+            // Leggo una linea dal file
+            String linea = file.readLine();
 
-		} catch (IOException e) {
-			Write.write("ERRORE: Lettura carte movimento");
-		} finally {
+            while (linea != null) {
+                listacartemovimento.add(linea);
+                linea = file.readLine();
+            }
 
-			if (file != null) {
-				file.close();
-			}
+        } catch (IOException e) {
+            Write.write("ERRORE: Lettura carte movimento");
+        } finally {
 
-		}
-		return listacartemovimento;
-	}
+            if (file != null) {
+                file.close();
+            }
+
+        }
+        return listacartemovimento;
+    }
 
 }
