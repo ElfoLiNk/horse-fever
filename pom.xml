@@ -20,24 +20,80 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.googlecode.soundlibs</groupId>
 			<artifactId>mp3spi</artifactId>
-			<version>1.9.5-1</version>
+			<version>1.9.5-2</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 	<build>
 	<plugins>
 		<plugin>
+			<groupId>org.eluder.coveralls</groupId>
+			<artifactId>coveralls-maven-plugin</artifactId>
+			<version>4.3.0</version>
+			<configuration>
+				<sourceEncoding>UTF-8</sourceEncoding>
+			</configuration>
+		</plugin>
+		<plugin>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>cobertura-maven-plugin</artifactId>
+			<version>2.7</version>
+			<configuration>
+				<format>xml</format>
+				<maxmem>256m</maxmem>
+				<!-- aggregated reports for multi-module projects -->
+				<aggregate>true</aggregate>
+			</configuration>
+		</plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.0.1</version>
+            <executions>
+                <execution>
+                    <id>attach-sources</id>
+                    <goals>
+                        <goal>jar</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.10.4</version>
+            <inherited>false</inherited>
+            <configuration>
+                <source>1.8</source>
+                <encoding>utf8</encoding>
+                <quiet>true</quiet>
+                <links>
+                    <link>http://docs.oracle.com/javase/8/docs/api/</link>
+                </links>
+                <failOnError>false</failOnError>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>attach-javadocs</id>
+                    <goals>
+                        <goal>jar</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+		<plugin>
         		<groupId>org.apache.maven.plugins</groupId>
         		<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
         		<configuration>
-          			<source>1.7</source>
-        		 	<target>1.7</target>
+          			<source>1.8</source>
+        		 	<target>1.8</target>
 				<encoding>UTF-8</encoding>
         		</configuration>
       		</plugin>
