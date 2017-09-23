@@ -1,7 +1,11 @@
 /**
  *
  */
-package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util;
+
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Giocatore;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Parametri;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Scuderia;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -10,7 +14,7 @@ import java.util.Locale;
 /**
  * Classe che scrive stringhe e interi su System.out
  */
-final class SystemOut {
+public final class SystemOut {
 
     private SystemOut() {
     }

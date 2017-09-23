@@ -1,4 +1,6 @@
-package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util;
+
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Parametri;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;

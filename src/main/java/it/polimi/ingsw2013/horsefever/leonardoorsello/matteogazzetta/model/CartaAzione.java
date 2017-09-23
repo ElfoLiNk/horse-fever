@@ -1,14 +1,17 @@
 /**
  *
  */
-package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model;
+
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.ResourceLoader;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.parser.XmlParser;
 
 import java.util.List;
 
 /**
  * Struttura dati delle carte azione
  */
-public class CarteAzione {
+public class CartaAzione {
     /**
      * Attributi: identifier: Numero identificativo della carta lettera: Lettera della
      * carta agisce: Campo della partita in cui agisce effetto: Numero che
@@ -23,12 +26,12 @@ public class CarteAzione {
     private String descrizione;
 
     /**
-     * Crea una lista di tipo <CarteAzione> effettuando il parsing di un file
+     * Crea una lista di tipo <CartaAzione> effettuando il parsing di un file
      * xml contenente le carte azione.
      *
      * @return la lista delle carte azioni lette dal file xml
      */
-    public static List<CarteAzione> crealistaazioni() {
+    public static List<CartaAzione> caricaCarteAzione() {
         // Parso il file
         return XmlParser.parseXmlAzioni(ResourceLoader.load("carteAzione.xml"));
     }
@@ -52,13 +55,13 @@ public class CarteAzione {
         for (final Scuderia scuderia : scuderie) {
 
             // Prendo le carte azione della scuderia
-            final List<CarteAzione> carte = scuderia.getCarteAzione();
+            final List<CartaAzione> carte = scuderia.getCarteAzione();
 
             if (carte != null) {
                 // Controllo tutte le carte della scuderia
                 for (int j = 0; j < carte.size(); j++) {
                     // Analizzo solo le carte azione che influiscono la partenza
-                    final CarteAzione carta = carte.get(j);
+                    final CartaAzione carta = carte.get(j);
                     if (carta.getAgisce().equals("Partenza")) {
                         if (carta.getEffetto() < 0 && scuderia.getMovimento() > 0) {
                             // Applico l'effetto
@@ -93,10 +96,10 @@ public class CarteAzione {
         for (final Scuderia scuderia : scuderie) {
 
             // Prendo le carte azione della scuderia
-            final List<CarteAzione> carte = scuderia.getCarteAzione();
+            final List<CartaAzione> carte = scuderia.getCarteAzione();
 
             // Controllo tutte le carte della scuderia
-            for (final CarteAzione carta : carte) {
+            for (final CartaAzione carta : carte) {
                 // Analizzo solo le carte azione che influiscono il movimento
                 if ("Movimento".equals(carta.getAgisce())) {
                     // Se la scuderia è ultima
@@ -124,7 +127,7 @@ public class CarteAzione {
         // Controllo tutte le scuderie
         for (Scuderia scuderia : scuderie) {
             // Controllo tutte le carte della scuderia
-            for (final CarteAzione carta : scuderia.getCarteAzione()) {
+            for (final CartaAzione carta : scuderia.getCarteAzione()) {
                 // Analizzo solo le carte azione che influiscono lo sprint
                 if ("Sprint".equals(carta.getAgisce())) {
                     switch (carta.getEffetto()) {
@@ -168,7 +171,7 @@ public class CarteAzione {
         // Controllo tutte le scuderie
         for (Scuderia scuderia : scuderie) {
             // Controllo tutte le carte della scuderia
-            for (final CarteAzione carta : scuderia.getCarteAzione()) {
+            for (final CartaAzione carta : scuderia.getCarteAzione()) {
                 // Analizzo solo le carte azione che influiscono il fotofinish
                 if ("Fotofinish".equals(carta.getAgisce())) {
                     switch (carta.getEffetto()) {
@@ -196,7 +199,7 @@ public class CarteAzione {
         // Controllo tutte le scuderie
         for (Scuderia scuderia : scuderie) {
             // Controllo tutte le carte della scuderia
-            for (final CarteAzione carta : scuderia.getCarteAzione()) {
+            for (final CartaAzione carta : scuderia.getCarteAzione()) {
                 // Analizzo solo le carte azione che influiscono le quotazioni
                 if ("Quotazione".equals(carta.getAgisce())) {
                     if (carta.getEffetto() > 0 && scuderia.getQuotazione() > carta.getEffetto() + 1) {
@@ -218,10 +221,10 @@ public class CarteAzione {
     }
 
     /**
-     * @param identifier the identifier to set
+     * @param newIdentifier the identifier to set
      */
-    public void setIdentifier(final int identifier) {
-        this.identifier = identifier;
+    public void setIdentifier(final int newIdentifier) {
+        this.identifier = newIdentifier;
     }
 
     /**
@@ -232,10 +235,10 @@ public class CarteAzione {
     }
 
     /**
-     * @param lettera the lettera to set
+     * @param newLettera the lettera to set
      */
-    public void setLettera(final String lettera) {
-        this.lettera = lettera;
+    public void setLettera(final String newLettera) {
+        this.lettera = newLettera;
     }
 
     /**
@@ -246,10 +249,10 @@ public class CarteAzione {
     }
 
     /**
-     * @param nome the nome to set
+     * @param newNome the nome to set
      */
-    public void setNome(final String nome) {
-        this.nome = nome;
+    public void setNome(final String newNome) {
+        this.nome = newNome;
     }
 
     /**
@@ -260,10 +263,10 @@ public class CarteAzione {
     }
 
     /**
-     * @param effetto the effetto to set
+     * @param newEffetto the effetto to set
      */
-    public void setEffetto(final int effetto) {
-        this.effetto = effetto;
+    public void setEffetto(final int newEffetto) {
+        this.effetto = newEffetto;
     }
 
     /**
@@ -274,10 +277,10 @@ public class CarteAzione {
     }
 
     /**
-     * @param agisce the agisce to set
+     * @param newAgisce the agisce to set
      */
-    public void setAgisce(final String agisce) {
-        this.agisce = agisce;
+    public void setAgisce(final String newAgisce) {
+        this.agisce = newAgisce;
     }
 
     /**
@@ -288,9 +291,9 @@ public class CarteAzione {
     }
 
     /**
-     * @param descrizione the descrizione to set
+     * @param newDescrizione the descrizione to set
      */
-    public void setDescrizione(final String descrizione) {
-        this.descrizione = descrizione;
+    public void setDescrizione(final String newDescrizione) {
+        this.descrizione = newDescrizione;
     }
 }

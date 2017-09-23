@@ -1,7 +1,10 @@
 /**
  *
  */
-package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model;
+
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.SystemIn;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.SystemOut;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +16,7 @@ import java.util.Locale;
  */
 public class Giocatore {
 
-    private final List<CarteAzione> listaazioni;
+    private final List<CartaAzione> listaazioni;
     private String nome;
     private String interpreta;
     private int puntiVittoria;
@@ -21,7 +24,7 @@ public class Giocatore {
     private int salta;
     private String scuderia;
 
-    Giocatore() {
+    public Giocatore() {
         this.puntiVittoria = 1;
         this.soldi = 0;
         this.salta = 0;
@@ -69,7 +72,7 @@ public class Giocatore {
      *
      * @param punti vittoria vinti
      */
-    public void aggiornapv(final int punti) {
+    public void aggiornaPuntiVittoria(final int punti) {
         setPuntiVittoria(getPuntiVittoria() + punti);
     }
 
@@ -92,10 +95,10 @@ public class Giocatore {
     }
 
     /**
-     * @param interpreta the interpreta to set
+     * @param newInterpreta the interpreta to set
      */
-    public void setInterpreta(final String interpreta) {
-        this.interpreta = interpreta;
+    public void setInterpreta(final String newInterpreta) {
+        this.interpreta = newInterpreta;
     }
 
     /**
@@ -106,10 +109,10 @@ public class Giocatore {
     }
 
     /**
-     * @param puntiVittoria the puntiVittoria to set
+     * @param newPuntiVittoria the puntiVittoria to set
      */
-    public void setPuntiVittoria(final int puntiVittoria) {
-        this.puntiVittoria = puntiVittoria;
+    public void setPuntiVittoria(final int newPuntiVittoria) {
+        this.puntiVittoria = newPuntiVittoria;
     }
 
     /**
@@ -120,17 +123,17 @@ public class Giocatore {
     }
 
     /**
-     * @param soldi the soldi to set
+     * @param newSoldi the soldi to set
      */
-    public void setSoldi(final int soldi) {
-        this.soldi = soldi;
+    public void setSoldi(final int newSoldi) {
+        this.soldi = newSoldi;
     }
 
     /**
-     * @param newSoldi the soldi to add
+     * @param soldiToAdd the soldi to add
      */
-    public void aggiornaSoldi(final int newSoldi) {
-        this.soldi += newSoldi;
+    public void aggiornaSoldi(final int soldiToAdd) {
+        this.soldi += soldiToAdd;
     }
 
     /**
@@ -162,8 +165,8 @@ public class Giocatore {
     /**
      * @return the listaazioni
      */
-    public List<CarteAzione> getCarteAzione() {
-        return listaazioni;
+    public List<CartaAzione> getCarteAzione() {
+        return this.listaazioni;
     }
 
     /**
@@ -171,7 +174,7 @@ public class Giocatore {
      *
      * @param carta azione da aggiungere
      */
-    public void setCarteAzione(final CarteAzione carta) {
+    public void setCarteAzione(final CartaAzione carta) {
         this.listaazioni.add(carta);
     }
 
@@ -183,19 +186,19 @@ public class Giocatore {
     }
 
     /**
-     * @param salta the salta to set
+     * @param newSalta the salta to set
      */
-    public void setSalta(final int salta) {
-        this.salta = salta;
+    public void setSalta(final int newSalta) {
+        this.salta = newSalta;
     }
 
     /**
      * Imposta il nome del giocatore con la stringa passata come parametro
      *
-     * @param nome il nome da dare al giocatore
+     * @param newNome il nome da dare al giocatore
      */
-    public void setNomeGiocatore(final String nome) {
-        this.nome = nome;
+    public void setNomeGiocatore(final String newNome) {
+        this.nome = newNome;
 
     }
 

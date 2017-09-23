@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<carteAzione>
+<cartaAzione>
     <Carta ID="0">
         <Nome>Magna Velocitas</Nome>
         <Lettera>A</Lettera>
@@ -153,4 +153,4 @@
             Corsa.
         </Descrizione>
     </Carta>
-</carteAzione>
+</cartaAzione>

@@ -1,7 +1,7 @@
 /**
  *
  */
-package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model;
 
 /**
  * Struttura dati della Scommessa
@@ -11,7 +11,7 @@ public class Scommessa {
     private int soldi;
     private Tiposcommessa tiposcommessa;
 
-    Scommessa(final String nomegiocatore) {
+    public Scommessa(final String nomegiocatore) {
         this.nomegiocatore = nomegiocatore;
         this.soldi = 0;
     }
@@ -24,13 +24,6 @@ public class Scommessa {
     }
 
     /**
-     * @param nomegiocatore the nomegiocatore to set
-     */
-    public void setNomeGiocatore(final String nomegiocatore) {
-        this.nomegiocatore = nomegiocatore;
-    }
-
-    /**
      * @return the soldi
      */
     public int getSoldi() {
@@ -38,10 +31,10 @@ public class Scommessa {
     }
 
     /**
-     * @param soldi the soldi to set
+     * @param newSoldi the soldi to set
      */
-    public void setSoldi(final int soldi) {
-        this.soldi = soldi;
+    public void setSoldi(final int newSoldi) {
+        this.soldi = newSoldi;
     }
 
     /**
@@ -61,19 +54,6 @@ public class Scommessa {
         if (tipo == 'p') {
             tiposcommessa = Tiposcommessa.PIAZZATO;
         }
-    }
-
-    /**
-     * @param tipo il tipo di scommessa da impostare v vincente p piazzato
-     */
-    public Tiposcommessa getTiposcommessa(final char tipo) {
-        if (tipo == 'v') {
-            return Tiposcommessa.VINCENTE;
-        }
-        if (tipo == 'p') {
-            return Tiposcommessa.PIAZZATO;
-        }
-        throw new RuntimeException();
     }
 
     /**

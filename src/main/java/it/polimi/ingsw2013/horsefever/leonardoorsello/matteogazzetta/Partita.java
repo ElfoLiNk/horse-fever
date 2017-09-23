@@ -1,5 +1,9 @@
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.*;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.SystemIn;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.SystemOut;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
@@ -19,8 +23,8 @@ public class Partita {
     /**
      * Liste delle carte del mazzo
      */
-    private List<CartePersonaggio> listapersonaggi;
-    private List<CarteAzione> listaazioni;
+    private List<CartaPersonaggio> listapersonaggi;
+    private List<CartaAzione> listaazioni;
     private List<String> carteMovimento;
     private int turni;
     private int ngiocatori;
@@ -65,26 +69,19 @@ public class Partita {
      */
     public void setListe() throws IOException {
         // Creazione mazzo Personaggi
-        listapersonaggi = CartePersonaggio.crealistapersonaggi();
+        listapersonaggi = CartaPersonaggio.caricaCartePersionaggio();
         // Creazione mazzo Azioni
-        listaazioni = CarteAzione.crealistaazioni();
+        listaazioni = CartaAzione.caricaCarteAzione();
         // Creazione mazzo Movimento
-        carteMovimento = CarteMovimento.setMovimento();
+        carteMovimento = CartaMovimento.caricaCarteMovimento();
 
     }
 
     /**
      * @return the listapersonaggi
      */
-    public List<CartePersonaggio> getListapersonaggi() {
+    public List<CartaPersonaggio> getListapersonaggi() {
         return listapersonaggi;
-    }
-
-    /**
-     * @param listapersonaggi the listapersonaggi to set
-     */
-    public void setListapersonaggi(final List<CartePersonaggio> listapersonaggi) {
-        this.listapersonaggi = listapersonaggi;
     }
 
     /**
@@ -92,13 +89,6 @@ public class Partita {
      */
     public List<String> getCarteMovimento() {
         return carteMovimento;
-    }
-
-    /**
-     * @param carteMovimento the carteMovimento to set
-     */
-    public void setCarteMovimento(final List<String> carteMovimento) {
-        this.carteMovimento = carteMovimento;
     }
 
     /**
@@ -113,13 +103,6 @@ public class Partita {
      */
     public void setListascuderie(final List<Scuderia> listascuderie) {
         this.listascuderie = listascuderie;
-    }
-
-    /**
-     * @return the ngiocatori
-     */
-    public int getNgiocatori() {
-        return ngiocatori;
     }
 
     /**
@@ -209,7 +192,7 @@ public class Partita {
                 // Seleziono la carta personaggio del player
                 final Random rnd = new Random();
                 tempint = rnd.nextInt(listapersonaggi.size());
-                final CartePersonaggio personaggio = listapersonaggi.get(tempint);
+                final CartaPersonaggio personaggio = listapersonaggi.get(tempint);
 
                 // Assegno il nome della carta a interpreta del player
                 player.setInterpreta(personaggio.getNome());
@@ -287,20 +270,6 @@ public class Partita {
     }
 
     /**
-     * @return the turni
-     */
-    public int getTurni() {
-        return turni;
-    }
-
-    /**
-     * @param turni the turni to set
-     */
-    public void setTurni(final int turni) {
-        this.turni = turni;
-    }
-
-    /**
      * Randomizzo il primogiocatore, impostandolo uguale al indice dell'array
      * dei giocatori
      *
@@ -326,7 +295,7 @@ public class Partita {
             for (int i = primogiocatore; i < ngiocatori && finisco; i++) {
 
                 final Giocatore giocatore = arraygiocatori.get(i);
-                final List<CarteAzione> carteplayer = giocatore.getCarteAzione();
+                final List<CartaAzione> carteplayer = giocatore.getCarteAzione();
                 SystemOut.write(giocatore.toString());
                 SystemOut.write("\nScegli la carta azione da giocare:");
                 // Scelta Carta Azione
@@ -346,7 +315,7 @@ public class Partita {
                 } while (scuderiaScelta < 0 || scuderiaScelta > listascuderie.size() - 1);
 
                 // Salvo la carta nella scuderia corrispondente
-                listascuderie.get(scuderiaScelta).setCarteAzione(carteplayer.get(cartaScelta));
+                listascuderie.get(scuderiaScelta).addCarteAzione(carteplayer.get(cartaScelta));
 
                 // Rimuovo Carta dalla lista del player
                 giocatore.removeCarteAzione(cartaScelta);
@@ -621,7 +590,7 @@ public class Partita {
                 SystemOut.write("Il giocatore non ha abbastanza danari per effettuare la scommessa"
                         + " minima, pertanto perde 2 punti vittoria!");
                 // Rimuovo 2 punti vittoria
-                giocatore.aggiornapv(Parametri.MENODUE);
+                giocatore.aggiornaPuntiVittoria(Parametri.MENODUE);
                 // Salta la seconda scommessa
                 giocatore.setSalta(1);
 
@@ -686,15 +655,8 @@ public class Partita {
     /**
      * @return the listaazioni
      */
-    public List<CarteAzione> getListaazioni() {
+    public List<CartaAzione> getListaazioni() {
         return listaazioni;
-    }
-
-    /**
-     * @param listaazioni the listaazioni to set
-     */
-    public void setListaazioni(final List<CarteAzione> listaazioni) {
-        this.listaazioni = listaazioni;
     }
 
     /**
@@ -972,7 +934,7 @@ public class Partita {
                 scuderia.checkCarteAzione();
                 scuderia.checkLetteraCarteAzione();
             }
-            CarteAzione azioni = new CarteAzione();
+            CartaAzione azioni = new CartaAzione();
             movimento();
             if (partenza) {
                 azioni.carteAzionePartenza(listascuderie);

@@ -1,7 +1,11 @@
 /**
  *
  */
-package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model;
+
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.Partita;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.SystemIn;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.SystemOut;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,8 +16,8 @@ import java.util.List;
  */
 public class Scuderia {
     private final Partita partita;
-    private final List<CarteAzione> carteAzione = new ArrayList<>();
-    private List<Scommessa> scommessa = new ArrayList<>();
+    private final List<CartaAzione> carteAzione;
+    private List<Scommessa> scommessa;
     private int segnalino;
     private String colore;
     private int quotazione;
@@ -29,7 +33,9 @@ public class Scuderia {
     // 1 Vince fotofinish , 0 Perde fotofinish , -1 Controllo le quotazioni
     private int fotofinish = -1;
 
-    Scuderia(final Partita partita, String colore) {
+    public Scuderia(final Partita partita, String colore) {
+        this.carteAzione = new ArrayList<>();
+        this.scommessa = new ArrayList<>();
         this.partita = partita;
         this.colore = colore;
         this.arrivato = false;
@@ -73,14 +79,14 @@ public class Scuderia {
                                         scommessa.get(a).getSoldi()
                                                 * quotazione);
                         partita.getarraygiocatori().get(z)
-                                .aggiornapv(Parametri.TRE);
+                                .aggiornaPuntiVittoria(Parametri.TRE);
 
                     }
                     // Pago le scommesse piazzate
                     if (scommessa.get(a).getTiposcommessa() == Scommessa.Tiposcommessa.PIAZZATO) {
                         partita.getarraygiocatori().get(z)
                                 .aggiornaSoldi(scommessa.get(a).getSoldi() * 2);
-                        partita.getarraygiocatori().get(z).aggiornapv(1);
+                        partita.getarraygiocatori().get(z).aggiornaPuntiVittoria(1);
                     }
                 }
             }
@@ -210,17 +216,17 @@ public class Scuderia {
      * Controllo se la scuderia ha le carte azione che rimuovono tutte le carte
      * azione positive e/o negative assegnate alla scuderia
      *
-     * @see CarteAzione
+     * @see CartaAzione
      */
     public void checkCarteAzione() {
-        for (final CarteAzione carteAzione : new ArrayList<>(carteAzione)) {
-            if (carteAzione.getIdentifier() == Parametri.FRITZ_FINDEN) {
+        for (final CartaAzione cartaAzione : new ArrayList<>(carteAzione)) {
+            if (cartaAzione.getIdentifier() == Parametri.FRITZ_FINDEN) {
                 for (int j = Parametri.MIN_NEGATIVE; j < Parametri.MAX_NEGATIVE; j++) {
                     removeCartaAzioneByID(j);
                 }
                 // Rimuovo anche la carta stessa
                 removeCartaAzioneByID(Parametri.FRITZ_FINDEN);
-            } else if (carteAzione.getIdentifier() == Parametri.ROCHELLE_RECHERCHE) {
+            } else if (cartaAzione.getIdentifier() == Parametri.ROCHELLE_RECHERCHE) {
                 for (int j = Parametri.MIN_POSITIVE; j < Parametri.MAX_POSITIVE; j++) {
                     removeCartaAzioneByID(j);
                 }
@@ -234,16 +240,16 @@ public class Scuderia {
      * Rimuove le carte azioni con la stessa lettera dalla lista delle carte
      * azioni della scuderia
      *
-     * @see CarteAzione
+     * @see CartaAzione
      */
     public void checkLetteraCarteAzione() {
         /* HashMap di tutti gli attributi analizzati */
-        final HashMap<String, CarteAzione> attributi = new HashMap<>();
+        final HashMap<String, CartaAzione> attributi = new HashMap<>();
         /* Lista delle carte con la stessa lettera */
-        final List<CarteAzione> carteuguali = new ArrayList<>();
+        final List<CartaAzione> carteuguali = new ArrayList<>();
 
         // Controllo tutte le carte della scuderia
-        for (final CarteAzione carta : carteAzione) {
+        for (final CartaAzione carta : carteAzione) {
             // Controllo con l'hashmap se la lettera della carta è gia presente
             if (attributi.containsKey(carta.getLettera())) {
                 carteuguali.add(carta);
@@ -259,7 +265,7 @@ public class Scuderia {
     /**
      * Applico gli effetti delle carte azione che agiscono al traguardo
      *
-     * @see CarteAzione
+     * @see CartaAzione
      */
     public void carteAzioneTraguardo() {
         // Controllo tutte le carte della scuderia
@@ -289,10 +295,10 @@ public class Scuderia {
     }
 
     /**
-     * @param quotazione the quotazione to set
+     * @param newQuotazione the quotazione to set
      */
-    public void setQuotazione(final int quotazione) {
-        this.quotazione = quotazione;
+    public void setQuotazione(final int newQuotazione) {
+        this.quotazione = newQuotazione;
     }
 
     /**
@@ -303,10 +309,10 @@ public class Scuderia {
     }
 
     /**
-     * @param colore the colore to set
+     * @param newColore the colore to set
      */
-    public void setColore(final String colore) {
-        this.colore = colore;
+    public void setColore(final String newColore) {
+        this.colore = newColore;
     }
 
     /**
@@ -317,10 +323,10 @@ public class Scuderia {
     }
 
     /**
-     * @param movimento the movimento to set
+     * @param newMovimento the movimento to set
      */
-    public void setMovimento(final int movimento) {
-        this.movimento = movimento;
+    public void setMovimento(final int newMovimento) {
+        this.movimento = newMovimento;
     }
 
     /**
@@ -331,24 +337,24 @@ public class Scuderia {
     }
 
     /**
-     * @param scommessa the scommessa to set
+     * @param newScomessa the scommessa to set
      */
-    public void setScommessa(final List<Scommessa> scommessa) {
-        this.scommessa = scommessa;
+    public void setScommessa(final List<Scommessa> newScomessa) {
+        this.scommessa = newScomessa;
     }
 
     /**
      * @return carteAzione della scuderia
      */
-    public List<CarteAzione> getCarteAzione() {
+    public List<CartaAzione> getCarteAzione() {
         return carteAzione;
     }
 
     /**
-     * @param carteAzione la carta da aggiungere alla scuderia
+     * @param cartaAzione la carta da aggiungere alla scuderia
      */
-    public void setCarteAzione(final CarteAzione carteAzione) {
-        this.carteAzione.add(carteAzione);
+    public void addCarteAzione(final CartaAzione cartaAzione) {
+        this.carteAzione.add(cartaAzione);
     }
 
     /**
@@ -473,7 +479,7 @@ public class Scuderia {
     /**
      * Svuota la lista delle carte azione
      *
-     * @see CarteAzione
+     * @see CartaAzione
      */
     public void resetCarteAzione() {
         carteAzione.clear();

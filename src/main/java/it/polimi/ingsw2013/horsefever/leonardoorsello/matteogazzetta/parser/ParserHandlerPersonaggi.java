@@ -1,8 +1,9 @@
 /**
  *
  */
-package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.parser;
 
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.CartaPersonaggio;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -12,19 +13,21 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * Parser Handler delle Carte Azione
+ * Parser Handler delle Carte Personaggio
  *
- * @see CarteAzione XmlReader
+ * @see CartaPersonaggio XmlReader
  */
-public class ParserHandlerAzioni extends DefaultHandler {
+public class ParserHandlerPersonaggi extends DefaultHandler {
     // Lista da popolare mentre faccio il parsing del file XML
-    private final List<CarteAzione> cartaList;
+    private final List<CartaPersonaggio> cartaList;
+
     // Quando leggo un elemento XML faccio una push in questo stack
     private final Stack<String> elementoStack;
-    // Quando finisco un blocco XML faccio una push della CartaAzione in questo Stack
-    private final Stack<CarteAzione> oggettoStack;
 
-    ParserHandlerAzioni() {
+    // Quando finisco un blocco XML faccio una push della CartaAzione in questo Stack
+    private final Stack<CartaPersonaggio> oggettoStack;
+
+    ParserHandlerPersonaggi() {
         this.cartaList = new ArrayList<>();
         this.elementoStack = new Stack<>();
         this.oggettoStack = new Stack<>();
@@ -37,11 +40,12 @@ public class ParserHandlerAzioni extends DefaultHandler {
                              final Attributes attributes) throws SAXException {
         // Push nello stack degli elementi
         this.elementoStack.push(qName);
-        // Se inizia con 'Carta' preparo un oggetto CartaAzione e faccio il push
+        // Se inizia con 'Carta' preparo un oggetto CartaPersonaggio e faccio il
+        // push
         // nello stack degli oggetti
         if ("Carta".equals(qName)) {
-            // Costruisco una CartaAzione
-            final CarteAzione carta = new CarteAzione();
+            // Costruisco una CartaPersonaggio
+            final CartaPersonaggio carta = new CartaPersonaggio();
 
             // Imposto l'attributo id per ogni carta
             if (attributes != null && attributes.getLength() == 1) {
@@ -59,10 +63,10 @@ public class ParserHandlerAzioni extends DefaultHandler {
         // Rimuovo l'ultima </carta> aggiunta
         this.elementoStack.pop();
 
-        // L'oggetto CartaAzione è costruita quindi faccio il pop dallo stack
-        // degli oggetti e faccio il push nella lista delle carte
+        // L'oggetto CartaPersonaggio è costruita quindi faccio il pop dallo
+        // stack degli oggetti e faccio il push nella lista delle carte
         if ("Carta".equals(qName)) {
-            final CarteAzione oggetto = this.oggettoStack.pop();
+            final CartaPersonaggio oggetto = this.oggettoStack.pop();
             this.cartaList.add(oggetto);
         }
     }
@@ -80,21 +84,16 @@ public class ParserHandlerAzioni extends DefaultHandler {
 
         // Gestisco il valore in base a quale elemento appartiene
         if ("Nome".equals(currentElement())) {
-            final CarteAzione carta = this.oggettoStack.peek();
+            final CartaPersonaggio carta = this.oggettoStack.peek();
             carta.setNome(stringa);
-        } else if ("Lettera".equals(currentElement())) {
-            final CarteAzione carta = this.oggettoStack.peek();
-            carta.setLettera(stringa);
-        } else if ("Effetto".equals(currentElement())) {
-            CarteAzione carta = this.oggettoStack.peek();
+        } else if ("Soldi".equals(currentElement())) {
+            final CartaPersonaggio carta = this.oggettoStack.peek();
             final int intero = Integer.parseInt(new String(ch, start, length).trim());
-            carta.setEffetto(intero);
-        } else if ("Agisce".equals(currentElement())) {
-            CarteAzione carta = this.oggettoStack.peek();
-            carta.setAgisce(stringa);
-        } else if ("Descrizione".equals(currentElement())) {
-            CarteAzione carta = this.oggettoStack.peek();
-            carta.setDescrizione(stringa);
+            carta.setSoldi(intero);
+        } else if ("Quotazione".equals(currentElement())) {
+            final CartaPersonaggio carta = this.oggettoStack.peek();
+            final int intero = Integer.parseInt(new String(ch, start, length).trim());
+            carta.setQuotazione(intero);
         }
     }
 
@@ -109,9 +108,9 @@ public class ParserHandlerAzioni extends DefaultHandler {
      * Ritorna la lista delle carte azione
      *
      * @return cartaList
-     * @see CarteAzione
+     * @see CartaPersonaggio
      */
-    public List<CarteAzione> getCarte() {
+    public List<CartaPersonaggio> getCarte() {
         return cartaList;
     }
 }

@@ -1,7 +1,10 @@
 /**
  *
  */
-package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model;
+
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.ResourceLoader;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.SystemOut;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,10 +16,10 @@ import java.util.List;
 /**
  * Struttura dati delle carte movimento
  */
-public final class CarteMovimento {
-    private static List<String> carteMoviment = new ArrayList<>();
+public final class CartaMovimento {
+    private static List<String> carteMovimento = new ArrayList<>();
 
-    private CarteMovimento() {
+    private CartaMovimento() {
     }
 
     /**
@@ -25,21 +28,21 @@ public final class CarteMovimento {
      * @return la lista delle carte movimento
      * @throws IOException ERRORE: Lettura carte movimento
      */
-    public static List<String> setMovimento() throws IOException {
+    public static List<String> caricaCarteMovimento() throws IOException {
         try (BufferedReader file = new BufferedReader(new InputStreamReader(
                 ResourceLoader.load("cartemovimento.txt"), Charset.defaultCharset()))) {
             // Leggo una linea dal file
             String linea = file.readLine();
 
             while (linea != null) {
-                carteMoviment.add(linea);
+                carteMovimento.add(linea);
                 linea = file.readLine();
             }
 
         } catch (IOException e) {
             SystemOut.write("ERRORE: Lettura carte movimento");
         }
-        return carteMoviment;
+        return carteMovimento;
     }
 
 }

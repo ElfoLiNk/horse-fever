@@ -1,14 +1,17 @@
 /**
  *
  */
-package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model;
+
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.ResourceLoader;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.parser.XmlParser;
 
 import java.util.List;
 
 /**
  * Struttura dati delle carte personaggio
  */
-public class CartePersonaggio {
+public class CartaPersonaggio {
     /**
      * Attributi:
      * identifier: Numero identificativo della carta.
@@ -22,10 +25,10 @@ public class CartePersonaggio {
     private int quotazione;
 
     /**
-     * Crea una lista di tipo <CartePersonaggio> effettuando il parsing di un file
+     * Crea una lista di tipo <CartaPersonaggio> effettuando il parsing di un file
      * xml contenente le carte azione.
      */
-    public static List<CartePersonaggio> crealistapersonaggi() {
+    public static List<CartaPersonaggio> caricaCartePersionaggio() {
         // Parso il file
         return XmlParser.parseXmlPersonaggi(ResourceLoader.load("cartePersonaggio.xml"));
     }
@@ -37,17 +40,10 @@ public class CartePersonaggio {
     }
 
     /**
-     * @return the identifier
+     * @param newIdentifier the identifier to set
      */
-    public int getIdentifier() {
-        return identifier;
-    }
-
-    /**
-     * @param identifier the identifier to set
-     */
-    public void setIdentifier(final int identifier) {
-        this.identifier = identifier;
+    public void setIdentifier(final int newIdentifier) {
+        this.identifier = newIdentifier;
     }
 
     /**
@@ -58,10 +54,10 @@ public class CartePersonaggio {
     }
 
     /**
-     * @param nome the nome to set
+     * @param newNome the nome to set
      */
-    public void setNome(final String nome) {
-        this.nome = nome;
+    public void setNome(final String newNome) {
+        this.nome = newNome;
     }
 
     /**
@@ -72,10 +68,10 @@ public class CartePersonaggio {
     }
 
     /**
-     * @param soldi the soldi to set
+     * @param newSoldi the soldi to set
      */
-    public void setSoldi(final int soldi) {
-        this.soldi = soldi;
+    public void setSoldi(final int newSoldi) {
+        this.soldi = newSoldi;
     }
 
     /**
@@ -86,10 +82,10 @@ public class CartePersonaggio {
     }
 
     /**
-     * @param quotazione the quotazione to set
+     * @param newQuotazione the quotazione to set
      */
-    public void setQuotazione(final int quotazione) {
-        this.quotazione = quotazione;
+    public void setQuotazione(final int newQuotazione) {
+        this.quotazione = newQuotazione;
     }
 
 }

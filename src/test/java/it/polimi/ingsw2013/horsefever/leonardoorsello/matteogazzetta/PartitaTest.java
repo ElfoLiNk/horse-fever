@@ -1,5 +1,8 @@
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Giocatore;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Parametri;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Scuderia;
 import org.junit.Test;
 
 import java.io.IOException;

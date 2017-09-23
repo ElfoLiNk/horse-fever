@@ -1,4 +1,4 @@
-package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model;
 
 /**
  * Parametri e costanti del gioco

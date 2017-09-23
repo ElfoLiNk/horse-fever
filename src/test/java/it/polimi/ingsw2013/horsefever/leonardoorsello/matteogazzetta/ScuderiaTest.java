@@ -1,5 +1,9 @@
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.CartaAzione;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Giocatore;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Scommessa;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Scuderia;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -111,12 +115,12 @@ public class ScuderiaTest {
     public void testRemoveCartaAzioneByID() {
         Partita partita = new Partita();
         Scuderia scuderia = new Scuderia(partita, partita.COLORI[1]);
-        final CarteAzione carta = new CarteAzione();
+        final CartaAzione carta = new CartaAzione();
         // Carta ID 4
         carta.setIdentifier(4);
         // Salvo la size della lista prima di inserire la carta
         final int size = scuderia.getCarteAzione().size();
-        scuderia.setCarteAzione(carta);
+        scuderia.addCarteAzione(carta);
         // Rimuovo Carta ID 4
         scuderia.removeCartaAzioneByID(4);
         // Verifico che la carta sia rimossa
@@ -132,10 +136,10 @@ public class ScuderiaTest {
     public void testRemoveCartaAzione() {
         Partita partita = new Partita();
         Scuderia scuderia = new Scuderia(partita, partita.COLORI[1]);
-        CarteAzione carta = new CarteAzione();
+        CartaAzione carta = new CartaAzione();
         // Salvo la size della lista prima di inserire la carta
         int size = scuderia.getCarteAzione().size();
-        scuderia.setCarteAzione(carta);
+        scuderia.addCarteAzione(carta);
         // Rimuovo carta posizione 0
         scuderia.removeCartaAzione(0);
         // Verifico che la carta sia rimossa
@@ -166,15 +170,15 @@ public class ScuderiaTest {
         Partita partita = new Partita();
         Scuderia scuderia = new Scuderia(partita, partita.COLORI[1]);
         // Carta ID 15
-        CarteAzione carta = new CarteAzione();
+        CartaAzione carta = new CartaAzione();
         carta.setIdentifier(15);
 
         // Carta ID 8
-        final CarteAzione carta8 = new CarteAzione();
+        final CartaAzione carta8 = new CartaAzione();
         carta8.setIdentifier(8);
 
-        scuderia.setCarteAzione(carta);
-        scuderia.setCarteAzione(carta8);
+        scuderia.addCarteAzione(carta);
+        scuderia.addCarteAzione(carta8);
 
         scuderia.checkCarteAzione();
         // Verifico che la carta sia rimossa
@@ -191,15 +195,15 @@ public class ScuderiaTest {
         Partita partita = new Partita();
         Scuderia scuderia = new Scuderia(partita, partita.COLORI[1]);
         // Carta Positiva Lettera A
-        final CarteAzione cartapositiva = new CarteAzione();
+        final CartaAzione cartapositiva = new CartaAzione();
         cartapositiva.setLettera("A");
 
         // Carta Negativa Lettera A
-        final CarteAzione cartanegativa = new CarteAzione();
+        final CartaAzione cartanegativa = new CartaAzione();
         cartanegativa.setLettera("A");
 
-        scuderia.setCarteAzione(cartapositiva);
-        scuderia.setCarteAzione(cartanegativa);
+        scuderia.addCarteAzione(cartapositiva);
+        scuderia.addCarteAzione(cartanegativa);
 
         scuderia.checkLetteraCarteAzione();
         // Verifico che le carte siano rimosse
@@ -216,21 +220,21 @@ public class ScuderiaTest {
         Partita partita = new Partita();
         // Testo la carta che fa avanzare la scuderia dopo aver raggiunto il
         // traguardo
-        CarteAzione carta = new CarteAzione();
+        CartaAzione carta = new CartaAzione();
         carta.setAgisce("Traguardo");
         carta.setEffetto(2);
         Scuderia scuderia = new Scuderia(partita, partita.COLORI[1]);
         scuderia.setPosizione(12);
-        scuderia.setCarteAzione(carta);
+        scuderia.addCarteAzione(carta);
         scuderia.carteAzioneTraguardo();
         assertEquals("", 14, scuderia.getPosizione());
 
         // Testo la carta che fa fermare al traguardo
-        final CarteAzione cartafermo = new CarteAzione();
+        final CartaAzione cartafermo = new CartaAzione();
         cartafermo.setAgisce("Traguardo");
         cartafermo.setEffetto(0);
         scuderia.setPosizione(14);
-        scuderia.setCarteAzione(cartafermo);
+        scuderia.addCarteAzione(cartafermo);
         scuderia.carteAzioneTraguardo();
         assertEquals("", 12, scuderia.getPosizione());
 

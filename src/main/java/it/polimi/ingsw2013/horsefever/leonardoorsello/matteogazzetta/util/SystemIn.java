@@ -1,7 +1,10 @@
 /**
  *
  */
-package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util;
+
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Scuderia;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.CartaAzione;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +15,7 @@ import java.util.List;
 /**
  * Classe per leggere stringe, caratteri e interi da System.in
  */
-final class SystemIn {
+public final class SystemIn {
 
     private static BufferedReader br = new BufferedReader(
             new InputStreamReader(System.in, Charset.defaultCharset()));
@@ -144,9 +147,9 @@ final class SystemIn {
      *
      * @param carteAzione le carte del giocatore attuale
      * @return k la carta scelta
-     * @see CarteAzione
+     * @see CartaAzione
      */
-    public static int readCartaAzione(final List<CarteAzione> carteAzione) {
+    public static int readCartaAzione(final List<CartaAzione> carteAzione) {
         // Print carte azione del player
         for (int j = 0; j < carteAzione.size(); j++) {
             SystemOut.write(j + ") " + carteAzione.get(j).toString());
