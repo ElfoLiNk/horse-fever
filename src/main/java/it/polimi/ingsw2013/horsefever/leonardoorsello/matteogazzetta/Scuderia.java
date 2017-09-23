@@ -29,8 +29,9 @@ public class Scuderia {
     // 1 Vince fotofinish , 0 Perde fotofinish , -1 Controllo le quotazioni
     private int fotofinish = -1;
 
-    Scuderia(final Partita partita) {
+    Scuderia(final Partita partita, String colore) {
         this.partita = partita;
+        this.colore = colore;
         this.arrivato = false;
         this.classifica = 0;
         this.posizione = 0;
@@ -336,7 +337,7 @@ public class Scuderia {
     /**
      * @param scommessa the scommessa to set
      */
-    public void setScommessa(List<Scommessa> scommessa) {
+    public void setScommessa(final List<Scommessa> scommessa) {
         this.scommessa = scommessa;
     }
 
@@ -350,7 +351,7 @@ public class Scuderia {
     /**
      * @param carteAzione la carta da aggiungere alla scuderia
      */
-    public void setCarteAzione(CarteAzione carteAzione) {
+    public void setCarteAzione(final CarteAzione carteAzione) {
         this.carteAzione.add(carteAzione);
     }
 
@@ -364,7 +365,7 @@ public class Scuderia {
     /**
      * @param sprint the sprint to set
      */
-    public void setSprint(int sprint) {
+    public void setSprint(final int sprint) {
         this.sprint = sprint;
     }
 
@@ -378,7 +379,7 @@ public class Scuderia {
     /**
      * @param ultimo the ultimo to set
      */
-    public void setUltimo(boolean ultimo) {
+    public void setUltimo(final boolean ultimo) {
         this.ultimo = ultimo;
     }
 
@@ -392,7 +393,7 @@ public class Scuderia {
     /**
      * @param primo the primo to set
      */
-    public void setPrimo(boolean primo) {
+    public void setPrimo(final boolean primo) {
         this.primo = primo;
     }
 
@@ -406,7 +407,7 @@ public class Scuderia {
     /**
      * @param posizione the posizione to set
      */
-    public void setPosizione(int posizione) {
+    public void setPosizione(final int posizione) {
         this.posizione = posizione;
     }
 
@@ -420,7 +421,7 @@ public class Scuderia {
     /**
      * @param fotofinish the fotofinish to set
      */
-    public void setFotofinish(int fotofinish) {
+    public void setFotofinish(final int fotofinish) {
         this.fotofinish = fotofinish;
     }
 
@@ -434,14 +435,14 @@ public class Scuderia {
     /**
      * @param segnalino the segnalino to set
      */
-    public void setSegnalino(int segnalino) {
+    public void setSegnalino(final int segnalino) {
         this.segnalino = segnalino;
     }
 
     /**
      * @param temp the segnalino to add
      */
-    public void aggiornaSegnalino(int temp) {
+    public void aggiornaSegnalino(final int temp) {
         this.segnalino += temp;
     }
 
@@ -455,7 +456,7 @@ public class Scuderia {
     /**
      * @param arrivato the arrivato to set
      */
-    public void setArrivato(boolean arrivato) {
+    public void setArrivato(final boolean arrivato) {
         this.arrivato = arrivato;
     }
 
@@ -469,7 +470,7 @@ public class Scuderia {
     /**
      * @param classifica the classifica to set
      */
-    public void setClassifica(int classifica) {
+    public void setClassifica(final int classifica) {
         this.classifica = classifica;
     }
 

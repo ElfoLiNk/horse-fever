@@ -7,7 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 /**
  * Test per la classe Partita
@@ -254,7 +259,7 @@ public class PartitaTest {
         final List<Scuderia> arrivati = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
-            final Scuderia scuderia = new Scuderia(partita);
+            final Scuderia scuderia = new Scuderia(partita, partita.COLORI[i]);
             arrivati.add(scuderia);
         }
         arrivati.get(0).setPosizione(14);
@@ -281,7 +286,7 @@ public class PartitaTest {
         final List<Scuderia> arrivati = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
-            Scuderia scuderia = new Scuderia(partita);
+            Scuderia scuderia = new Scuderia(partita, partita.COLORI[i]);
             arrivati.add(scuderia);
         }
         arrivati.get(0).setPosizione(14);
@@ -299,13 +304,13 @@ public class PartitaTest {
         List<Scuderia> fotofinish = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
-            Scuderia scuderia = new Scuderia(partita);
+            Scuderia scuderia = new Scuderia(partita, partita.COLORI[i]);
             fotofinish.add(scuderia);
         }
         List<Scuderia> classifica = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
-            Scuderia scuderia = new Scuderia(partita);
+            Scuderia scuderia = new Scuderia(partita, partita.COLORI[i]);
             classifica.add(scuderia);
         }
         partita2.setClassifica(classifica);
@@ -390,7 +395,7 @@ public class PartitaTest {
         partita.setQuotazioni();
         List<Scuderia> scuderie = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            Scuderia scuderia = new Scuderia(partita);
+            Scuderia scuderia = new Scuderia(partita, partita.COLORI[i]);
             scuderie.add(scuderia);
         }
         scuderie.get(0).setQuotazione(2);
@@ -410,17 +415,17 @@ public class PartitaTest {
 
         List<Scuderia> classifica = new ArrayList<>();
 
-        Scuderia giallo = new Scuderia(partita);
+        Scuderia giallo = new Scuderia(partita, partita.COLORI[1]);
         giallo.setColore("Giallo");
         giallo.setQuotazione(2);
         classifica.add(giallo);
 
-        Scuderia verde = new Scuderia(partita);
+        Scuderia verde = new Scuderia(partita, partita.COLORI[2]);
         verde.setColore("Verde");
         verde.setQuotazione(3);
         classifica.add(verde);
 
-        Scuderia blu = new Scuderia(partita);
+        Scuderia blu = new Scuderia(partita, partita.COLORI[3]);
         blu.setColore("Blu");
         blu.setQuotazione(4);
         classifica.add(blu);

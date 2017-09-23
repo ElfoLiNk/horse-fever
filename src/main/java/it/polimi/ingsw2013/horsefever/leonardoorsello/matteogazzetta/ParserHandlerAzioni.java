@@ -33,7 +33,7 @@ public class ParserHandlerAzioni extends DefaultHandler {
     /**
      * Creo la carta
      */
-    public void startElement(String uri, final String localName, final String qName,
+    public void startElement(final String uri, final String localName, final String qName,
                              final Attributes attributes) throws SAXException {
         // Push nello stack degli elementi
         this.elementoStack.push(qName);
@@ -54,7 +54,7 @@ public class ParserHandlerAzioni extends DefaultHandler {
     /**
      * Chiudo la carta
      */
-    public void endElement(String uri, final String localName, final String qName)
+    public void endElement(final String uri, final String localName, final String qName)
             throws SAXException {
         // Rimuovo l'ultima </carta> aggiunta
         this.elementoStack.pop();
@@ -70,7 +70,7 @@ public class ParserHandlerAzioni extends DefaultHandler {
     /**
      * Questo viene chiamato ogni volta che il parser incontra un value node
      */
-    public void characters(final char[] ch, int start, final int length)
+    public void characters(final char[] ch, final int start, final int length)
             throws SAXException {
         final String stringa = new String(ch, start, length).trim();
         if (stringa.length() == 0) {

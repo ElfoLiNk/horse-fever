@@ -13,14 +13,14 @@ public final class ResourceLoader {
     /**
      * Restituisce l'input stream della risorsa necessaria
      *
-     * @param path il percorso del file da restituire l'input stream
+     * @param fileName il percorso del file da restituire l'input stream
      * @return input InputStream della risorsa richiesta
      * @see InputStream, ResourceLoader
      */
-    public static InputStream load(final String path) {
-        InputStream input = ResourceLoader.class.getResourceAsStream(path);
+    public static InputStream load(final String fileName) {
+        InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("/resources/" + fileName);
         if (input == null) {
-            input = ResourceLoader.class.getResourceAsStream("/" + path);
+            input = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
         }
         return input;
     }

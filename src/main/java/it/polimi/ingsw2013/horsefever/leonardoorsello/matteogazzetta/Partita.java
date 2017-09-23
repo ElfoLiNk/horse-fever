@@ -1,14 +1,18 @@
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.Locale;
 
 /**
  * Classe che gestisce tutta la partita: Crea le liste dei mazzi Imposta i
  * giocatori Gestisce i turni e le corse
  */
 public class Partita {
-    private final String[] COLORI = {"NERO", "BLU ", "VERDE", "ROSSO", "GIALLO",
+    final String[] COLORI = {"NERO", "BLU ", "VERDE", "ROSSO", "GIALLO",
             "BIANCO"};
     private final List<Scuderia> arrivati;
     private List<Giocatore> arraygiocatori;
@@ -158,27 +162,29 @@ public class Partita {
      * giocatori
      */
     public void setSegnalini() {
-        if (ngiocatori == Parametri.DUE) {
-            for (final Scuderia scuderia : listascuderie) {
-                scuderia.setSegnalino(Parametri.UNO);
+        for (final Scuderia scuderia : listascuderie) {
+            switch (ngiocatori) {
+                case Parametri.DUE:
+                    scuderia.setSegnalino(Parametri.UNO);
+                    break;
+                case Parametri.TRE:
+                    scuderia.setSegnalino(Parametri.DUE);
+                    break;
+                case Parametri.QUATTRO:
+                    scuderia.setSegnalino(Parametri.TRE);
+                    turni = Parametri.CINQUE;
+                    break;
+                case Parametri.CINQUE:
+                    scuderia.setSegnalino(Parametri.QUATTRO);
+                    turni = Parametri.CINQUE;
+                    break;
+                case Parametri.SEI:
+                    scuderia.setSegnalino(Parametri.QUATTRO);
+                    turni = Parametri.CINQUE;
+                    break;
+                default:
+                    break;
             }
-        }
-        if (ngiocatori == Parametri.TRE) {
-            for (final Scuderia scuderia : listascuderie) {
-                scuderia.setSegnalino(Parametri.DUE);
-            }
-        }
-        if (ngiocatori == Parametri.QUATTRO) {
-            for (final Scuderia scuderia : listascuderie) {
-                scuderia.setSegnalino(Parametri.TRE);
-            }
-            turni = Parametri.CINQUE;
-        }
-        if (ngiocatori == Parametri.CINQUE || ngiocatori == Parametri.SEI) {
-            for (final Scuderia scuderia : listascuderie) {
-                scuderia.setSegnalino(Parametri.QUATTRO);
-            }
-            turni = Parametri.CINQUE;
         }
     }
 
@@ -236,13 +242,9 @@ public class Partita {
      * Inizializza le Scuderie.
      */
     public void setScuderie() {
-
         for (int i = 0; i < Parametri.MAX_SCUDERIE; i++) {
-
-            final Scuderia scuderia = new Scuderia(this);
+            final Scuderia scuderia = new Scuderia(this, COLORI[i]);
             listascuderie.add(scuderia);
-            listascuderie.get(i).setColore(COLORI[i]);
-
         }
     }
 
@@ -271,13 +273,13 @@ public class Partita {
      * Associo a ogni player 1 carte azione
      */
     public void setCarteAzione() {
-        for (int i = 0; i < ngiocatori; i++) {
-            // Scelgo una carta azione a caso
-            final Random rnd = new Random();
+        // Scelgo una carta azione a caso
+        final Random rnd = new Random();
+        for (final Giocatore giocatore : arraygiocatori) {
             tempint = rnd.nextInt(getListaazioni().size());
 
-            // Salvo la carta azione nella lista del player i
-            arraygiocatori.get(i).setCarteAzione(getListaazioni().get(tempint));
+            // Salvo la carta azione nella lista del player
+            giocatore.setCarteAzione(getListaazioni().get(tempint));
 
             // Elimino la carta dalla lista
             getListaazioni().remove(tempint);
@@ -332,12 +334,12 @@ public class Partita {
                 // Scelta Scuderia
                 Write.write("\nA quale corsia vuoi applicarla?");
                 Write.write("\n     COLORE\tCARTE APPLICATE");
-                for (int n = 0; n < listascuderie.size(); n++) {
-                    Write.write(n + " ) " + listascuderie.get(n).getColore()
+                for (Scuderia scuderia : listascuderie) {
+                    Write.write(listascuderie.indexOf(scuderia) + " ) " + scuderia.getColore()
                             + "\t"
-                            + listascuderie.get(n).getCarteAzione().size());
+                            + scuderia.getCarteAzione().size());
                 }
-                int scuderiaScelta = 0;
+                int scuderiaScelta;
                 do {
                     Write.write("Seleziona corsia: ");
                     scuderiaScelta = Read.readInt();
@@ -371,13 +373,7 @@ public class Partita {
      * @see
      */
     public boolean checkArrivati() {
-        int arrivate = 0;
-        for (final Scuderia scuderia : listascuderie) {
-            if (scuderia.isArrivato()) {
-                arrivate++;
-            }
-        }
-        return arrivate == listascuderie.size();
+        return listascuderie.stream().filter(Scuderia::isArrivato).count() == listascuderie.size();
     }
 
     /**
@@ -433,8 +429,7 @@ public class Partita {
         scannerString.close();
 
         for (Scuderia scuderia : listascuderie) {
-            int quotazione = scuderia.getQuotazione();
-            scuderia.setMovimento(movimenti[quotazione - 2]);
+            scuderia.setMovimento(movimenti[scuderia.getQuotazione() - 2]);
         }
     }
 
@@ -501,26 +496,26 @@ public class Partita {
      * valida e la scommessa non è dello stesso tipo di una gia effettuata dallo
      * stesso giocatore
      *
-     * @param i l'indice del array dei giocatori
+     * @param playerIndex l'indice del array dei giocatori
      * @exceptions
      * @see
      */
-    public void sceltaScuderiaScommessa(int i) {
+    public void sceltaScuderiaScommessa(final int playerIndex) {
         // Valida della scuderia scelta
-        int scuderiavalida = 1;
+        int scuderiavalida;
         // Controllo sullo stesso tipo di scommessa
-        int check = 1;
+        int check;
         // Indice scuderia
-        int s;
+        int sceltaScuderia;
 
         do {
             // L'utente sceglie una scuderia finche non ne sceglie una valida
             do {
                 // l'utente sceglie la scuderia su cui scommettere
-                s = Read.readScuderiaScommessa(listascuderie);
+                sceltaScuderia = Read.readScuderiaScommessa(listascuderie);
 
                 // Verifico se la scuderia scelta puo avere ulteriori scommesse
-                if (listascuderie.get(s).getSegnalino() == 0) {
+                if (listascuderie.get(sceltaScuderia).getSegnalino() == 0) {
                     // Imposto la scuderia come non valida
                     scuderiavalida = 0;
                     Write.write("\nNon è possibile effettuare altre scommesse"
@@ -529,22 +524,22 @@ public class Partita {
                     // Imposto la scuderia come valida e rimuovo un segnalino
                     // dalla scuderia
                     scuderiavalida = 1;
-                    listascuderie.get(s).aggiornaSegnalino(-1);
+                    listascuderie.get(sceltaScuderia).aggiornaSegnalino(-1);
                 }
             } while (scuderiavalida != 1);
 
             // Creo una nuova scommessa e inizio a impostare il nome del
             // giocatore e la aggiungo alla lista delle scommesse della scuderia
             // scelta
-            Scommessa scommessa = new Scommessa(arraygiocatori.get(i).getNome());
-            listascuderie.get(s).getscommessa().add(scommessa);
+            Scommessa scommessa = new Scommessa(arraygiocatori.get(playerIndex).getNome());
+            listascuderie.get(sceltaScuderia).getscommessa().add(scommessa);
 
             // Effettuo la scommessa chiedendo i soldi al giocatore
-            check = listascuderie.get(s).effettuaScommessa(i);
+            check = listascuderie.get(sceltaScuderia).effettuaScommessa(playerIndex);
             // Rimuovo la scuderia se è dello stesso tipo di una già effettuata
             if (check == 0) {
-                listascuderie.get(s).getscommessa()
-                        .remove(listascuderie.get(s).getscommessa().size() - 1);
+                listascuderie.get(sceltaScuderia).getscommessa()
+                        .remove(listascuderie.get(sceltaScuderia).getscommessa().size() - 1);
             }
         } while (check != 1);
     }
@@ -567,14 +562,15 @@ public class Partita {
             j = primogiocatore - 1;
         }
         for (int i = j; i > -1 && finisco; i--) {
-            Write.write("Tocca al " + arraygiocatori.get(i).toString());
+            Giocatore giocatore = arraygiocatori.get(i);
+            Write.write("Tocca al " + giocatore.toString());
 
             // Controllo se il giocatore salta il secondo giro di scommesse
-            if (arraygiocatori.get(i).getSalta() == 1) {
+            if (giocatore.getSalta() == 1) {
                 Write.write("Il giocatore al primo giro di scommesse ha perso dei punti vittoria"
                         + " pertanto salta anche il secondo giro di scommessa");
                 // Resetto salta del giocatore che ha saltato la scommessa
-                arraygiocatori.get(i).setSalta(0);
+                giocatore.setSalta(0);
 
             } else {
 
@@ -582,8 +578,7 @@ public class Partita {
 
                 // Controllo se ha abbastanza soldi per fare una seconda
                 // scommessa
-                if (arraygiocatori.get(i).getPv() * Parametri.MIN_SCOMMESSA > arraygiocatori
-                        .get(i).getSoldi()) {
+                if (giocatore.getPv() * Parametri.MIN_SCOMMESSA > giocatore.getSoldi()) {
                     valido = 0;
                     Write.write("Il giocatore non ha abbastanza danari per effettuare la scommessa minima, non puoi effettuare la seconda scommessa!");
                 }
@@ -618,17 +613,17 @@ public class Partita {
         // Ciclo tutti i giocatori
         boolean finisco = true;
         for (int i = primogiocatore; i < ngiocatori && finisco; i++) {
-            Write.write("Tocca al " + arraygiocatori.get(i).toString());
+            Giocatore giocatore = arraygiocatori.get(i);
+            Write.write("Tocca al " + giocatore.toString());
 
             // Verifico la validità della scommessa minima
-            if (arraygiocatori.get(i).getPv() * Parametri.MIN_SCOMMESSA > arraygiocatori
-                    .get(i).getSoldi()) {
+            if (giocatore.getPv() * Parametri.MIN_SCOMMESSA > giocatore.getSoldi()) {
                 Write.write("Il giocatore non ha abbastanza danari per effettuare la scommessa"
                         + " minima, pertanto perde 2 punti vittoria!");
                 // Rimuovo 2 punti vittoria
-                arraygiocatori.get(i).aggiornapv(Parametri.MENODUE);
+                giocatore.aggiornapv(Parametri.MENODUE);
                 // Salta la seconda scommessa
-                arraygiocatori.get(i).setSalta(1);
+                giocatore.setSalta(1);
 
             }
 
@@ -668,7 +663,7 @@ public class Partita {
     /**
      * @param temp the flagscommessa to set
      */
-    public void setflagscommessa(int temp) {
+    public void setflagscommessa(final int temp) {
         flagscommessa = temp;
     }
 
@@ -698,7 +693,7 @@ public class Partita {
     /**
      * @param listaazioni the listaazioni to set
      */
-    public void setListaazioni(List<CarteAzione> listaazioni) {
+    public void setListaazioni(final List<CarteAzione> listaazioni) {
         this.listaazioni = listaazioni;
     }
 
@@ -709,8 +704,8 @@ public class Partita {
      * @param scuderie delle scuderie arrivate
      * @see Scuderia
      */
-    public void creaClassifica(List<Scuderia> scuderie) {
-        int max = 0;
+    public void creaClassifica(final List<Scuderia> scuderie) {
+        int max;
         List<Scuderia> fotofinish = new ArrayList<>();
         int idmax = -1;
 
@@ -760,7 +755,7 @@ public class Partita {
     /**
      * @param classifica the classifica to set
      */
-    public void setClassifica(List<Scuderia> classifica) {
+    public void setClassifica(final List<Scuderia> classifica) {
         this.classifica = classifica;
     }
 
@@ -773,34 +768,36 @@ public class Partita {
      * @exceptions
      * @see
      */
-    public void checkFotofinish(List<Scuderia> fotofinish) {
+    public void checkFotofinish(final List<Scuderia> fotofinish) {
         int max = 0;
         int idmax = -1;
 
         // Controllo se è stata applicata una carta azione fotofinish
         for (int j = 0; j < fotofinish.size(); j++) {
-            if (fotofinish.get(j).getFotofinish() == 1) {
+            Scuderia scuderia = fotofinish.get(j);
+            if (scuderia.getFotofinish() == 1) {
                 // Lo aggiungo subito alla classifica
-                classifica.add(fotofinish.get(j));
+                classifica.add(scuderia);
                 // Lo rimuovo dal fotofinish
                 fotofinish.remove(j);
-            } else if (fotofinish.get(j).getFotofinish() == 0) {
+            } else if (scuderia.getFotofinish() == 0) {
                 // Imposto la quotazione 1 cosi da farlo sempre perdere nel
                 // confronto successivo
-                fotofinish.get(j).setQuotazione(Parametri.OTTO);
+                scuderia.setQuotazione(Parametri.OTTO);
             }
 
             while (fotofinish.size() > 0) {
                 // Trovo la scuderia con quotazione piu alta (1:2)
                 max = Parametri.DIECI;
                 for (int i = 0; i < fotofinish.size(); i++) {
-                    if (fotofinish.get(i).getQuotazione() < max) {
-                        max = fotofinish.get(i).getQuotazione();
+                    Scuderia scuderiaB = fotofinish.get(i);
+                    if (scuderiaB.getQuotazione() < max) {
+                        max = scuderiaB.getQuotazione();
                         idmax = i;
-                    } else if (fotofinish.get(i).getQuotazione() == max) {
+                    } else if (scuderiaB.getQuotazione() == max) {
                         // Vince il fotofinish l'utlimo giocatore con quotazione
                         // piu alta
-                        classifica.add(fotofinish.get(i));
+                        classifica.add(scuderiaB);
                         fotofinish.remove(i);
                     }
                 }
@@ -901,19 +898,19 @@ public class Partita {
 
         if (arraygiocatori.size() > 0) {
             // Ciclo tutti i giocatori rimasti
-            for (int i = 0; i < arraygiocatori.size(); i++) {
+            for (Giocatore giocatore : arraygiocatori) {
                 // Trovo il giocatore con i pv massimi
-                if (arraygiocatori.get(i).getPv() > max) {
-                    max = arraygiocatori.get(i).getPv();
-                    idmax = i;
+                if (giocatore.getPv() > max) {
+                    max = giocatore.getPv();
+                    idmax = arraygiocatori.indexOf(giocatore);
 
                     // Se ci sono due giocatori con gli stessi pv vince quello
                     // con più soldi
-                } else if (max == arraygiocatori.get(i).getPv()
-                        && arraygiocatori.get(i).getSoldi() > arraygiocatori
+                } else if (max == giocatore.getPv()
+                        && giocatore.getSoldi() > arraygiocatori
                         .get(idmax).getSoldi()) {
-                    max = arraygiocatori.get(i).getPv();
-                    idmax = i;
+                    max = giocatore.getPv();
+                    idmax = arraygiocatori.indexOf(giocatore);
                 }
             }
 
@@ -929,16 +926,13 @@ public class Partita {
     public void pagascuderie() {
         for (Giocatore player : arraygiocatori) {
             if (player.getScuderia().equals(classifica.get(0).getColore())) {
-                player.setSoldi(player.getSoldi()
-                        + Parametri.SOLDI_PRIMA_SCUDERIA);
+                player.setSoldi(player.getSoldi() + Parametri.SOLDI_PRIMA_SCUDERIA);
             }
             if (player.getScuderia().equals(classifica.get(1).getColore())) {
-                player.setSoldi(player.getSoldi()
-                        + Parametri.SOLDI_SECONDA_SCUDERIA);
+                player.setSoldi(player.getSoldi() + Parametri.SOLDI_SECONDA_SCUDERIA);
             }
             if (player.getScuderia().equals(classifica.get(2).getColore())) {
-                player.setSoldi(player.getSoldi()
-                        + Parametri.SOLDI_TERZA_SCUDERIA);
+                player.setSoldi(player.getSoldi() + Parametri.SOLDI_TERZA_SCUDERIA);
             }
         }
 

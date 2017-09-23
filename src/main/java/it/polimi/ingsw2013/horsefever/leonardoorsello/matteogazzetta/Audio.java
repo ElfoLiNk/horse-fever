@@ -1,6 +1,12 @@
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.DataLine;
 import java.io.IOException;
 
 /**
@@ -17,12 +23,7 @@ public class Audio {
      */
     public Audio(final String filename) {
         // Nuovo thread per ogni file audio riprodotto
-        audio = new Thread() {
-            @Override
-            public void run() {
-                play(filename);
-            }
-        };
+        audio = new Thread(() -> play(filename));
     }
 
     /**
@@ -60,11 +61,14 @@ public class Audio {
             audioIn.close();
 
         } catch (IOException e) {
-            Write.write("ERRORE IO FILE AUDIO /" + filename);
+            Write.write("ERRORE IO FILE AUDIO " + filename);
+            return;
         } catch (UnsupportedAudioFileException e) {
             Write.write("ERRORE AUDIO NON SUPPORTATO");
+            return;
         } catch (LineUnavailableException e) {
             Write.write("ERRORE AUDIO");
+            return;
         }
         // LOOP AUDIO SOUNDTRACK
         play(filename);

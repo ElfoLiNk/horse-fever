@@ -20,7 +20,7 @@ import java.util.List;
  */
 public final class XmlParser {
 
-    public XmlParser() {
+    private XmlParser() {
     }
 
     /**

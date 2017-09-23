@@ -123,31 +123,27 @@ public class CarteAzione {
     public void carteAzioneSprint(final List<Scuderia> scuderie) {
         // Controllo tutte le scuderie
         for (Scuderia scuderia : scuderie) {
-
-            // Prendo le carte azione della scuderia
-            final List<CarteAzione> carte = scuderia.getCarteAzione();
-
             // Controllo tutte le carte della scuderia
-            for (final CarteAzione carta : carte) {
+            for (final CarteAzione carta : scuderia.getCarteAzione()) {
                 // Analizzo solo le carte azione che influiscono lo sprint
-                if (carta.getAgisce().equals("Sprint")) {
-                    if (carta.getEffetto() == -1 && scuderia.getSprint() > 0) {
-                        scuderia.setSprint(scuderia.getSprint() - 1);
-
-                    }
-                    if (carta.getEffetto() == 0) {
-                        scuderia.setSprint(0);
-                    }
-                    if (carta.getEffetto() == 1 && scuderia.getSprint() > 0 && scuderia.getSprint() < Parametri.TRE) {
-                        scuderia.setSprint(scuderia.getSprint() + 1);
-                    }
-                    if (carta.getEffetto() == 2) {
-                        if (scuderia.getSprint() > 0) {
-                            scuderia.setSprint(Parametri.TRE);
-                        } else {
-                            scuderia.setSprint(2);
-                        }
-
+                if ("Sprint".equals(carta.getAgisce())) {
+                    switch (carta.getEffetto()) {
+                        case -1:
+                            if (scuderia.getSprint() > 0) scuderia.setSprint(scuderia.getSprint() - 1);
+                            break;
+                        case 0:
+                            scuderia.setSprint(0);
+                            break;
+                        case 1:
+                            if (scuderia.getSprint() > 0 && scuderia.getSprint() < Parametri.TRE)
+                                scuderia.setSprint(scuderia.getSprint() + 1);
+                            break;
+                        case 2:
+                            if (scuderia.getSprint() > 0) scuderia.setSprint(Parametri.TRE);
+                            else scuderia.setSprint(2);
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
@@ -164,21 +160,20 @@ public class CarteAzione {
     public void carteAzioneFotofinish(final List<Scuderia> scuderie) {
         // Controllo tutte le scuderie
         for (Scuderia scuderia : scuderie) {
-
-            // Prendo le carte azione della scuderia
-            final List<CarteAzione> carte = scuderia.getCarteAzione();
-
             // Controllo tutte le carte della scuderia
-            for (final CarteAzione carta : carte) {
+            for (final CarteAzione carta : scuderia.getCarteAzione()) {
                 // Analizzo solo le carte azione che influiscono il fotofinish
                 if ("Fotofinish".equals(carta.getAgisce())) {
-                    if (carta.getEffetto() == 0) {
-                        scuderia.setFotofinish(0);
+                    switch (carta.getEffetto()) {
+                        case 0:
+                            scuderia.setFotofinish(0);
+                            break;
+                        case 1:
+                            scuderia.setFotofinish(1);
+                            break;
+                        default:
+                            break;
                     }
-                    if (carta.getEffetto() == 1) {
-                        scuderia.setFotofinish(1);
-                    }
-
                 }
             }
         }
@@ -193,20 +188,14 @@ public class CarteAzione {
     public void carteAzioneQuotazione(final List<Scuderia> scuderie) {
         // Controllo tutte le scuderie
         for (Scuderia scuderia : scuderie) {
-
-            // Prendo le carte azione della scuderia
-            List<CarteAzione> carte = scuderia.getCarteAzione();
-
             // Controllo tutte le carte della scuderia
-            for (CarteAzione carta : carte) {
+            for (final CarteAzione carta : scuderia.getCarteAzione()) {
                 // Analizzo solo le carte azione che influiscono le quotazioni
                 if ("Quotazione".equals(carta.getAgisce())) {
                     if (carta.getEffetto() > 0 && scuderia.getQuotazione() > carta.getEffetto() + 1) {
                         scuderia.setQuotazione(scuderia.getQuotazione() - carta.getEffetto());
-
                     } else if (scuderia.getQuotazione() < carta.getEffetto() + Parametri.SETTE) {
                         scuderia.setQuotazione(scuderia.getQuotazione() - carta.getEffetto());
-
                     }
                 }
             }
