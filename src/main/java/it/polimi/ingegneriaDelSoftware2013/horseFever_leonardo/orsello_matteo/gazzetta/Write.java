@@ -91,19 +91,19 @@ final class Write {
      * @param scuderie la lista delle scuderie
      * @see Scuderia
      */
-    public static void printCorsa(List<Scuderia> scuderie) {
+    public static void printCorsa(final List<Scuderia> scuderie) {
         Write.clear();
-        for (int i = 0; i < scuderie.size(); i++) {
+        for (Scuderia aScuderie : scuderie) {
             // Stampo il colore della scuderia
-            Write.simple(scuderie.get(i).getColore() + "\t");
+            Write.simple(aScuderie.getColore() + "\t");
             // Stampo tot # in base alla posizione della scuderia
-            for (int j = 0; j < scuderie.get(i).getPosizione(); j++) {
+            for (int j = 0; j < aScuderie.getPosizione(); j++) {
                 Write.simple("#");
             }
-            Write.simple(" " + scuderie.get(i).getPosizione());
+            Write.simple(" " + aScuderie.getPosizione());
             // Stampo la classifica di arrivo della scuderia
-            if (scuderie.get(i).getClassifica() > 0) {
-                Write.simple(" " + scuderie.get(i).getClassifica() + "°");
+            if (aScuderie.getClassifica() > 0) {
+                Write.simple(" " + aScuderie.getClassifica() + "°");
             }
             Write.write("");
         }

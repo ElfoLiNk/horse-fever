@@ -123,7 +123,7 @@ public class Giocatore {
      * @param newSoldi the soldi to add
      */
     public void aggiornaSoldi(int newSoldi) {
-        soldi += newSoldi;
+        this.soldi += newSoldi;
     }
 
     /**

@@ -8,28 +8,25 @@ import java.util.*;
  * giocatori Gestisce i turni e le corse
  */
 public class Partita {
-    private static List<Giocatore> arraygiocatori = new ArrayList<>();
+    private final String[] colori = {"NERO", "BLU ", "VERDE", "ROSSO", "GIALLO",
+            "BIANCO"};
+    private final List<Scuderia> arrivati = new ArrayList<>();
+    private List<Giocatore> arraygiocatori = new ArrayList<>();
     /**
      * Liste delle carte del mazzo
      */
-    private List<CartePersonaggio> listapersonaggi = null;
+    private List<CartePersonaggio> listapersonaggi;
     private List<CarteAzione> listaazioni;
-    private List<String> listacartemovimento = null;
+    private List<String> listacartemovimento;
     private int turni = 0;
     private int ngiocatori = 0;
     private int primogiocatore = 0;
     private List<Scuderia> listascuderie = new ArrayList<>();
-
     /**
      * Gestione Scommesse
      */
     private int tempint;
     private int flagscommessa = 1;
-
-    private String[] colori = {"NERO", "BLU ", "VERDE", "ROSSO", "GIALLO",
-            "BIANCO"};
-
-    private List<Scuderia> arrivati = new ArrayList<>();
     private List<Scuderia> classifica = new ArrayList<>();
 
     /**
@@ -42,8 +39,8 @@ public class Partita {
     /**
      * @param arraygiocatori the arraygiocatori to set
      */
-    public void setArraygiocatori(List<Giocatore> arraygiocatori) {
-        Partita.arraygiocatori = arraygiocatori;
+    public void setArraygiocatori(final List<Giocatore> arraygiocatori) {
+        this.arraygiocatori = arraygiocatori;
     }
 
     /**
@@ -71,7 +68,7 @@ public class Partita {
     /**
      * @param listapersonaggi the listapersonaggi to set
      */
-    public void setListapersonaggi(List<CartePersonaggio> listapersonaggi) {
+    public void setListapersonaggi(final List<CartePersonaggio> listapersonaggi) {
         this.listapersonaggi = listapersonaggi;
     }
 
@@ -83,10 +80,10 @@ public class Partita {
     }
 
     /**
-     * @param listacartemovimento the listacartemovimento to set
+     * @param carteMovimento the listacartemovimento to set
      */
-    public void setListacartemovimento(List<String> listacartemovimento) {
-        this.listacartemovimento = listacartemovimento;
+    public void setListacartemovimento(final List<String> carteMovimento) {
+        this.listacartemovimento = carteMovimento;
     }
 
     /**
@@ -99,7 +96,7 @@ public class Partita {
     /**
      * @param listascuderie the listascuderie to set
      */
-    public void setListascuderie(List<Scuderia> listascuderie) {
+    public void setListascuderie(final List<Scuderia> listascuderie) {
         this.listascuderie = listascuderie;
     }
 
@@ -113,7 +110,7 @@ public class Partita {
     /**
      * @param ngiocatori the ngiocatori to set
      */
-    public void setNgiocatori(int ngiocatori) {
+    public void setNgiocatori(final int ngiocatori) {
         this.ngiocatori = ngiocatori;
     }
 
@@ -151,7 +148,7 @@ public class Partita {
      */
     public void setSegnalini() {
         if (ngiocatori == Parametri.DUE) {
-            for (Scuderia scuderia : listascuderie) {
+            for (final Scuderia scuderia : listascuderie) {
                 scuderia.setSegnalino(Parametri.UNO);
             }
         }
@@ -183,7 +180,7 @@ public class Partita {
 
         for (int i = 0; i < ngiocatori; i++) {
             // Costruisco il giocatore
-            Giocatore player = new Giocatore();
+            final Giocatore player = new Giocatore();
             int valid;
 
             do {
@@ -193,21 +190,20 @@ public class Partita {
                 player.setNome(i + 1);
 
                 // Seleziono la carta personaggio del player
-                Random rnd = new Random();
+                final Random rnd = new Random();
                 tempint = rnd.nextInt(listapersonaggi.size());
+                CartePersonaggio personaggio = listapersonaggi.get(tempint);
 
                 // Assegno il nome della carta a interpreta del player
-                player.setInterpreta(listapersonaggi.get(tempint).getNome());
+                player.setInterpreta(personaggio.getNome());
 
                 // Assegno i corrispondenti soldi al player
-                player.setSoldi(listapersonaggi.get(tempint).getSoldi());
+                player.setSoldi(personaggio.getSoldi());
 
                 // Assegno la corrispettiva Scuderia al player
-                player.setScuderia(
-                        listapersonaggi.get(tempint).getQuotazione(),
-                        listascuderie);
+                player.setScuderia(personaggio.getQuotazione(), listascuderie);
 
-                for (Giocatore giocatore : arraygiocatori) {
+                for (final Giocatore giocatore : arraygiocatori) {
                     // Controllo se il nome è gia stato scelto
                     if (player.getNome().equals(giocatore.getNome())) {
                         valid = 0;
@@ -250,7 +246,7 @@ public class Partita {
 
         // Continuo ad aggiungere un numero finche non trovo quello giusto
         while (list.size() < listascuderie.size()) {
-            int num = rnd.nextInt(Parametri.SEI) + Parametri.DUE;
+            final int num = rnd.nextInt(Parametri.SEI) + Parametri.DUE;
             if (!list.contains(num)) {
                 list.add(num);
             }
@@ -287,7 +283,7 @@ public class Partita {
     /**
      * @param turni the turni to set
      */
-    public void setTurni(int turni) {
+    public void setTurni(final int turni) {
         this.turni = turni;
     }
 
@@ -316,12 +312,11 @@ public class Partita {
             boolean finisco = true;
             for (int i = primogiocatore; i < ngiocatori && finisco; i++) {
 
-                List<CarteAzione> carteplayer = arraygiocatori.get(i)
-                        .getCarteAzione();
+                final List<CarteAzione> carteplayer = arraygiocatori.get(i).getCarteAzione();
                 Write.write(arraygiocatori.get(i).toString());
                 Write.write("\nScegli la carta azione da giocare:");
                 // Scelta Carta Azione
-                int k = Read.readCartaAzione(carteplayer);
+                final int cartaScelta = Read.readCartaAzione(carteplayer);
                 // Scelta Scuderia
                 Write.write("\nA quale corsia vuoi applicarla?");
                 Write.write("\n     COLORE\tCARTE APPLICATE");
@@ -337,10 +332,10 @@ public class Partita {
                 } while (s < 0 || s > listascuderie.size() - 1);
 
                 // Salvo la carta nella scuderia corrispondente
-                listascuderie.get(s).setCarteAzione(carteplayer.get(k));
+                listascuderie.get(s).setCarteAzione(carteplayer.get(cartaScelta));
 
                 // Rimuovo Carta dalla lista del player
-                arraygiocatori.get(i).removeCarteAzione(k);
+                arraygiocatori.get(i).removeCarteAzione(cartaScelta);
 
                 // Clear console
                 Write.clear();
@@ -703,9 +698,9 @@ public class Partita {
      * @param scuderie delle scuderie arrivate
      * @see Scuderia
      */
-    public void classifica(List<Scuderia> scuderie) {
+    public void creaClassifica(List<Scuderia> scuderie) {
         int max = 0;
-        List<Scuderia> fotofinish = new ArrayList<Scuderia>();
+        List<Scuderia> fotofinish = new ArrayList<>();
         int idmax = -1;
 
         while (scuderie.size() > 0) {
@@ -984,7 +979,7 @@ public class Partita {
             azioni.carteAzioneSprint(listascuderie);
             posizione();
             azioni.carteAzioneFotofinish(listascuderie);
-            classifica(arrivati);
+            creaClassifica(arrivati);
             aggiornaQuotazioni();
             Write.printCorsa(listascuderie);
         } while (!checkArrivati());

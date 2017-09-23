@@ -1,6 +1,5 @@
 package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -13,21 +12,6 @@ import static org.junit.Assert.assertEquals;
  */
 public class ScuderiaTest {
 
-    List<Scuderia> scuderie = new ArrayList<>();
-
-    /**
-     * {Descrizione}
-     *
-     * @throws java.lang.Exception eccezione
-     */
-    @Before
-    public void setUp() throws Exception {
-        Partita partita = new Partita();
-        partita.setScuderie();
-        partita.setQuotazioni();
-        scuderie = partita.getScuderie();
-    }
-
     /**
      * Test method for
      * {@link Scuderia#pagascommessa()}
@@ -36,6 +20,9 @@ public class ScuderiaTest {
     @Test
     public void testPagascommessa() {
         Partita partita = new Partita();
+        partita.setScuderie();
+        partita.setQuotazioni();
+        List<Scuderia> scuderie = partita.getScuderie();
         List<Scommessa> scommesse = new ArrayList<>();
         List<Giocatore> giocatori = new ArrayList<>();
         char vincente = "v".charAt(0);

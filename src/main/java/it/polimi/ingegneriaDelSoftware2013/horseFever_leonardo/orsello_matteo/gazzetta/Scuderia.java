@@ -11,16 +11,16 @@ import java.util.List;
  * Struttura dati della scuderia
  */
 public class Scuderia {
-    private Partita partita;
+    private final Partita partita;
+    private final List<CarteAzione> carteAzione = new ArrayList<>();
     private List<Scommessa> scommessa = new ArrayList<>();
-    private List<CarteAzione> listacarteazione = new ArrayList<>();
     private int segnalino;
     private String colore;
     private int quotazione;
-    private boolean arrivato = false;
-    private int classifica = 0;
-    private int posizione = 0;
-    private int movimento = 0;
+    private boolean arrivato;
+    private int classifica;
+    private int posizione;
+    private int movimento;
     // Sprint inizializzato a -1 per controllo carte azione
     private int sprint = -1;
     // booleani per carte azione che agiscono sul Movimento
@@ -29,8 +29,12 @@ public class Scuderia {
     // 1 Vince fotofinish , 0 Perde fotofinish , -1 Controllo le quotazioni
     private int fotofinish = -1;
 
-    Scuderia(Partita partita) {
+    Scuderia(final Partita partita) {
         this.partita = partita;
+        this.arrivato = false;
+        this.classifica = 0;
+        this.posizione = 0;
+        this.movimento = 0;
     }
 
     /*
@@ -100,7 +104,7 @@ public class Scuderia {
      * @param arrivo
      * @see Scuderia
      */
-    public void aggiornaQuotazioni(int arrivo) {
+    public void aggiornaQuotazioni(final int arrivo) {
         if (arrivo > quotazione - 1) {
             quotazione += 1;
         }
@@ -112,14 +116,12 @@ public class Scuderia {
     /**
      * Rimuovo la carta azione dalla lista per ID
      *
-     * @param i ID della carta azione
+     * @param id ID della carta azione
      */
-    public void removeCartaAzioneByID(int i) {
-        if (listacarteazione != null) {
-            for (int j = 0; j < listacarteazione.size(); j++) {
-                if (listacarteazione.get(j).getId() == i) {
-                    listacarteazione.remove(j);
-                }
+    public void removeCartaAzioneByID(final int id) {
+        for (int j = 0; j < carteAzione.size(); j++) {
+            if (carteAzione.get(j).getId() == id) {
+                carteAzione.remove(j);
             }
         }
     }
@@ -130,7 +132,7 @@ public class Scuderia {
      * @param i Posizione della carta azione nella lista
      */
     public void removeCartaAzione(int i) {
-        listacarteazione.remove(i);
+        carteAzione.remove(i);
 
     }
 
@@ -143,16 +145,16 @@ public class Scuderia {
      * è valida
      * @see Scommessa
      */
-    public int effettuaScommessa(int tocca) {
+    public int effettuaScommessa(final int tocca) {
 
         int flagsc = 1;
         char chartemp = 'v';
         Scommessa.Tiposcommessa tiposcommessatemp;
 
-        int i = scommessa.size() - 1;
-        String nomegiocatore = scommessa.get(i).getNomeGiocatore();
-        int soldigiocatore = partita.getarraygiocatori().get(tocca).getSoldi();
-        int pvgiocatore = partita.getarraygiocatori().get(tocca).getPv();
+        final int i = scommessa.size() - 1;
+        final String nomegiocatore = scommessa.get(i).getNomeGiocatore();
+        final int soldigiocatore = partita.getarraygiocatori().get(tocca).getSoldi();
+        final int pvgiocatore = partita.getarraygiocatori().get(tocca).getPv();
         int soldiscommessa;
 
         Write.write("Quanti soldi vuoi scommettere?");
@@ -214,21 +216,19 @@ public class Scuderia {
      * @see CarteAzione
      */
     public void checkCarteAzione() {
-        if (listacarteazione != null) {
-            for (CarteAzione carteAzione : new ArrayList<>(listacarteazione)) {
-                if (carteAzione.getId() == Parametri.FRITZ_FINDEN) {
-                    for (int j = Parametri.MIN_NEGATIVE; j < Parametri.MAX_NEGATIVE; j++) {
-                        removeCartaAzioneByID(j);
-                    }
-                    // Rimuovo anche la carta stessa
-                    removeCartaAzioneByID(Parametri.FRITZ_FINDEN);
-                } else if (carteAzione.getId() == Parametri.ROCHELLE_RECHERCHE) {
-                    for (int j = Parametri.MIN_POSITIVE; j < Parametri.MAX_POSITIVE; j++) {
-                        removeCartaAzioneByID(j);
-                    }
-                    // Rimuovo anche la carta stessa
-                    removeCartaAzioneByID(Parametri.ROCHELLE_RECHERCHE);
+        for (CarteAzione carteAzione : new ArrayList<>(carteAzione)) {
+            if (carteAzione.getId() == Parametri.FRITZ_FINDEN) {
+                for (int j = Parametri.MIN_NEGATIVE; j < Parametri.MAX_NEGATIVE; j++) {
+                    removeCartaAzioneByID(j);
                 }
+                // Rimuovo anche la carta stessa
+                removeCartaAzioneByID(Parametri.FRITZ_FINDEN);
+            } else if (carteAzione.getId() == Parametri.ROCHELLE_RECHERCHE) {
+                for (int j = Parametri.MIN_POSITIVE; j < Parametri.MAX_POSITIVE; j++) {
+                    removeCartaAzioneByID(j);
+                }
+                // Rimuovo anche la carta stessa
+                removeCartaAzioneByID(Parametri.ROCHELLE_RECHERCHE);
             }
         }
     }
@@ -246,7 +246,7 @@ public class Scuderia {
         List<CarteAzione> carteuguali = new ArrayList<CarteAzione>();
 
         // Controllo tutte le carte della scuderia
-        for (CarteAzione x : listacarteazione) {
+        for (CarteAzione x : carteAzione) {
             // Controllo con l'hashmap se la lettera della carta è gia presente
             if (attributi.containsKey(x.getLettera())) {
                 carteuguali.add(x);
@@ -256,7 +256,7 @@ public class Scuderia {
             attributi.put(x.getLettera(), x);
         }
         /* Rimuovo dalla lista le carte con la stessa lettera */
-        listacarteazione.removeAll(carteuguali);
+        carteAzione.removeAll(carteuguali);
     }
 
     /**
@@ -266,20 +266,20 @@ public class Scuderia {
      */
     public void carteAzioneTraguardo() {
         // Controllo tutte le carte della scuderia
-        for (int j = 0; j < listacarteazione.size(); j++) {
+        for (int j = 0; j < carteAzione.size(); j++) {
             // Applico solo le carte azione che modificano il traguardo
-            if (listacarteazione.get(j).getAgisce().equals("Traguardo")) {
+            if (carteAzione.get(j).getAgisce().equals("Traguardo")) {
                 // La scuderia avanza di posizione del numero dell'effetto
-                if (listacarteazione.get(j).getEffetto() > 0) {
+                if (carteAzione.get(j).getEffetto() > 0) {
                     setPosizione(getPosizione()
-                            + listacarteazione.get(j).getEffetto());
+                            + carteAzione.get(j).getEffetto());
                 }
                 // La scuderia si ferma al traguardo
-                if (listacarteazione.get(j).getEffetto() == 0) {
+                if (carteAzione.get(j).getEffetto() == 0) {
                     setPosizione(Parametri.TRAGUARDO);
                 }
                 // Rimuovo la carta
-                listacarteazione.remove(j);
+                carteAzione.remove(j);
             }
         }
     }
@@ -288,7 +288,7 @@ public class Scuderia {
      * @return the quotazione
      */
     public int getQuotazione() {
-        return quotazione;
+        return this.quotazione;
     }
 
     /**
@@ -302,7 +302,7 @@ public class Scuderia {
      * @return the colore
      */
     public String getColore() {
-        return colore;
+        return this.colore;
     }
 
     /**
@@ -316,7 +316,7 @@ public class Scuderia {
      * @return the movimento
      */
     public int getMovimento() {
-        return movimento;
+        return this.movimento;
     }
 
     /**
@@ -341,17 +341,17 @@ public class Scuderia {
     }
 
     /**
-     * @return listacarteazione della scuderia
+     * @return carteAzione della scuderia
      */
     public List<CarteAzione> getCarteAzione() {
-        return listacarteazione;
+        return carteAzione;
     }
 
     /**
      * @param carteAzione la carta da aggiungere alla scuderia
      */
     public void setCarteAzione(CarteAzione carteAzione) {
-        listacarteazione.add(carteAzione);
+        this.carteAzione.add(carteAzione);
     }
 
     /**
@@ -479,6 +479,6 @@ public class Scuderia {
      * @see CarteAzione
      */
     public void resetCarteAzione() {
-        listacarteazione.clear();
+        carteAzione.clear();
     }
 }

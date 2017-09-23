@@ -132,18 +132,6 @@ public class PartitaTest {
 
     /**
      * Test method for
-     * {@link Partita#randomPrimogiocatore()}
-     * .
-     */
-    @Test
-    public void testRandomPrimogiocatore() {
-        Partita partita = new Partita();
-        partita.randomPrimogiocatore();
-        assertNotNull("", partita.getprimogiocatore());
-    }
-
-    /**
-     * Test method for
      * {@link Partita#movimento()}
      * .
      */
@@ -159,25 +147,25 @@ public class PartitaTest {
         partita.setQuotazioni();
         partita.movimento();
         // Verifico che ogni scuderie ha un movimento
-        for (Scuderia scuderia : partita.getListascuderie()) {
+        for (final Scuderia scuderia : partita.getListascuderie()) {
             switch (scuderia.getQuotazione()) {
-                case (Parametri.DUE):
-                    assertNotNull("", scuderia.getMovimento());
+                case Parametri.DUE:
+                    assertNotEquals(0, scuderia.getMovimento());
                     break;
-                case (Parametri.TRE):
-                    assertNotNull("", scuderia.getMovimento());
+                case Parametri.TRE:
+                    assertNotEquals(0, scuderia.getMovimento());
                     break;
-                case (Parametri.QUATTRO):
-                    assertNotNull("", scuderia.getMovimento());
+                case Parametri.QUATTRO:
+                    assertNotEquals(0, scuderia.getMovimento());
                     break;
-                case (Parametri.CINQUE):
-                    assertNotNull("", scuderia.getMovimento());
+                case Parametri.CINQUE:
+                    assertNotEquals(0, scuderia.getMovimento());
                     break;
-                case (Parametri.SEI):
-                    assertNotNull("", scuderia.getMovimento());
+                case Parametri.SEI:
+                    assertNotEquals(0, scuderia.getMovimento());
                     break;
-                case (Parametri.SETTE):
-                    assertNotNull("", scuderia.getMovimento());
+                case Parametri.SETTE:
+                    assertNotEquals(0, scuderia.getMovimento());
                     break;
                 default:
                     break;
@@ -203,7 +191,7 @@ public class PartitaTest {
                 sprint++;
             }
         }
-        assertEquals("", 2, sprint);
+        assertEquals(2, sprint);
     }
 
     /**
@@ -221,17 +209,19 @@ public class PartitaTest {
         }
         partita.movimento();
         partita.setScuderie();
-        List<Scuderia> listascuderie = partita.getListascuderie();
+        final List<Scuderia> listascuderie = partita.getListascuderie();
 
-        listascuderie.get(0).setMovimento(4);
-        listascuderie.get(0).setSprint(1);
-        listascuderie.get(1).setMovimento(12);
-        listascuderie.get(1).setSprint(1);
+        final Scuderia primaScuderia = listascuderie.get(0);
+        primaScuderia.setMovimento(4);
+        primaScuderia.setSprint(1);
+        final Scuderia secondaScuderia = listascuderie.get(1);
+        secondaScuderia.setMovimento(12);
+        secondaScuderia.setSprint(1);
 
         partita.posizione();
-        assertEquals("", 5, listascuderie.get(0).getPosizione());
-        assertEquals("", 13, listascuderie.get(1).getPosizione());
-        assertEquals("", true, listascuderie.get(1).isArrivato());
+        assertEquals(5, primaScuderia.getPosizione());
+        assertEquals(13, secondaScuderia.getPosizione());
+        assertTrue(secondaScuderia.isArrivato());
 
     }
 
@@ -243,7 +233,7 @@ public class PartitaTest {
     @Test
     public void testAggiornaprimogiocatore() {
         Partita partita = new Partita();
-        List<Giocatore> giocatori = new ArrayList<>();
+        final List<Giocatore> giocatori = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             Giocatore player = new Giocatore();
             giocatori.add(player);
@@ -255,13 +245,13 @@ public class PartitaTest {
 
     /**
      * Test method for
-     * {@link Partita#classifica(java.util.List)}
+     * {@link Partita#creaClassifica(java.util.List)}
      * .
      */
     @Test
     public void testClassifica() {
         Partita partita = new Partita();
-        List<Scuderia> arrivati = new ArrayList<>();
+        final List<Scuderia> arrivati = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
             Scuderia scuderia = new Scuderia(partita);
@@ -273,7 +263,7 @@ public class PartitaTest {
         arrivati.get(1).setColore("TERZO");
         arrivati.get(2).setPosizione(13);
         arrivati.get(2).setColore("SECONDO");
-        partita.classifica(arrivati);
+        partita.creaClassifica(arrivati);
         assertEquals("", "PRIMO", partita.getClassifica().get(0).getColore());
         assertEquals("", "TERZO", partita.getClassifica().get(2).getColore());
         assertEquals("", "SECONDO", partita.getClassifica().get(1).getColore());

@@ -28,11 +28,11 @@ public class CarteAzione {
      *
      * @return la lista delle carte azioni lette dal file xml
      */
-    static List<CarteAzione> crealistaazioni() {
-        List<CarteAzione> carte = null;
+    public static List<CarteAzione> crealistaazioni() {
+        List<CarteAzione> carte;
 
         // Creo l'istanza parser
-        XmlParser parser = new XmlParser();
+        final XmlParser parser = new XmlParser();
 
         // Parso il file
         carte = parser.parseXmlAzioni(ResourceLoader.load("carteAzione.xml"));
@@ -54,12 +54,12 @@ public class CarteAzione {
      *
      * @param scuderie La lista delle scuderie della partita
      */
-    void carteAzionePartenza(List<Scuderia> scuderie) {
+    public void carteAzionePartenza(final List<Scuderia> scuderie) {
         // Controllo tutte le scuderie
         for (Scuderia scuderia : scuderie) {
 
             // Prendo le carte azione della scuderia
-            List<CarteAzione> carte = scuderia.getCarteAzione();
+            final List<CarteAzione> carte = scuderia.getCarteAzione();
 
             if (carte != null) {
                 // Controllo tutte le carte della scuderia
@@ -96,17 +96,17 @@ public class CarteAzione {
      *
      * @param scuderie La lista delle scuderie della partita
      */
-    void carteAzioneMovimento(List<Scuderia> scuderie) {
+    public void carteAzioneMovimento(final List<Scuderia> scuderie) {
         // Controllo tutte le scuderie
         for (Scuderia scuderia : scuderie) {
 
             // Prendo le carte azione della scuderia
-            List<CarteAzione> carte = scuderia.getCarteAzione();
+            final List<CarteAzione> carte = scuderia.getCarteAzione();
 
             // Controllo tutte le carte della scuderia
             for (CarteAzione carta : carte) {
                 // Analizzo solo le carte azione che influiscono il movimento
-                if (carta.getAgisce().equals("Movimento")) {
+                if ("Movimento".equals(carta.getAgisce())) {
                     // Se la scuderia è ultima
                     if (carta.getEffetto() == Parametri.QUATTRO && scuderia.isUltimo()) {
                         // Si muove di 4
@@ -128,7 +128,7 @@ public class CarteAzione {
      *
      * @param scuderie La lista delle scuderie della partita
      */
-    void carteAzioneSprint(List<Scuderia> scuderie) {
+    public void carteAzioneSprint(final List<Scuderia> scuderie) {
         // Controllo tutte le scuderie
         for (Scuderia scuderia : scuderie) {
 
@@ -169,7 +169,7 @@ public class CarteAzione {
      *
      * @param scuderie ricevuta da findFotofinish
      */
-    void carteAzioneFotofinish(List<Scuderia> scuderie) {
+    public void carteAzioneFotofinish(final List<Scuderia> scuderie) {
         // Controllo tutte le scuderie
         for (Scuderia scuderia : scuderie) {
 
@@ -179,7 +179,7 @@ public class CarteAzione {
             // Controllo tutte le carte della scuderia
             for (CarteAzione carta : carte) {
                 // Analizzo solo le carte azione che influiscono il fotofinish
-                if (carta.getAgisce().equals("Fotofinish")) {
+                if ("Fotofinish".equals(carta.getAgisce())) {
                     if (carta.getEffetto() == 0) {
                         scuderia.setFotofinish(0);
                     }
@@ -198,7 +198,7 @@ public class CarteAzione {
      *
      * @param scuderie la lista delle scuderie della partita
      */
-    void carteAzioneQuotazione(List<Scuderia> scuderie) {
+    public void carteAzioneQuotazione(final List<Scuderia> scuderie) {
         // Controllo tutte le scuderie
         for (Scuderia scuderia : scuderie) {
 
@@ -208,7 +208,7 @@ public class CarteAzione {
             // Controllo tutte le carte della scuderia
             for (CarteAzione carta : carte) {
                 // Analizzo solo le carte azione che influiscono le quotazioni
-                if (carta.getAgisce().equals("Quotazione")) {
+                if ("Quotazione".equals(carta.getAgisce())) {
                     if (carta.getEffetto() > 0 && scuderia.getQuotazione() > carta.getEffetto() + 1) {
                         scuderia.setQuotazione(scuderia.getQuotazione() - carta.getEffetto());
 
@@ -232,7 +232,7 @@ public class CarteAzione {
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -246,7 +246,7 @@ public class CarteAzione {
     /**
      * @param lettera the lettera to set
      */
-    public void setLettera(String lettera) {
+    public void setLettera(final String lettera) {
         this.lettera = lettera;
     }
 
@@ -260,7 +260,7 @@ public class CarteAzione {
     /**
      * @param nome the nome to set
      */
-    public void setNome(String nome) {
+    public void setNome(final String nome) {
         this.nome = nome;
     }
 
