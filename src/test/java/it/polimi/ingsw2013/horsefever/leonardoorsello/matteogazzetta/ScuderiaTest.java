@@ -18,7 +18,7 @@ public class ScuderiaTest {
 
     /**
      * Test method for
-     * {@link Scuderia#pagascommessa()}
+     * {@link Scuderia#pagaScomesse()}
      * .
      */
     @Test
@@ -35,7 +35,7 @@ public class ScuderiaTest {
         // Scommessa vincente
         final Scommessa scommessa = new Scommessa("vincente");
         scommessa.setSoldi(1000);
-        scommessa.setTiposcommessa(vincente);
+        scommessa.setTipoScommessa(vincente);
         scommesse.add(scommessa);
 
         // Giocatore vincente
@@ -44,22 +44,22 @@ public class ScuderiaTest {
         player.setNomeGiocatore("vincente");
         player.setPuntiVittoria(1);
         giocatori.add(player);
-        partita.setArraygiocatori(giocatori);
+        partita.setGiocatori(giocatori);
 
         // Scuderia vincente
         scuderie.get(0).setClassifica(1);
-        scuderie.get(0).setScommessa(scommesse);
-        scuderie.get(0).pagascommessa();
+        scuderie.get(0).setScomesse(scommesse);
+        scuderie.get(0).pagaScomesse();
 
         // Verifico soldi * quotazione
-        assertEquals("", 1000 * scuderie.get(0).getQuotazione(), partita.getarraygiocatori().get(0).getSoldi());
+        assertEquals("", 1000 * scuderie.get(0).getQuotazione(), partita.getGiocatori().get(0).getSoldi());
         // Vince 3 pv
-        assertEquals("", 4, partita.getarraygiocatori().get(0).getPuntiVittoria());
+        assertEquals("", 4, partita.getGiocatori().get(0).getPuntiVittoria());
 
         // Scommessa piazzata
         final Scommessa Spiazzata = new Scommessa("piazzata");
         Spiazzata.setSoldi(1000);
-        Spiazzata.setTiposcommessa(piazzata);
+        Spiazzata.setTipoScommessa(piazzata);
         scommesse.add(Spiazzata);
 
         // Giocatore piazzato
@@ -68,18 +68,18 @@ public class ScuderiaTest {
         piazzato.setNomeGiocatore("piazzata");
         piazzato.setPuntiVittoria(1);
         giocatori.add(piazzato);
-        partita.setArraygiocatori(giocatori);
+        partita.setGiocatori(giocatori);
 
         // Scuderia piazzata
         scuderie.get(1).setClassifica(3);
-        scuderie.get(1).setScommessa(scommesse);
-        scuderie.get(1).pagascommessa();
+        scuderie.get(1).setScomesse(scommesse);
+        scuderie.get(1).pagaScomesse();
 
         // Verifico soldi * 2
-        assertEquals("", 1000 * 2, partita.getarraygiocatori().get(1)
+        assertEquals("", 1000 * 2, partita.getGiocatori().get(1)
                 .getSoldi());
         // Vince 1 pv
-        assertEquals("", 2, partita.getarraygiocatori().get(1).getPuntiVittoria());
+        assertEquals("", 2, partita.getGiocatori().get(1).getPuntiVittoria());
 
     }
 

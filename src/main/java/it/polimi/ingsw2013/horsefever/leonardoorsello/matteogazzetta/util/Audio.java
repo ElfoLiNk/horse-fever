@@ -12,20 +12,20 @@ import javax.sound.sampled.DataLine;
 import java.io.IOException;
 
 /**
- * Classe che gestisce l'audio del gioco per ora esegue solo la soundtrack
+ * Classe che gestisce l'audioThread del gioco per ora esegue solo la soundtrack
  */
 public class Audio {
-    Thread audio;
+    private final Thread audioThread;
 
     /**
      * Costruttore della classe Audio
      *
-     * @param filename nome del file audio da riprodurre
+     * @param filename nome del file audioThread da riprodurre
      * @see Audio
      */
     public Audio(final String filename) {
-        // Nuovo thread per ogni file audio riprodotto
-        audio = new Thread(() -> play(filename));
+        // Nuovo thread per ogni file audioThread riprodotto
+        audioThread = new Thread(() -> play(filename));
     }
 
     /**
@@ -35,17 +35,17 @@ public class Audio {
      * @see Thread, Audio
      */
     public void start() {
-        audio.start();
+        audioThread.start();
     }
 
     /**
-     * Riproduzione del file audio passato
+     * Riproduzione del file audioThread passato
      *
-     * @param filename Path del file audio da riprodurre
+     * @param filename Path del file audioThread da riprodurre
      */
     public void play(final String filename) {
         try {
-            // Input stream del file audio
+            // Input stream del file audioThread
             final AudioInputStream audioIn = AudioSystem
                     .getAudioInputStream(ResourceLoader.load(filename));
             AudioInputStream decodedAudioIn;

@@ -6,6 +6,7 @@ package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model;
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.ResourceLoader;
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.parser.XmlParser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,15 +60,13 @@ public class CartaAzione {
 
             if (carte != null) {
                 // Controllo tutte le carte della scuderia
-                for (int j = 0; j < carte.size(); j++) {
+                for (final CartaAzione carta : new ArrayList<>(carte)) {
                     // Analizzo solo le carte azione che influiscono la partenza
-                    final CartaAzione carta = carte.get(j);
-                    if (carta.getAgisce().equals("Partenza")) {
+                    if ("Partenza".equals(carta.getAgisce())) {
                         if (carta.getEffetto() < 0 && scuderia.getMovimento() > 0) {
                             // Applico l'effetto
                             scuderia.setMovimento(scuderia.getMovimento() + carta.getEffetto());
-                        }
-                        if (carta.getEffetto() == 0) {
+                        } else if (carta.getEffetto() == 0) {
                             // Applico l'effetto
                             scuderia.setMovimento(0);
                         } else if (carta.getEffetto() == 1) {
@@ -79,7 +78,7 @@ public class CartaAzione {
                         }
 
                         // Rimuovo la carta
-                        scuderia.removeCartaAzione(j);
+                        scuderia.removeCartaAzione(carte.indexOf(carta));
                     }
                 }
             }
@@ -125,7 +124,7 @@ public class CartaAzione {
      */
     public void carteAzioneSprint(final List<Scuderia> scuderie) {
         // Controllo tutte le scuderie
-        for (Scuderia scuderia : scuderie) {
+        for (final Scuderia scuderia : scuderie) {
             // Controllo tutte le carte della scuderia
             for (final CartaAzione carta : scuderia.getCarteAzione()) {
                 // Analizzo solo le carte azione che influiscono lo sprint
@@ -147,8 +146,7 @@ public class CartaAzione {
                         case 2:
                             if (scuderia.getSprint() > 0) {
                                 scuderia.setSprint(Parametri.TRE);
-                            }
-                            else {
+                            } else {
                                 scuderia.setSprint(2);
                             }
                             break;

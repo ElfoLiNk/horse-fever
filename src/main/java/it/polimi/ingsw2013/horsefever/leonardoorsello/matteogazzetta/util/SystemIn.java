@@ -3,6 +3,7 @@
  */
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util;
 
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Scommessa;
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Scuderia;
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.CartaAzione;
 
@@ -17,10 +18,9 @@ import java.util.List;
  */
 public final class SystemIn {
 
-    private static BufferedReader br = new BufferedReader(
+    private static BufferedReader bufferedReader = new BufferedReader(
             new InputStreamReader(System.in, Charset.defaultCharset()));
     private static String stringa = "temp";
-    ;
     private static int intero;
     private static char carattere = "e".charAt(0);
 
@@ -37,7 +37,7 @@ public final class SystemIn {
     public static String readString() {
         do {
             try {
-                stringa = br.readLine();
+                stringa = bufferedReader.readLine();
             } catch (IOException e) {
                 SystemOut.write("Errore di flusso");
             }
@@ -54,7 +54,7 @@ public final class SystemIn {
      */
     public static int readInt() {
         try {
-            stringa = br.readLine();
+            stringa = bufferedReader.readLine();
             intero = Integer.parseInt(stringa);
         } catch (IOException e1) {
             SystemOut.write("Errore di flusso");
@@ -84,11 +84,13 @@ public final class SystemIn {
                     carattere = stringa.charAt(0);
                 }
             }
-            if (carattere != 'v' && carattere != 'p') {
+            if (carattere != Scommessa.Tiposcommessa.VINCENTE.getValue()
+                    && carattere != Scommessa.Tiposcommessa.PIAZZATO.getValue()) {
                 SystemOut.write("hai sbagliato a digitare, riprova");
             }
 
-        } while (carattere != 'v' && carattere != 'p');
+        } while (carattere != Scommessa.Tiposcommessa.VINCENTE.getValue()
+                && carattere != Scommessa.Tiposcommessa.PIAZZATO.getValue());
         return carattere;
     }
 

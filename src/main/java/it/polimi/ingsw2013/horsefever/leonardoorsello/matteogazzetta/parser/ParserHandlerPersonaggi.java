@@ -28,6 +28,7 @@ public class ParserHandlerPersonaggi extends DefaultHandler {
     private final Stack<CartaPersonaggio> oggettoStack;
 
     ParserHandlerPersonaggi() {
+        super();
         this.cartaList = new ArrayList<>();
         this.elementoStack = new Stack<>();
         this.oggettoStack = new Stack<>();

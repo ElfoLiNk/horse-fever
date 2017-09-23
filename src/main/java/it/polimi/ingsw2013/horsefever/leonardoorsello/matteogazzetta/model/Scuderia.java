@@ -17,7 +17,7 @@ import java.util.List;
 public class Scuderia {
     private final Partita partita;
     private final List<CartaAzione> carteAzione;
-    private List<Scommessa> scommessa;
+    private List<Scommessa> scomesse;
     private int segnalino;
     private String colore;
     private int quotazione;
@@ -33,11 +33,11 @@ public class Scuderia {
     // 1 Vince fotofinish , 0 Perde fotofinish , -1 Controllo le quotazioni
     private int fotofinish = -1;
 
-    public Scuderia(final Partita partita, String colore) {
+    public Scuderia(final Partita newPartita, final String newColore) {
         this.carteAzione = new ArrayList<>();
-        this.scommessa = new ArrayList<>();
-        this.partita = partita;
-        this.colore = colore;
+        this.scomesse = new ArrayList<>();
+        this.partita = newPartita;
+        this.colore = newColore;
         this.arrivato = false;
         this.classifica = 0;
         this.posizione = 0;
@@ -51,48 +51,40 @@ public class Scuderia {
      */
     @Override
     public String toString() {
-        return " ) " + colore + "\t" + scommessa.size()
+        return " ) " + colore + "\t" + scomesse.size()
                 + "\t\t1:" + quotazione;
     }
 
     /**
-     * Pago le scommesse dopo di che resetto la lista scommessa
+     * Pago le scommesse dopo di che resetto la lista scomesse
      *
      * @see Scommessa
      */
-    public void pagascommessa() {
+    public void pagaScomesse() {
         // Ciclo tutte le scommesse
-        for (int a = scommessa.size() - 1; a >= 0; a--) {
+        for (int a = scomesse.size() - 1; a >= 0; a--) {
             // Ciclo tutti i giocatori
-            for (int z = 0; z < partita.getarraygiocatori().size(); z++) {
-                // Verifico che il giocatore sia lo stesso che ha effettuato la
-                // scommessa
-                if (scommessa.get(a).getNomeGiocatore()
-                        .equals(partita.getarraygiocatori().get(z).getNome())) {
+            for (final Giocatore giocatore : partita.getGiocatori()) {
+                // Verifico che il giocatore sia lo stesso che ha effettuato la scomessa
+                final Scommessa scommessa = scomesse.get(a);
+                if (scommessa.getNomeGiocatore().equals(giocatore.getNome())) {
 
                     // Pago le scommesse vincenti
-                    if (scommessa.get(a).getTiposcommessa() == Scommessa.Tiposcommessa.VINCENTE
-                            && classifica == 1) {
-                        partita.getarraygiocatori()
-                                .get(z)
-                                .aggiornaSoldi(
-                                        scommessa.get(a).getSoldi()
-                                                * quotazione);
-                        partita.getarraygiocatori().get(z)
-                                .aggiornaPuntiVittoria(Parametri.TRE);
+                    if (scommessa.getTipoScommessa() == Scommessa.Tiposcommessa.VINCENTE && classifica == 1) {
+                        giocatore.aggiornaSoldi(scommessa.getSoldi() * quotazione);
+                        giocatore.aggiornaPuntiVittoria(Parametri.TRE);
 
                     }
                     // Pago le scommesse piazzate
-                    if (scommessa.get(a).getTiposcommessa() == Scommessa.Tiposcommessa.PIAZZATO) {
-                        partita.getarraygiocatori().get(z)
-                                .aggiornaSoldi(scommessa.get(a).getSoldi() * 2);
-                        partita.getarraygiocatori().get(z).aggiornaPuntiVittoria(1);
+                    if (scommessa.getTipoScommessa() == Scommessa.Tiposcommessa.PIAZZATO) {
+                        giocatore.aggiornaSoldi(scommessa.getSoldi() * 2);
+                        giocatore.aggiornaPuntiVittoria(1);
                     }
                 }
             }
         }
         // Resetto la lista delle scommesse
-        scommessa.clear();
+        scomesse.clear();
 
     }
 
@@ -101,8 +93,8 @@ public class Scuderia {
      *
      * @see Scommessa
      */
-    public void clearscommessa() {
-        scommessa.clear();
+    public void clearScomesse() {
+        scomesse.clear();
     }
 
     /**
@@ -132,49 +124,43 @@ public class Scuderia {
     /**
      * Rimuovo la carta azione dalla lista per posizione
      *
-     * @param i Posizione della carta azione nella lista
+     * @param index Posizione della carta azione nella lista
      */
-    public void removeCartaAzione(final int i) {
-        carteAzione.remove(i);
+    public void removeCartaAzione(final int index) {
+        carteAzione.remove(index);
 
     }
 
     /**
      * Chiedo i soldi che l'utente vuole scommettere su questa scuderia e il
-     * tipo di scommessa
+     * tipo di scomesse
      *
      * @param tocca indice dell'array dei giocatori
-     * @return 0 se la scommessa è dello stesso tipo di una già effettuata 1 se
+     * @return 0 se la scomesse è dello stesso tipo di una già effettuata 1 se
      * è valida
      * @see Scommessa
      */
     public int effettuaScommessa(final int tocca) {
-
-        int flagsc = 1;
-        char chartemp = 'v';
-        Scommessa.Tiposcommessa tiposcommessatemp;
-
-        final int i = scommessa.size() - 1;
-        final String nomegiocatore = scommessa.get(i).getNomeGiocatore();
-        final int soldigiocatore = partita.getarraygiocatori().get(tocca).getSoldi();
-        final int pvgiocatore = partita.getarraygiocatori().get(tocca).getPuntiVittoria();
-        int soldiscommessa;
+        final Scommessa ultimaScomessa = scomesse.get(scomesse.size() - 1);
+        final String nomegiocatore = ultimaScomessa.getNomeGiocatore();
+        final Giocatore giocatore = partita.getGiocatori().get(tocca);
 
         SystemOut.write("Quanti soldi vuoi scommettere?");
 
+        int soldiscommessa;
         boolean tryAgain;
         do {
             tryAgain = false;
             soldiscommessa = SystemIn.readInt();
             // controllo se il giocatore ha abbastanza soldi per effettuare la
-            // scommessa dell'importo da lui scelto
-            if (soldiscommessa > soldigiocatore) {
+            // scomessa dell'importo da lui scelto
+            if (soldiscommessa > giocatore.getSoldi()) {
                 SystemOut.write("Non puoi scommettere più di quanti soldi possiedi.\n"
                         + " Inserisci un nuovo importo:");
                 tryAgain = true;
             }
-            // controllo validità scommessa : scommessa>=pv*100
-            if (soldiscommessa < pvgiocatore * Parametri.MIN_SCOMMESSA) {
+            // controllo validità scomessa : scomessa>=pv*100
+            if (soldiscommessa < giocatore.getPuntiVittoria() * Parametri.MIN_SCOMMESSA) {
                 SystemOut.write("L'importo scommesso non è valido, questo deve essere\n"
                         + "come minimo pari a \"punti vittoria posseduti\" * 100.\n Inserire"
                         + " un nuovo importo :");
@@ -182,22 +168,21 @@ public class Scuderia {
             }
         } while (tryAgain);
 
-        // Salvo i soldi scommessi nella scommessa
-        scommessa.get(i).setSoldi(soldiscommessa);
+        // Salvo i soldi scommessi nella scomessa
+        ultimaScomessa.setSoldi(soldiscommessa);
 
-        // Chiedo se scommessa v (vincente) o p (piazzata) e lo imposto nella
-        // scommessa
-        chartemp = SystemIn.readTipoScommessa();
-        scommessa.get(i).setTiposcommessa(chartemp);
+        // Chiedo se scomessa v (vincente) o p (piazzata) e lo imposto nella scomessa
+        final char tipo = SystemIn.readTipoScommessa();
+        ultimaScomessa.setTipoScommessa(tipo);
 
-        // Verifico che il giocatore non ha gia effettuato questo tipo di
-        // scommessa
-        tiposcommessatemp = scommessa.get(i).getTiposcommessa();
-        for (int a = 0; a < i; a++) {
-            if (nomegiocatore.equals(scommessa.get(a).getNomeGiocatore())
-                    && tiposcommessatemp == scommessa.get(a).getTiposcommessa()) {
-                SystemOut.write("\nQuesta scommessa è già stata effettuata, non è possibile ripeterela stessa scommessa."
-                        + "\nE' possibile fare due scommesse sulla stessa scuderia, ma bisogna modificare il tipo di scommessa");
+        // Verifico che il giocatore non ha gia effettuato questo tipo di scomessa
+        int flagsc = 1;
+        final Scommessa.Tiposcommessa tipoScommessa = ultimaScomessa.getTipoScommessa();
+        for (int a = 0; a < scomesse.size() - 1; a++) {
+            if (nomegiocatore.equals(scomesse.get(a).getNomeGiocatore())
+                    && tipoScommessa == scomesse.get(a).getTipoScommessa()) {
+                SystemOut.write("\nQuesta scomesse è già stata effettuata, non è possibile ripeterela stessa scomesse."
+                        + "\nE' possibile fare due scommesse sulla stessa scuderia, ma bisogna modificare il tipo di scomesse");
                 flagsc = 0;
             }
         }
@@ -205,8 +190,7 @@ public class Scuderia {
         if (flagsc == 1) {
 
             // tolgo al giocatore i soldi che ha scommesso
-            partita.getarraygiocatori().get(tocca)
-                    .aggiornaSoldi(-soldiscommessa);
+            giocatore.aggiornaSoldi(-soldiscommessa);
         }
 
         return flagsc;
@@ -330,17 +314,17 @@ public class Scuderia {
     }
 
     /**
-     * @return scommessa la lista delle scommesse della scuderia
+     * @return scomesse la lista delle scommesse della scuderia
      */
     public List<Scommessa> getscommessa() {
-        return scommessa;
+        return scomesse;
     }
 
     /**
-     * @param newScomessa the scommessa to set
+     * @param newScomessa the scomesse to set
      */
-    public void setScommessa(final List<Scommessa> newScomessa) {
-        this.scommessa = newScomessa;
+    public void setScomesse(final List<Scommessa> newScomessa) {
+        this.scomesse = newScomessa;
     }
 
     /**
@@ -365,10 +349,10 @@ public class Scuderia {
     }
 
     /**
-     * @param sprint the sprint to set
+     * @param newSprint the sprint to set
      */
-    public void setSprint(final int sprint) {
-        this.sprint = sprint;
+    public void setSprint(final int newSprint) {
+        this.sprint = newSprint;
     }
 
     /**
@@ -379,10 +363,10 @@ public class Scuderia {
     }
 
     /**
-     * @param ultimo the ultimo to set
+     * @param newUltimo the ultimo to set
      */
-    public void setUltimo(final boolean ultimo) {
-        this.ultimo = ultimo;
+    public void setUltimo(final boolean newUltimo) {
+        this.ultimo = newUltimo;
     }
 
     /**
@@ -393,10 +377,10 @@ public class Scuderia {
     }
 
     /**
-     * @param primo the primo to set
+     * @param newPrimo the primo to set
      */
-    public void setPrimo(final boolean primo) {
-        this.primo = primo;
+    public void setPrimo(final boolean newPrimo) {
+        this.primo = newPrimo;
     }
 
     /**
@@ -407,10 +391,10 @@ public class Scuderia {
     }
 
     /**
-     * @param posizione the posizione to set
+     * @param newPosizione the posizione to set
      */
-    public void setPosizione(final int posizione) {
-        this.posizione = posizione;
+    public void setPosizione(final int newPosizione) {
+        this.posizione = newPosizione;
     }
 
     /**
@@ -421,10 +405,10 @@ public class Scuderia {
     }
 
     /**
-     * @param fotofinish the fotofinish to set
+     * @param newFotofinish the fotofinish to set
      */
-    public void setFotofinish(final int fotofinish) {
-        this.fotofinish = fotofinish;
+    public void setFotofinish(final int newFotofinish) {
+        this.fotofinish = newFotofinish;
     }
 
     /**
@@ -435,17 +419,17 @@ public class Scuderia {
     }
 
     /**
-     * @param segnalino the segnalino to set
+     * @param newSegnalino the segnalino to set
      */
-    public void setSegnalino(final int segnalino) {
-        this.segnalino = segnalino;
+    public void setSegnalino(final int newSegnalino) {
+        this.segnalino = newSegnalino;
     }
 
     /**
-     * @param temp the segnalino to add
+     * @param addSegnalino the segnalino to add
      */
-    public void aggiornaSegnalino(final int temp) {
-        this.segnalino += temp;
+    public void aggiornaSegnalino(final int addSegnalino) {
+        this.segnalino += addSegnalino;
     }
 
     /**
@@ -456,10 +440,10 @@ public class Scuderia {
     }
 
     /**
-     * @param arrivato the arrivato to set
+     * @param newArrivato the arrivato to set
      */
-    public void setArrivato(final boolean arrivato) {
-        this.arrivato = arrivato;
+    public void setArrivato(final boolean newArrivato) {
+        this.arrivato = newArrivato;
     }
 
     /**
@@ -470,10 +454,10 @@ public class Scuderia {
     }
 
     /**
-     * @param classifica the classifica to set
+     * @param newClassifica the classifica to set
      */
-    public void setClassifica(final int classifica) {
-        this.classifica = classifica;
+    public void setClassifica(final int newClassifica) {
+        this.classifica = newClassifica;
     }
 
     /**

@@ -24,6 +24,8 @@ import static org.junit.Assert.fail;
  */
 public class PartitaTest {
 
+    private final String failMessage = "Mancano i file";
+
     /**
      * Test method for
      * {@link Partita#setListe()}
@@ -35,9 +37,9 @@ public class PartitaTest {
         try {
             partita.setListe();
         } catch (IOException e) {
-            fail("Mancano i file");
+            fail(failMessage);
         }
-        assertNotNull("", partita.getListapersonaggi());
+        assertNotNull("", partita.getCartePersonaggio());
     }
 
     /**
@@ -51,9 +53,9 @@ public class PartitaTest {
         try {
             partita.setListe();
         } catch (IOException e) {
-            fail("Mancano i file");
+            fail(failMessage);
         }
-        assertNotNull("", partita.getListaazioni());
+        assertNotNull("", partita.getCarteAzione());
     }
 
     /**
@@ -67,7 +69,7 @@ public class PartitaTest {
         try {
             partita.setListe();
         } catch (IOException e) {
-            fail("Mancano i file");
+            fail(failMessage);
         }
         assertNotNull("", partita.getCarteMovimento());
     }
@@ -79,12 +81,12 @@ public class PartitaTest {
      */
     @Test
     public void testSetSegnalini2Giocatori() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         partita.setScuderie();
         // 2 Giocatori
         partita.setNgiocatori(2);
         partita.setSegnalini();
-        assertEquals("", 1, partita.getListascuderie().get(0).getSegnalino());
+        assertEquals("", 1, partita.getScuderie().get(0).getSegnalino());
     }
 
     /**
@@ -94,12 +96,12 @@ public class PartitaTest {
      */
     @Test
     public void testSetSegnalini3Giocatori() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         partita.setScuderie();
         // 3 Giocatori
         partita.setNgiocatori(3);
         partita.setSegnalini();
-        assertEquals("", 2, partita.getListascuderie().get(0).getSegnalino());
+        assertEquals("", 2, partita.getScuderie().get(0).getSegnalino());
     }
 
     /**
@@ -109,12 +111,12 @@ public class PartitaTest {
      */
     @Test
     public void testSetSegnalini4Giocatori() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         partita.setScuderie();
         // 4 Giocatori
         partita.setNgiocatori(4);
         partita.setSegnalini();
-        assertEquals("", 3, partita.getListascuderie().get(0).getSegnalino());
+        assertEquals("", 3, partita.getScuderie().get(0).getSegnalino());
     }
 
     /**
@@ -124,12 +126,12 @@ public class PartitaTest {
      */
     @Test
     public void testSetSegnalini5Giocatori() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         partita.setScuderie();
         // 5 Giocatori
         partita.setNgiocatori(5);
         partita.setSegnalini();
-        assertEquals("", 4, partita.getListascuderie().get(0).getSegnalino());
+        assertEquals("", 4, partita.getScuderie().get(0).getSegnalino());
     }
 
     /**
@@ -139,12 +141,12 @@ public class PartitaTest {
      */
     @Test
     public void testSetSegnalini6Giocatori() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         partita.setScuderie();
         // 6 Giocatori
         partita.setNgiocatori(6);
         partita.setSegnalini();
-        assertEquals("", 4, partita.getListascuderie().get(0).getSegnalino());
+        assertEquals("", 4, partita.getScuderie().get(0).getSegnalino());
     }
 
     /**
@@ -154,21 +156,9 @@ public class PartitaTest {
      */
     @Test
     public void testSetScuderie() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         partita.setScuderie();
-        assertNotNull("", partita.getListascuderie());
-    }
-
-    /**
-     * Test method for
-     * {@link Partita#setQuotazioni()}
-     * .
-     */
-    @Test
-    public void testSetQuotazioni() {
-        Partita partita = new Partita();
-        partita.setScuderie();
-        assertNotNull("", partita.getScuderie().get(0).getQuotazione());
+        assertNotNull("", partita.getScuderie());
     }
 
     /**
@@ -178,37 +168,37 @@ public class PartitaTest {
      */
     @Test
     public void testSetCarteAzione() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         try {
             partita.setListe();
         } catch (IOException e) {
-            fail("Mancano i file");
+            fail(failMessage);
         }
         // Costruisco il giocatore
         final Giocatore player = new Giocatore();
 
         // Seleziono la carta personaggio del player
         final Random rnd = new Random();
-        final int tempint = rnd.nextInt(partita.getListapersonaggi().size());
+        final int tempint = rnd.nextInt(partita.getCartePersonaggio().size());
 
         // Assegno il nome della carta a interpreta del player
-        player.setInterpreta(partita.getListapersonaggi().get(tempint)
+        player.setInterpreta(partita.getCartePersonaggio().get(tempint)
                 .getNome());
 
         // Assegno i corrispondenti soldi al player
-        player.setSoldi(partita.getListapersonaggi().get(tempint).getSoldi());
+        player.setSoldi(partita.getCartePersonaggio().get(tempint).getSoldi());
 
         // Assegno la corrispettiva Scuderia al player
-        player.setScuderia(partita.getListapersonaggi().get(tempint)
+        player.setScuderia(partita.getCartePersonaggio().get(tempint)
                 .getQuotazione(), partita.getScuderie());
 
         // Aggiungo il player alla lista di giocatori
-        partita.getarraygiocatori().add(player);
+        partita.getGiocatori().add(player);
 
         // Elimino la carta giocatore dalla lista
-        partita.getListapersonaggi().remove(tempint);
+        partita.getCartePersonaggio().remove(tempint);
         partita.setCarteAzione();
-        assertNotNull("", partita.getarraygiocatori().get(0).getCarteAzione());
+        assertNotNull("", partita.getGiocatori().get(0).getCarteAzione());
     }
 
     /**
@@ -218,40 +208,18 @@ public class PartitaTest {
      */
     @Test
     public void testMovimento() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         try {
             partita.setListe();
         } catch (IOException e) {
-            fail("Mancano i file");
+            fail(failMessage);
         }
         partita.setScuderie();
         partita.setQuotazioni();
         partita.movimento();
         // Verifico che ogni scuderie ha un movimento
-        for (final Scuderia scuderia : partita.getListascuderie()) {
-            switch (scuderia.getQuotazione()) {
-                case Parametri.DUE:
-                    assertNotEquals(-1, scuderia.getMovimento());
-                    break;
-                case Parametri.TRE:
-                    assertNotEquals(-1, scuderia.getMovimento());
-                    break;
-                case Parametri.QUATTRO:
-                    assertNotEquals(-1, scuderia.getMovimento());
-                    break;
-                case Parametri.CINQUE:
-                    assertNotEquals(-1, scuderia.getMovimento());
-                    break;
-                case Parametri.SEI:
-                    assertNotEquals(-1, scuderia.getMovimento());
-                    break;
-                case Parametri.SETTE:
-                    assertNotEquals(-1, scuderia.getMovimento());
-                    break;
-                default:
-                    break;
-            }
-
+        for (final Scuderia scuderia : partita.getScuderie()) {
+            assertNotEquals(-1, scuderia.getMovimento());
         }
 
     }
@@ -263,16 +231,11 @@ public class PartitaTest {
      */
     @Test
     public void testSprint() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         partita.setScuderie();
-        int sprint = 0;
         partita.sprint();
-        for (final Scuderia scuderia : partita.getListascuderie()) {
-            if (scuderia.getSprint() == 1) {
-                sprint++;
-            }
-        }
-        assertEquals(2, sprint);
+        final long sprint = partita.getScuderie().stream().filter(scuderia -> scuderia.getSprint() == 1).count();
+        assertEquals("Solo due scuderie random possono effettuare uno sprint", 2, sprint);
     }
 
     /**
@@ -282,15 +245,15 @@ public class PartitaTest {
      */
     @Test
     public void testPosizione() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         try {
             partita.setListe();
         } catch (IOException e) {
-            fail("Mancano i file");
+            fail(failMessage);
         }
         partita.movimento();
         partita.setScuderie();
-        final List<Scuderia> scuderie = partita.getListascuderie();
+        final List<Scuderia> scuderie = partita.getScuderie();
 
         final Scuderia primaScuderia = scuderie.get(0);
         primaScuderia.setMovimento(4);
@@ -302,7 +265,7 @@ public class PartitaTest {
         partita.posizione();
         assertEquals("", 5, primaScuderia.getPosizione());
         assertEquals("", 13, secondaScuderia.getPosizione());
-        assertTrue(secondaScuderia.isArrivato());
+        assertTrue("Arrivato", secondaScuderia.isArrivato());
 
     }
 
@@ -313,13 +276,13 @@ public class PartitaTest {
      */
     @Test
     public void testAggiornaprimogiocatore() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         final List<Giocatore> giocatori = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            Giocatore player = new Giocatore();
+            final Giocatore player = new Giocatore();
             giocatori.add(player);
         }
-        partita.setArraygiocatori(giocatori);
+        partita.setGiocatori(giocatori);
         partita.aggiornaprimogiocatore();
         assertEquals("", 1, partita.getprimogiocatore());
     }
@@ -331,7 +294,7 @@ public class PartitaTest {
      */
     @Test
     public void testClassifica() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         final List<Scuderia> arrivati = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
@@ -362,7 +325,7 @@ public class PartitaTest {
         final List<Scuderia> arrivati = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
-            Scuderia scuderia = new Scuderia(partita, partita.COLORI[i]);
+            final Scuderia scuderia = new Scuderia(partita, partita.COLORI[i]);
             arrivati.add(scuderia);
         }
         arrivati.get(0).setPosizione(14);
@@ -376,14 +339,14 @@ public class PartitaTest {
         assertEquals("", "SECONDO", partita.getClassifica().get(1).getColore());
 
         // TEST UGUALI QUOTAZIONI CON GIA ALCUNE SCUDERIE IN CLASSIFICA
-        Partita partita2 = new Partita();
-        List<Scuderia> fotofinish = new ArrayList<>();
+        final Partita partita2 = new Partita();
+        final List<Scuderia> fotofinish = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
             Scuderia scuderia = new Scuderia(partita, partita.COLORI[i]);
             fotofinish.add(scuderia);
         }
-        List<Scuderia> classifica = new ArrayList<>();
+        final List<Scuderia> classifica = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
             Scuderia scuderia = new Scuderia(partita, partita.COLORI[i]);
@@ -413,12 +376,12 @@ public class PartitaTest {
         final List<Giocatore> giocatori = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
-            Giocatore giocatore = new Giocatore();
+            final Giocatore giocatore = new Giocatore();
             giocatori.add(giocatore);
         }
         giocatori.get(0).setPuntiVittoria(5);
         giocatori.get(0).setNomeGiocatore("VINCE");
-        partita.setArraygiocatori(giocatori);
+        partita.setGiocatori(giocatori);
         assertEquals("", "VINCE", partita.trovaVincitore());
 
         giocatori.get(0).setPuntiVittoria(5);
@@ -427,7 +390,7 @@ public class PartitaTest {
         giocatori.get(1).setPuntiVittoria(5);
         giocatori.get(1).setSoldi(1991);
         giocatori.get(1).setNomeGiocatore("PERDE");
-        partita.setArraygiocatori(giocatori);
+        partita.setGiocatori(giocatori);
         assertEquals("", "VINCE", partita.trovaVincitore());
 
     }
@@ -438,25 +401,41 @@ public class PartitaTest {
      * .
      */
     @Test
-    public void testCheckArrivati() {
-
-        Partita partita = new Partita();
+    public void testCheckArrivatiFalse() {
+        final Partita partita = new Partita();
         for (int i = 0; i < 6; i++) {
             Giocatore giocatore = new Giocatore();
             giocatore.setPuntiVittoria(4);
             giocatore.setSoldi(12313);
             giocatore.setNomeGiocatore("prova");
-            partita.getarraygiocatori().add(giocatore);
+            partita.getGiocatori().add(giocatore);
         }
         // Controllo il caso in cui non tutte sono arrivate
         partita.setScuderie();
         partita.getScuderie().get(3).setArrivato(false);
-        assertFalse(partita.checkArrivati());
+        assertFalse("Arrivati", partita.checkArrivati());
+    }
+
+    /**
+     * Test method for
+     * {@link Partita#checkArrivati()}
+     * .
+     */
+    @Test
+    public void testCheckArrivatiTrue() {
+        final Partita partita = new Partita();
+        for (int i = 0; i < 6; i++) {
+            Giocatore giocatore = new Giocatore();
+            giocatore.setPuntiVittoria(4);
+            giocatore.setSoldi(12313);
+            giocatore.setNomeGiocatore("prova");
+            partita.getGiocatori().add(giocatore);
+        }
         // Controllo il caso in cui tutte le scuderie sono arrivate
-        for (Scuderia scuderia : partita.getScuderie()) {
+        for (final Scuderia scuderia : partita.getScuderie()) {
             scuderia.setArrivato(true);
         }
-        assertTrue(partita.checkArrivati());
+        assertTrue("Arrivati", partita.checkArrivati());
     }
 
     /**
@@ -469,58 +448,49 @@ public class PartitaTest {
 
         Partita partita = new Partita();
         partita.setQuotazioni();
-        List<Scuderia> scuderie = new ArrayList<>();
+        final List<Scuderia> scuderie = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             Scuderia scuderia = new Scuderia(partita, partita.COLORI[i]);
+            scuderia.setQuotazione(i + 1);
             scuderie.add(scuderia);
         }
-        scuderie.get(0).setQuotazione(2);
-        scuderie.get(0).setColore("Giallo");
-        scuderie.get(1).setQuotazione(3);
-        scuderie.get(1).setColore("Verde");
-        scuderie.get(2).setQuotazione(4);
-        scuderie.get(2).setColore("Blu");
-        scuderie.get(3).setQuotazione(5);
-        scuderie.get(3).setColore("Nero");
-        scuderie.get(4).setQuotazione(6);
-        scuderie.get(4).setColore("Bianco");
-        scuderie.get(5).setQuotazione(7);
-        scuderie.get(5).setColore("Rosso");
 
-        partita.setListascuderie(scuderie);
+        partita.setScuderie(scuderie);
 
-        List<Scuderia> classifica = new ArrayList<>();
+        final List<Scuderia> classifica = new ArrayList<>();
 
-        Scuderia giallo = new Scuderia(partita, partita.COLORI[1]);
-        giallo.setColore("Giallo");
-        giallo.setQuotazione(2);
-        classifica.add(giallo);
+        final Scuderia primo = new Scuderia(partita, partita.COLORI[1]);
+        primo.setColore("GIALLO");
+        primo.setQuotazione(5);
+        classifica.add(primo);
 
-        Scuderia verde = new Scuderia(partita, partita.COLORI[2]);
-        verde.setColore("Verde");
-        verde.setQuotazione(3);
-        classifica.add(verde);
+        final Scuderia secondo = new Scuderia(partita, partita.COLORI[2]);
+        secondo.setColore("VERDE");
+        secondo.setQuotazione(3);
+        classifica.add(secondo);
 
-        Scuderia blu = new Scuderia(partita, partita.COLORI[3]);
-        blu.setColore("Blu");
-        blu.setQuotazione(4);
-        classifica.add(blu);
+        final Scuderia terzo = new Scuderia(partita, partita.COLORI[3]);
+        terzo.setColore("BLU ");
+        terzo.setQuotazione(2);
+        classifica.add(terzo);
 
         partita.setClassifica(classifica);
 
-        List<Giocatore> giocatori = new ArrayList<>();
+        final List<Giocatore> giocatori = new ArrayList<>();
         for (int i = 0; i < Parametri.MAX_GIOCATORI; i++) {
             Giocatore giocatore = new Giocatore();
-            giocatore.setScuderia(i + 2, partita.getScuderie());
+            giocatore.setNomeGiocatore(String.format("%d", i));
+            giocatore.setSoldi(0);
+            giocatore.setScuderia(i + 1, partita.getScuderie());
             giocatori.add(giocatore);
         }
-        partita.setArraygiocatori(giocatori);
+        partita.setGiocatori(giocatori);
 
         partita.pagascuderie();
 
-        assertEquals("", 600, partita.getarraygiocatori().get(0).getSoldi());
-        assertEquals("", 400, partita.getarraygiocatori().get(1).getSoldi());
-        assertEquals("", 200, partita.getarraygiocatori().get(2).getSoldi());
+        assertTrue("Assegna le vincinte correttamente", Parametri.SOLDI_PRIMA_SCUDERIA == partita.getGiocatori().get(4).getSoldi()
+                && Parametri.SOLDI_SECONDA_SCUDERIA == partita.getGiocatori().get(2).getSoldi()
+                && Parametri.SOLDI_TERZA_SCUDERIA == partita.getGiocatori().get(1).getSoldi());
     }
 
     /**
@@ -549,8 +519,8 @@ public class PartitaTest {
         giocatori.get(5).setPuntiVittoria(2);
         giocatori.get(5).setSoldi(100);
 
-        partita.setArraygiocatori(giocatori);
+        partita.setGiocatori(giocatori);
         partita.checkeliminato();
-        assertEquals("devo avere 4", 4, partita.getarraygiocatori().size());
+        assertEquals("devo avere 4", 4, partita.getGiocatori().size());
     }
 }

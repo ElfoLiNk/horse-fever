@@ -26,6 +26,7 @@ public class ParserHandlerAzioni extends DefaultHandler {
     private final Stack<CartaAzione> oggettoStack;
 
     ParserHandlerAzioni() {
+        super();
         this.cartaList = new ArrayList<>();
         this.elementoStack = new Stack<>();
         this.oggettoStack = new Stack<>();
