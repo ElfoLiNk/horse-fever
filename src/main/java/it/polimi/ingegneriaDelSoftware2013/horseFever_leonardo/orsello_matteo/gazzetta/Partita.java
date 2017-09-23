@@ -8,26 +8,37 @@ import java.util.*;
  * giocatori Gestisce i turni e le corse
  */
 public class Partita {
-    private final String[] colori = {"NERO", "BLU ", "VERDE", "ROSSO", "GIALLO",
+    private final String[] COLORI = {"NERO", "BLU ", "VERDE", "ROSSO", "GIALLO",
             "BIANCO"};
-    private final List<Scuderia> arrivati = new ArrayList<>();
-    private List<Giocatore> arraygiocatori = new ArrayList<>();
+    private final List<Scuderia> arrivati;
+    private List<Giocatore> arraygiocatori;
     /**
      * Liste delle carte del mazzo
      */
     private List<CartePersonaggio> listapersonaggi;
     private List<CarteAzione> listaazioni;
-    private List<String> listacartemovimento;
-    private int turni = 0;
-    private int ngiocatori = 0;
-    private int primogiocatore = 0;
-    private List<Scuderia> listascuderie = new ArrayList<>();
+    private List<String> carteMovimento;
+    private int turni;
+    private int ngiocatori;
+    private int primogiocatore;
+    private List<Scuderia> listascuderie;
     /**
      * Gestione Scommesse
      */
     private int tempint;
-    private int flagscommessa = 1;
-    private List<Scuderia> classifica = new ArrayList<>();
+    private int flagscommessa;
+    private List<Scuderia> classifica;
+
+    Partita() {
+        this.arrivati = new ArrayList<>();
+        this.arraygiocatori = new ArrayList<>();
+        this.turni = 0;
+        this.ngiocatori = 0;
+        this.primogiocatore = 0;
+        this.listascuderie = new ArrayList<>();
+        this.flagscommessa = 1;
+        this.classifica = new ArrayList<>();
+    }
 
     /**
      * @return the arraygiocatori
@@ -54,7 +65,7 @@ public class Partita {
         // Creazione mazzo Azioni
         listaazioni = CarteAzione.crealistaazioni();
         // Creazione mazzo Movimento
-        listacartemovimento = CarteMovimento.setMovimento();
+        carteMovimento = CarteMovimento.setMovimento();
 
     }
 
@@ -73,17 +84,17 @@ public class Partita {
     }
 
     /**
-     * @return the listacartemovimento
+     * @return the carteMovimento
      */
-    public List<String> getListacartemovimento() {
-        return listacartemovimento;
+    public List<String> getCarteMovimento() {
+        return carteMovimento;
     }
 
     /**
-     * @param carteMovimento the listacartemovimento to set
+     * @param carteMovimento the carteMovimento to set
      */
-    public void setListacartemovimento(final List<String> carteMovimento) {
-        this.listacartemovimento = carteMovimento;
+    public void setCarteMovimento(final List<String> carteMovimento) {
+        this.carteMovimento = carteMovimento;
     }
 
     /**
@@ -153,18 +164,18 @@ public class Partita {
             }
         }
         if (ngiocatori == Parametri.TRE) {
-            for (Scuderia scuderia : listascuderie) {
+            for (final Scuderia scuderia : listascuderie) {
                 scuderia.setSegnalino(Parametri.DUE);
             }
         }
         if (ngiocatori == Parametri.QUATTRO) {
-            for (Scuderia scuderia : listascuderie) {
+            for (final Scuderia scuderia : listascuderie) {
                 scuderia.setSegnalino(Parametri.TRE);
             }
             turni = Parametri.CINQUE;
         }
         if (ngiocatori == Parametri.CINQUE || ngiocatori == Parametri.SEI) {
-            for (Scuderia scuderia : listascuderie) {
+            for (final Scuderia scuderia : listascuderie) {
                 scuderia.setSegnalino(Parametri.QUATTRO);
             }
             turni = Parametri.CINQUE;
@@ -179,9 +190,9 @@ public class Partita {
     public void setGiocatori() {
 
         for (int i = 0; i < ngiocatori; i++) {
+            int valid;
             // Costruisco il giocatore
             final Giocatore player = new Giocatore();
-            int valid;
 
             do {
                 valid = 1;
@@ -192,7 +203,7 @@ public class Partita {
                 // Seleziono la carta personaggio del player
                 final Random rnd = new Random();
                 tempint = rnd.nextInt(listapersonaggi.size());
-                CartePersonaggio personaggio = listapersonaggi.get(tempint);
+                final CartePersonaggio personaggio = listapersonaggi.get(tempint);
 
                 // Assegno il nome della carta a interpreta del player
                 player.setInterpreta(personaggio.getNome());
@@ -228,9 +239,9 @@ public class Partita {
 
         for (int i = 0; i < Parametri.MAX_SCUDERIE; i++) {
 
-            Scuderia scuderia = new Scuderia(this);
+            final Scuderia scuderia = new Scuderia(this);
             listascuderie.add(scuderia);
-            listascuderie.get(i).setColore(colori[i]);
+            listascuderie.get(i).setColore(COLORI[i]);
 
         }
     }
@@ -240,7 +251,7 @@ public class Partita {
      */
     public void setQuotazioni() {
         // lista di valori
-        final List<Integer> list = new ArrayList<Integer>();
+        final List<Integer> list = new ArrayList<>();
         // Generatore random con seed l'ora
         final Random rnd = new Random(System.currentTimeMillis());
 
@@ -262,7 +273,7 @@ public class Partita {
     public void setCarteAzione() {
         for (int i = 0; i < ngiocatori; i++) {
             // Scelgo una carta azione a caso
-            Random rnd = new Random();
+            final Random rnd = new Random();
             tempint = rnd.nextInt(getListaazioni().size());
 
             // Salvo la carta azione nella lista del player i
@@ -312,8 +323,9 @@ public class Partita {
             boolean finisco = true;
             for (int i = primogiocatore; i < ngiocatori && finisco; i++) {
 
-                final List<CarteAzione> carteplayer = arraygiocatori.get(i).getCarteAzione();
-                Write.write(arraygiocatori.get(i).toString());
+                final Giocatore giocatore = arraygiocatori.get(i);
+                final List<CarteAzione> carteplayer = giocatore.getCarteAzione();
+                Write.write(giocatore.toString());
                 Write.write("\nScegli la carta azione da giocare:");
                 // Scelta Carta Azione
                 final int cartaScelta = Read.readCartaAzione(carteplayer);
@@ -325,17 +337,17 @@ public class Partita {
                             + "\t"
                             + listascuderie.get(n).getCarteAzione().size());
                 }
-                int s = 0;
+                int scuderiaScelta = 0;
                 do {
                     Write.write("Seleziona corsia: ");
-                    s = Read.readInt();
-                } while (s < 0 || s > listascuderie.size() - 1);
+                    scuderiaScelta = Read.readInt();
+                } while (scuderiaScelta < 0 || scuderiaScelta > listascuderie.size() - 1);
 
                 // Salvo la carta nella scuderia corrispondente
-                listascuderie.get(s).setCarteAzione(carteplayer.get(cartaScelta));
+                listascuderie.get(scuderiaScelta).setCarteAzione(carteplayer.get(cartaScelta));
 
                 // Rimuovo Carta dalla lista del player
-                arraygiocatori.get(i).removeCarteAzione(cartaScelta);
+                giocatore.removeCarteAzione(cartaScelta);
 
                 // Clear console
                 Write.clear();
@@ -376,15 +388,15 @@ public class Partita {
      */
     public void movimento() {
         // Carta movimento
-        int[] movimenti = new int[colori.length];
+        int[] movimenti = new int[COLORI.length];
 
         // Selezione una linea random dalla Lista delle carte movimento
         Random r = new Random();
-        int j = r.nextInt(listacartemovimento.size());
-        String randomString = listacartemovimento.get(j);
+        int j = r.nextInt(carteMovimento.size());
+        String randomString = carteMovimento.get(j);
 
         // Elimino la linea dalla lista
-        listacartemovimento.remove(j);
+        carteMovimento.remove(j);
 
         // Analizzo la stringa e Salvo il movimento corretto
         Scanner scannerString = new Scanner(randomString);
@@ -434,8 +446,8 @@ public class Partita {
      */
     public void sprint() {
         Random rnd = new Random();
-        int i = rnd.nextInt(colori.length);
-        int j = rnd.nextInt(colori.length);
+        int i = rnd.nextInt(COLORI.length);
+        int j = rnd.nextInt(COLORI.length);
         listascuderie.get(i).setSprint(1);
         if (i != j) {
             listascuderie.get(j).setSprint(1);
@@ -524,8 +536,7 @@ public class Partita {
             // Creo una nuova scommessa e inizio a impostare il nome del
             // giocatore e la aggiungo alla lista delle scommesse della scuderia
             // scelta
-            Scommessa scommessa = new Scommessa();
-            scommessa.setNomeGiocatore(arraygiocatori.get(i).getNome());
+            Scommessa scommessa = new Scommessa(arraygiocatori.get(i).getNome());
             listascuderie.get(s).getscommessa().add(scommessa);
 
             // Effettuo la scommessa chiedendo i soldi al giocatore

@@ -14,7 +14,7 @@ import java.util.List;
  * Struttura dati delle carte movimento
  */
 public final class CarteMovimento {
-    private static List<String> listacartemovimento = new ArrayList<String>();
+    private static List<String> carteMoviment = new ArrayList<>();
 
     private CarteMovimento() {
     }
@@ -26,30 +26,20 @@ public final class CarteMovimento {
      * @throws IOException ERRORE: Lettura carte movimento
      */
     public static List<String> setMovimento() throws IOException {
-        BufferedReader file = null;
-        try {
-
-            file = new BufferedReader(new InputStreamReader(
-                    ResourceLoader.load("cartemovimento.txt"), Charset.defaultCharset()));
-
+        try (BufferedReader file = new BufferedReader(new InputStreamReader(
+                ResourceLoader.load("cartemovimento.txt"), Charset.defaultCharset()))) {
             // Leggo una linea dal file
             String linea = file.readLine();
 
             while (linea != null) {
-                listacartemovimento.add(linea);
+                carteMoviment.add(linea);
                 linea = file.readLine();
             }
 
         } catch (IOException e) {
             Write.write("ERRORE: Lettura carte movimento");
-        } finally {
-
-            if (file != null) {
-                file.close();
-            }
-
         }
-        return listacartemovimento;
+        return carteMoviment;
     }
 
 }

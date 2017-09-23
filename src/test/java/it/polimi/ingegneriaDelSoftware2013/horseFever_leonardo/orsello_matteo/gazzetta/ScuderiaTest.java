@@ -29,10 +29,9 @@ public class ScuderiaTest {
         char piazzata = "p".charAt(0);
 
         // Scommessa vincente
-        Scommessa scommessa = new Scommessa();
+        Scommessa scommessa = new Scommessa("vincente");
         scommessa.setSoldi(1000);
         scommessa.setTiposcommessa(vincente);
-        scommessa.setNomeGiocatore("vincente");
         scommesse.add(scommessa);
 
         // Giocatore vincente
@@ -54,10 +53,9 @@ public class ScuderiaTest {
         assertEquals("", 4, partita.getarraygiocatori().get(0).getPv());
 
         // Scommessa piazzata
-        Scommessa Spiazzata = new Scommessa();
+        Scommessa Spiazzata = new Scommessa("piazzata");
         Spiazzata.setSoldi(1000);
         Spiazzata.setTiposcommessa(piazzata);
-        Spiazzata.setNomeGiocatore("piazzata");
         scommesse.add(Spiazzata);
 
         // Giocatore piazzato

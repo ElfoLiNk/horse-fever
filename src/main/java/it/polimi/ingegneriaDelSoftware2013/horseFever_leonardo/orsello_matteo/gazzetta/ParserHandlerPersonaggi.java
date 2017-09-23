@@ -18,20 +18,25 @@ import java.util.Stack;
  */
 public class ParserHandlerPersonaggi extends DefaultHandler {
     // Lista da popolare mentre faccio il parsing del file XML
-    private List<CartePersonaggio> cartaList = new ArrayList<CartePersonaggio>();
+    private final List<CartePersonaggio> cartaList;
 
     // Quando leggo un elemento XML faccio una push in questo stack
-    private Stack<String> elementoStack = new Stack<String>();
+    private final Stack<String> elementoStack;
 
-    // Quando finisco un blocco XML faccio una push della CartaAzione in questo
-    // Stack
-    private Stack<CartePersonaggio> oggettoStack = new Stack<CartePersonaggio>();
+    // Quando finisco un blocco XML faccio una push della CartaAzione in questo Stack
+    private final Stack<CartePersonaggio> oggettoStack;
+
+    ParserHandlerPersonaggi() {
+        this.cartaList = new ArrayList<>();
+        this.elementoStack = new Stack<>();
+        this.oggettoStack = new Stack<>();
+    }
 
     /**
      * Creo la carta
      */
-    public void startElement(String uri, String localName, String qName,
-                             Attributes attributes) throws SAXException {
+    public void startElement(String uri, final String localName, String qName,
+                             final Attributes attributes) throws SAXException {
         // Push nello stack degli elementi
         this.elementoStack.push(qName);
         // Se inizia con 'Carta' preparo un oggetto CartaPersonaggio e faccio il
@@ -39,7 +44,7 @@ public class ParserHandlerPersonaggi extends DefaultHandler {
         // nello stack degli oggetti
         if ("Carta".equals(qName)) {
             // Costruisco una CartaPersonaggio
-            CartePersonaggio carta = new CartePersonaggio();
+            final CartePersonaggio carta = new CartePersonaggio();
 
             // Imposto l'attributo id per ogni carta
             if (attributes != null && attributes.getLength() == 1) {
@@ -52,7 +57,7 @@ public class ParserHandlerPersonaggi extends DefaultHandler {
     /**
      * Chiudo la carta
      */
-    public void endElement(String uri, String localName, String qName)
+    public void endElement(String uri, final String localName, String qName)
             throws SAXException {
         // Rimuovo l'ultima </carta> aggiunta
         this.elementoStack.pop();
@@ -60,7 +65,7 @@ public class ParserHandlerPersonaggi extends DefaultHandler {
         // L'oggetto CartaPersonaggio è costruita quindi faccio il pop dallo
         // stack degli oggetti e faccio il push nella lista delle carte
         if ("Carta".equals(qName)) {
-            CartePersonaggio oggetto = this.oggettoStack.pop();
+            final CartePersonaggio oggetto = this.oggettoStack.pop();
             this.cartaList.add(oggetto);
         }
     }
@@ -68,9 +73,9 @@ public class ParserHandlerPersonaggi extends DefaultHandler {
     /**
      * Questo viene chiamato ogni volta che il parser incontra un value node
      */
-    public void characters(char[] ch, int start, int length)
+    public void characters(final char[] ch, int start, int length)
             throws SAXException {
-        String stringa = new String(ch, start, length).trim();
+        final String stringa = new String(ch, start, length).trim();
         if (stringa.length() == 0) {
             return;
             // Ignoro gli spazi bianchi
@@ -78,17 +83,14 @@ public class ParserHandlerPersonaggi extends DefaultHandler {
 
         // Gestisco il valore in base a quale elemento appartiene
         if ("Nome".equals(currentElement())) {
-            CartePersonaggio carta = (CartePersonaggio) this.oggettoStack
-                    .peek();
+            final CartePersonaggio carta = this.oggettoStack.peek();
             carta.setNome(stringa);
         } else if ("Soldi".equals(currentElement())) {
-            CartePersonaggio carta = (CartePersonaggio) this.oggettoStack
-                    .peek();
-            int intero = Integer.parseInt(new String(ch, start, length).trim());
+            CartePersonaggio carta = this.oggettoStack.peek();
+            final int intero = Integer.parseInt(new String(ch, start, length).trim());
             carta.setSoldi(intero);
         } else if ("Quotazione".equals(currentElement())) {
-            CartePersonaggio carta = (CartePersonaggio) this.oggettoStack
-                    .peek();
+            CartePersonaggio carta = this.oggettoStack.peek();
             int intero = Integer.parseInt(new String(ch, start, length).trim());
             carta.setQuotazione(intero);
         }
@@ -105,7 +107,7 @@ public class ParserHandlerPersonaggi extends DefaultHandler {
      * Ritorna la lista delle carte azione
      *
      * @return cartaList
-     * @see CartaPersonaggio
+     * @see CartePersonaggio
      */
     public List<CartePersonaggio> getCarte() {
         return cartaList;

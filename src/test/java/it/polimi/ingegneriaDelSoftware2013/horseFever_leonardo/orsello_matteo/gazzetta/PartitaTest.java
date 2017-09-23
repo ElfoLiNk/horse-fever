@@ -31,7 +31,7 @@ public class PartitaTest {
         }
         assertNotNull("", partita.getListapersonaggi());
         assertNotNull("", partita.getListaazioni());
-        assertNotNull("", partita.getListacartemovimento());
+        assertNotNull("", partita.getCarteMovimento());
     }
 
     /**
@@ -150,22 +150,22 @@ public class PartitaTest {
         for (final Scuderia scuderia : partita.getListascuderie()) {
             switch (scuderia.getQuotazione()) {
                 case Parametri.DUE:
-                    assertNotEquals(0, scuderia.getMovimento());
+                    assertNotEquals(-1, scuderia.getMovimento());
                     break;
                 case Parametri.TRE:
-                    assertNotEquals(0, scuderia.getMovimento());
+                    assertNotEquals(-1, scuderia.getMovimento());
                     break;
                 case Parametri.QUATTRO:
-                    assertNotEquals(0, scuderia.getMovimento());
+                    assertNotEquals(-1, scuderia.getMovimento());
                     break;
                 case Parametri.CINQUE:
-                    assertNotEquals(0, scuderia.getMovimento());
+                    assertNotEquals(-1, scuderia.getMovimento());
                     break;
                 case Parametri.SEI:
-                    assertNotEquals(0, scuderia.getMovimento());
+                    assertNotEquals(-1, scuderia.getMovimento());
                     break;
                 case Parametri.SETTE:
-                    assertNotEquals(0, scuderia.getMovimento());
+                    assertNotEquals(-1, scuderia.getMovimento());
                     break;
                 default:
                     break;
@@ -209,12 +209,12 @@ public class PartitaTest {
         }
         partita.movimento();
         partita.setScuderie();
-        final List<Scuderia> listascuderie = partita.getListascuderie();
+        final List<Scuderia> scuderie = partita.getListascuderie();
 
-        final Scuderia primaScuderia = listascuderie.get(0);
+        final Scuderia primaScuderia = scuderie.get(0);
         primaScuderia.setMovimento(4);
         primaScuderia.setSprint(1);
-        final Scuderia secondaScuderia = listascuderie.get(1);
+        final Scuderia secondaScuderia = scuderie.get(1);
         secondaScuderia.setMovimento(12);
         secondaScuderia.setSprint(1);
 

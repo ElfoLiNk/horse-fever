@@ -34,7 +34,7 @@ public class Scuderia {
         this.arrivato = false;
         this.classifica = 0;
         this.posizione = 0;
-        this.movimento = 0;
+        this.movimento = -1;
     }
 
     /*

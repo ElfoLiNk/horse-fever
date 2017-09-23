@@ -29,7 +29,7 @@ public class Audio {
      * Avvia un thread dove riproduce il file passato al costruttore della
      * classe
      *
-     * @see Threads, Audio
+     * @see Thread, Audio
      */
     public void start() {
         audio.start();
@@ -40,24 +40,24 @@ public class Audio {
      *
      * @param filename Path del file audio da riprodurre
      */
-    public void play(String filename) {
+    public void play(final String filename) {
         try {
             // Input stream del file audio
-            AudioInputStream in = AudioSystem
+            final AudioInputStream audioIn = AudioSystem
                     .getAudioInputStream(ResourceLoader.load(filename));
-            AudioInputStream din;
-            AudioFormat baseFormat = in.getFormat();
+            AudioInputStream decodedAudioIn;
+            final AudioFormat baseFormat = audioIn.getFormat();
 
-            AudioFormat decodedFormat = new AudioFormat(
+            final AudioFormat decodedFormat = new AudioFormat(
                     AudioFormat.Encoding.PCM_SIGNED,
                     baseFormat.getSampleRate(), Parametri.SAMPLESIZE,
                     baseFormat.getChannels(), baseFormat.getChannels() * 2,
                     baseFormat.getSampleRate(), false);
 
-            din = AudioSystem.getAudioInputStream(decodedFormat, in);
+            decodedAudioIn = AudioSystem.getAudioInputStream(decodedFormat, audioIn);
             // Play now.
-            rawplay(decodedFormat, din);
-            in.close();
+            rawplay(decodedFormat, decodedAudioIn);
+            audioIn.close();
 
         } catch (IOException e) {
             Write.write("ERRORE IO FILE AUDIO /" + filename);
@@ -70,16 +70,16 @@ public class Audio {
         play(filename);
     }
 
-    private void rawplay(AudioFormat targetFormat, AudioInputStream din)
+    private void rawplay(AudioFormat targetFormat, final AudioInputStream decodedAudioIn)
             throws IOException, LineUnavailableException {
-        byte[] data = new byte[Parametri.AUDIO_BYTE];
-        SourceDataLine line = getLine(targetFormat);
+        final byte[] data = new byte[Parametri.AUDIO_BYTE];
+        final SourceDataLine line = getLine(targetFormat);
         if (line != null) {
             // Start
             line.start();
             int nBytesRead = 0;
             while (nBytesRead != -1) {
-                nBytesRead = din.read(data, 0, data.length);
+                nBytesRead = decodedAudioIn.read(data, 0, data.length);
                 if (nBytesRead != -1) {
                     line.write(data, 0, nBytesRead);
                 }
@@ -88,15 +88,14 @@ public class Audio {
             line.drain();
             line.stop();
             line.close();
-            din.close();
+            decodedAudioIn.close();
         }
     }
 
-    private SourceDataLine getLine(AudioFormat audioFormat)
+    private SourceDataLine getLine(final AudioFormat audioFormat)
             throws LineUnavailableException {
         SourceDataLine res;
-        DataLine.Info info = new DataLine.Info(SourceDataLine.class,
-                audioFormat);
+        final DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
         res = (SourceDataLine) AudioSystem.getLine(info);
         res.open(audioFormat);
         return res;

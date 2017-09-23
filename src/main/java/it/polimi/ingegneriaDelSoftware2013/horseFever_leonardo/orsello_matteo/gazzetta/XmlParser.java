@@ -18,30 +18,33 @@ import java.util.List;
  *
  * @see CarteAzione, ParserHandlerPersonaggi, ParserHandlerAzioni
  */
-public class XmlParser {
+public final class XmlParser {
+
+    public XmlParser() {
+    }
 
     /**
      * Funzione che fa il parsing del file xml delle carte personaggio.
      *
-     * @param in stream di input del file xml
+     * @param cartePersonaggio stream di input del file xml
      * @return carte la lista delle carte personaggio lette dal file xml
      * @see CarteAzione, ParserHandlerPersonaggi
      */
-    public List<CartePersonaggio> parseXmlPersonaggi(InputStream in) {
+    public static List<CartePersonaggio> parseXmlPersonaggi(final InputStream cartePersonaggio) {
         // Creo una lista vuota delle carte personaggio
-        List<CartePersonaggio> carte = new ArrayList<CartePersonaggio>();
+        List<CartePersonaggio> carte = new ArrayList<>();
         try {
             // Creo un instanza del handler per le carte personaggio
-            ParserHandlerPersonaggi handler = new ParserHandlerPersonaggi();
+            final ParserHandlerPersonaggi handler = new ParserHandlerPersonaggi();
 
             // Creo un parser dalla factory
-            XMLReader parser = XMLReaderFactory.createXMLReader();
+            final XMLReader parser = XMLReaderFactory.createXMLReader();
 
             // Imposto l'handler delle carte personaggio nel parser
             parser.setContentHandler(handler);
 
             // Creo un input dal file xml
-            InputSource sorgente = new InputSource(in);
+            final InputSource sorgente = new InputSource(cartePersonaggio);
 
             // Faccio il parsing dell'input
             parser.parse(sorgente);
@@ -60,25 +63,25 @@ public class XmlParser {
     /**
      * Funzione che fa il parsing del file xml delle carte azione.
      *
-     * @param in stream di input del file xml
+     * @param carteAzione stream di input del file xml
      * @return carte la lista delle carte azione lette dal file xml
      * @see CarteAzione, ParserHandlerAzioni
      */
-    public List<CarteAzione> parseXmlAzioni(InputStream in) {
+    public static List<CarteAzione> parseXmlAzioni(final InputStream carteAzione) {
         // Creo una lista vuota di carte azione
-        List<CarteAzione> carte = new ArrayList<CarteAzione>();
+        List<CarteAzione> carte = new ArrayList<>();
         try {
             // Creo un istanza del handler per le carte azioni
-            ParserHandlerAzioni handler = new ParserHandlerAzioni();
+            final ParserHandlerAzioni handler = new ParserHandlerAzioni();
 
             // Creo un parser dalla factory
-            XMLReader parser = XMLReaderFactory.createXMLReader();
+            final XMLReader parser = XMLReaderFactory.createXMLReader();
 
             // Imposto l'handler delle carte azione nel parser
             parser.setContentHandler(handler);
 
             // Creo un input dal file xml
-            InputSource sorgente = new InputSource(in);
+            final InputSource sorgente = new InputSource(carteAzione);
 
             // Faccio il parsing dell'input
             parser.parse(sorgente);

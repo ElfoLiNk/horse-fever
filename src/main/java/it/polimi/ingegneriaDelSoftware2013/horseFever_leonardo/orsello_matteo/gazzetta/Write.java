@@ -18,35 +18,32 @@ final class Write {
     /**
      * Scrive una stringa su una nuova linea su System.out
      *
-     * @param s la stringa da scrivere
-     * @see
+     * @param stringa la stringa da scrivere
      */
-    public static void write(String s) {
+    public static void write(final String stringa) {
         PrintStream out = System.out;
-        out.println(s);
+        out.println(stringa);
     }
 
     /**
      * Layout del titolo della schermata
      *
-     * @param s Titolo della schermata
-     * @see
+     * @param header Titolo della schermata
      */
-    public static void header(String s) {
-        Write.write("------------------------------------------------");
-        Write.write("|                  " + s + "                    |");
-        Write.write("------------------------------------------------");
+    public static void header(String header) {
+        Write.write("|----------------------------------------------|");
+        Write.write("|                " + header + "                |");
+        Write.write("|----------------------------------------------|");
     }
 
     /**
      * Scrive un intero su una nuova linea su System.out
      *
-     * @param i l'intero da scrivere
-     * @see
+     * @param intero l'intero da scrivere
      */
-    public static void write(int i) {
+    public static void write(final int intero) {
         PrintStream out = System.out;
-        out.println(i);
+        out.println(intero);
     }
 
     /**
@@ -64,9 +61,9 @@ final class Write {
      * @param classifica lista delle scuderie secondo l'ordine di arrivo
      * @see Scuderia
      */
-    public static void printClassifica(List<Scuderia> classifica) {
+    public static void printClassifica(final List<Scuderia> classifica) {
         Write.write("\nCLASSIFICA\n");
-        for (Scuderia scuderia : classifica) {
+        for (final Scuderia scuderia : classifica) {
             Write.write(scuderia.getColore() + "\t" + scuderia.getClassifica());
         }
     }
@@ -77,9 +74,9 @@ final class Write {
      * @param scuderie la lista delle scuderie
      * @see Scuderia
      */
-    public static void printQuotazioni(List<Scuderia> scuderie) {
+    public static void printQuotazioni(final List<Scuderia> scuderie) {
         Write.write("\nQUOTAZIONI AGGIORNATE\n");
-        for (Scuderia scuderia : scuderie) {
+        for (final Scuderia scuderia : scuderie) {
             Write.write(scuderia.getColore() + "\tQuotazione: "
                     + scuderia.getQuotazione());
         }
@@ -93,17 +90,17 @@ final class Write {
      */
     public static void printCorsa(final List<Scuderia> scuderie) {
         Write.clear();
-        for (Scuderia aScuderie : scuderie) {
+        for (final Scuderia scuderia : scuderie) {
             // Stampo il colore della scuderia
-            Write.simple(aScuderie.getColore() + "\t");
+            Write.simple(scuderia.getColore() + "\t");
             // Stampo tot # in base alla posizione della scuderia
-            for (int j = 0; j < aScuderie.getPosizione(); j++) {
+            for (int j = 0; j < scuderia.getPosizione(); j++) {
                 Write.simple("#");
             }
-            Write.simple(" " + aScuderie.getPosizione());
+            Write.simple(" " + scuderia.getPosizione());
             // Stampo la classifica di arrivo della scuderia
-            if (aScuderie.getClassifica() > 0) {
-                Write.simple(" " + aScuderie.getClassifica() + "°");
+            if (scuderia.getClassifica() > 0) {
+                Write.simple(" " + scuderia.getClassifica() + "°");
             }
             Write.write("");
         }
@@ -120,10 +117,10 @@ final class Write {
      *
      * @see Giocatore
      */
-    public static void leaderboard(List<Giocatore> arraygiocatori) {
+    public static void leaderboard(final List<Giocatore> giocatori) {
         write("\nCLASSIFICA GIOCATORI\n");
         write("Nome\tScuderia\tSoldi\tPV");
-        for (Giocatore player : arraygiocatori) {
+        for (final Giocatore player : giocatori) {
             // Informazioni sul giocatore: Nome scuderia soldi pv
             write(player.getNome().toUpperCase(Locale.getDefault())
                     + "\t" + player.getScuderia() + "\t\t" + player.getSoldi()
@@ -137,7 +134,7 @@ final class Write {
      * @param string la stringa da scrivere
      * @see
      */
-    private static void simple(String string) {
+    private static void simple(final String string) {
         PrintStream out = System.out;
         out.print(string);
     }

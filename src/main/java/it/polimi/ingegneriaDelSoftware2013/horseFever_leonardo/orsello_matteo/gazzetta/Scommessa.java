@@ -8,8 +8,13 @@ package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.g
  */
 public class Scommessa {
     private String nomegiocatore;
-    private int soldi = 0;
+    private int soldi;
     private Tiposcommessa tiposcommessa;
+
+    Scommessa(String nomegiocatore) {
+        this.nomegiocatore = nomegiocatore;
+        this.soldi = 0;
+    }
 
     /**
      * @return the nomegiocatore
@@ -21,7 +26,7 @@ public class Scommessa {
     /**
      * @param nomegiocatore the nomegiocatore to set
      */
-    public void setNomeGiocatore(String nomegiocatore) {
+    public void setNomeGiocatore(final String nomegiocatore) {
         this.nomegiocatore = nomegiocatore;
     }
 
@@ -35,7 +40,7 @@ public class Scommessa {
     /**
      * @param soldi the soldi to set
      */
-    public void setSoldi(int soldi) {
+    public void setSoldi(final int soldi) {
         this.soldi = soldi;
     }
 
@@ -49,13 +54,26 @@ public class Scommessa {
     /**
      * @param tipo il tipo di scommessa da impostare v vincente p piazzato
      */
-    public void setTiposcommessa(char tipo) {
+    public void setTiposcommessa(final char tipo) {
         if (tipo == 'v') {
             tiposcommessa = Tiposcommessa.VINCENTE;
         }
         if (tipo == 'p') {
             tiposcommessa = Tiposcommessa.PIAZZATO;
         }
+    }
+
+    /**
+     * @param tipo il tipo di scommessa da impostare v vincente p piazzato
+     */
+    public Tiposcommessa getTiposcommessa(final char tipo) {
+        if (tipo == 'v') {
+            return Tiposcommessa.VINCENTE;
+        }
+        if (tipo == 'p') {
+            return Tiposcommessa.PIAZZATO;
+        }
+        throw new RuntimeException();
     }
 
     /**

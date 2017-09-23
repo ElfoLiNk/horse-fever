@@ -29,15 +29,8 @@ public class CarteAzione {
      * @return la lista delle carte azioni lette dal file xml
      */
     public static List<CarteAzione> crealistaazioni() {
-        List<CarteAzione> carte;
-
-        // Creo l'istanza parser
-        final XmlParser parser = new XmlParser();
-
         // Parso il file
-        carte = parser.parseXmlAzioni(ResourceLoader.load("carteAzione.xml"));
-
-        return carte;
+        return XmlParser.parseXmlAzioni(ResourceLoader.load("carteAzione.xml"));
     }
 
     /**
@@ -56,7 +49,7 @@ public class CarteAzione {
      */
     public void carteAzionePartenza(final List<Scuderia> scuderie) {
         // Controllo tutte le scuderie
-        for (Scuderia scuderia : scuderie) {
+        for (final Scuderia scuderia : scuderie) {
 
             // Prendo le carte azione della scuderia
             final List<CarteAzione> carte = scuderia.getCarteAzione();
@@ -65,22 +58,21 @@ public class CarteAzione {
                 // Controllo tutte le carte della scuderia
                 for (int j = 0; j < carte.size(); j++) {
                     // Analizzo solo le carte azione che influiscono la partenza
-                    if (carte.get(j).getAgisce().equals("Partenza")) {
-                        if (carte.get(j).getEffetto() < 0 && scuderia.getMovimento() > 0) {
+                    CarteAzione carta = carte.get(j);
+                    if (carta.getAgisce().equals("Partenza")) {
+                        if (carta.getEffetto() < 0 && scuderia.getMovimento() > 0) {
                             // Applico l'effetto
-                            scuderia.setMovimento(scuderia.getMovimento() + carte.get(j).getEffetto());
+                            scuderia.setMovimento(scuderia.getMovimento() + carta.getEffetto());
                         }
-                        if (carte.get(j).getEffetto() == 0) {
+                        if (carta.getEffetto() == 0) {
                             // Applico l'effetto
                             scuderia.setMovimento(0);
-                        }
-                        if (carte.get(j).getEffetto() == 1) {
+                        } else if (carta.getEffetto() == 1) {
                             // Applico l'effetto
                             scuderia.setMovimento(scuderia.getMovimento() + 1);
-
-                        } else if (carte.get(j).getEffetto() > 0) {
+                        } else if (carta.getEffetto() > 0) {
                             // Applico l'effetto
-                            scuderia.setMovimento(carte.get(j).getEffetto());
+                            scuderia.setMovimento(carta.getEffetto());
                         }
 
                         // Rimuovo la carta
@@ -104,7 +96,7 @@ public class CarteAzione {
             final List<CarteAzione> carte = scuderia.getCarteAzione();
 
             // Controllo tutte le carte della scuderia
-            for (CarteAzione carta : carte) {
+            for (final CarteAzione carta : carte) {
                 // Analizzo solo le carte azione che influiscono il movimento
                 if ("Movimento".equals(carta.getAgisce())) {
                     // Se la scuderia è ultima
@@ -133,7 +125,7 @@ public class CarteAzione {
         for (Scuderia scuderia : scuderie) {
 
             // Prendo le carte azione della scuderia
-            List<CarteAzione> carte = scuderia.getCarteAzione();
+            final List<CarteAzione> carte = scuderia.getCarteAzione();
 
             // Controllo tutte le carte della scuderia
             for (CarteAzione carta : carte) {
@@ -274,7 +266,7 @@ public class CarteAzione {
     /**
      * @param effetto the effetto to set
      */
-    public void setEffetto(int effetto) {
+    public void setEffetto(final int effetto) {
         this.effetto = effetto;
     }
 
@@ -288,7 +280,7 @@ public class CarteAzione {
     /**
      * @param agisce the agisce to set
      */
-    public void setAgisce(String agisce) {
+    public void setAgisce(final String agisce) {
         this.agisce = agisce;
     }
 
@@ -302,7 +294,7 @@ public class CarteAzione {
     /**
      * @param descrizione the descrizione to set
      */
-    public void setDescrizione(String descrizione) {
+    public void setDescrizione(final String descrizione) {
         this.descrizione = descrizione;
     }
 }

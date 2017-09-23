@@ -26,16 +26,8 @@ public class CartePersonaggio {
      * xml contenente le carte azione.
      */
     public static List<CartePersonaggio> crealistapersonaggi() {
-        List<CartePersonaggio> carte;
-
-        // Creo l'istanza parser
-        XmlParser parser = new XmlParser();
-
         // Parso il file
-        carte = parser.parseXmlPersonaggi(ResourceLoader.load("cartePersonaggio.xml"));
-
-        return carte;
-
+        return XmlParser.parseXmlPersonaggi(ResourceLoader.load("cartePersonaggio.xml"));
     }
 
     @Override
@@ -54,7 +46,7 @@ public class CartePersonaggio {
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -68,7 +60,7 @@ public class CartePersonaggio {
     /**
      * @param nome the nome to set
      */
-    public void setNome(String nome) {
+    public void setNome(final String nome) {
         this.nome = nome;
     }
 
@@ -82,7 +74,7 @@ public class CartePersonaggio {
     /**
      * @param soldi the soldi to set
      */
-    public void setSoldi(int soldi) {
+    public void setSoldi(final int soldi) {
         this.soldi = soldi;
     }
 
@@ -96,7 +88,7 @@ public class CartePersonaggio {
     /**
      * @param quotazione the quotazione to set
      */
-    public void setQuotazione(int quotazione) {
+    public void setQuotazione(final int quotazione) {
         this.quotazione = quotazione;
     }
 

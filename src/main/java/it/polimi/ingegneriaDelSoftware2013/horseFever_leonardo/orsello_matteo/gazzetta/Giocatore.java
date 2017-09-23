@@ -13,13 +13,20 @@ import java.util.Locale;
  */
 public class Giocatore {
 
-    private String nome = null;
+    private final List<CarteAzione> listaazioni;
+    private String nome;
     private String interpreta;
-    private int pv = 1;
-    private int soldi = 0;
-    private int salta = 0;
+    private int pv;
+    private int soldi;
+    private int salta;
     private String scuderia;
-    private List<CarteAzione> listaazioni = new ArrayList<CarteAzione>();
+
+    Giocatore() {
+        this.pv = 1;
+        this.soldi = 0;
+        this.salta = 0;
+        this.listaazioni = new ArrayList<>();
+    }
 
     /*
      * (non-Javadoc)
@@ -37,13 +44,13 @@ public class Giocatore {
      * Imposta il colore della scuderia in base alla quotazione del personaggio
      * e la tabella delle quotazioni
      *
-     * @param quotazione    della carta personaggio
-     * @param listascuderie della partita
+     * @param quotazione della carta personaggio
+     * @param scuderie   della partita
      */
-    public void setScuderia(int quotazione, List<Scuderia> listascuderie) {
-        for (Scuderia cavallo : listascuderie) {
-            if (cavallo.getQuotazione() == quotazione) {
-                this.scuderia = cavallo.getColore();
+    public void setScuderia(int quotazione, final List<Scuderia> scuderie) {
+        for (final Scuderia scuderia : scuderie) {
+            if (scuderia.getQuotazione() == quotazione) {
+                this.scuderia = scuderia.getColore();
             }
         }
     }
@@ -51,10 +58,10 @@ public class Giocatore {
     /**
      * Rimuove la carta azione passata dalla lista
      *
-     * @param i indice della carta da rimuovere
+     * @param indiceCarta indice della carta da rimuovere
      */
-    public void removeCarteAzione(int i) {
-        this.listaazioni.remove(i);
+    public void removeCarteAzione(final int indiceCarta) {
+        this.listaazioni.remove(indiceCarta);
     }
 
     /**
@@ -62,7 +69,7 @@ public class Giocatore {
      *
      * @param punti vittoria vinti
      */
-    public void aggiornapv(int punti) {
+    public void aggiornapv(final int punti) {
         setPv(getPv() + punti);
     }
 
@@ -87,7 +94,7 @@ public class Giocatore {
     /**
      * @param interpreta the interpreta to set
      */
-    public void setInterpreta(String interpreta) {
+    public void setInterpreta(final String interpreta) {
         this.interpreta = interpreta;
     }
 
@@ -101,7 +108,7 @@ public class Giocatore {
     /**
      * @param pv the pv to set
      */
-    public void setPv(int pv) {
+    public void setPv(final int pv) {
         this.pv = pv;
     }
 
@@ -115,14 +122,14 @@ public class Giocatore {
     /**
      * @param soldi the soldi to set
      */
-    public void setSoldi(int soldi) {
+    public void setSoldi(final int soldi) {
         this.soldi = soldi;
     }
 
     /**
      * @param newSoldi the soldi to add
      */
-    public void aggiornaSoldi(int newSoldi) {
+    public void aggiornaSoldi(final int newSoldi) {
         this.soldi += newSoldi;
     }
 
@@ -143,11 +150,11 @@ public class Giocatore {
     /**
      * Imposta il nome del player, chiedendolo all'utente
      *
-     * @param i Numero del giocatore
+     * @param numeroPlayer Numero del giocatore
      */
-    public void setNome(int i) {
+    public void setNome(final int numeroPlayer) {
         do {
-            Write.write("Player " + i + ": Come ti vuoi chiamare?");
+            Write.write("Player " + numeroPlayer + ": Come ti vuoi chiamare?");
             this.nome = Read.readString();
         } while (nome == null);
     }
@@ -164,7 +171,7 @@ public class Giocatore {
      *
      * @param carta azione da aggiungere
      */
-    public void setCarteAzione(CarteAzione carta) {
+    public void setCarteAzione(final CarteAzione carta) {
         this.listaazioni.add(carta);
     }
 
@@ -178,17 +185,17 @@ public class Giocatore {
     /**
      * @param salta the salta to set
      */
-    public void setSalta(int salta) {
+    public void setSalta(final int salta) {
         this.salta = salta;
     }
 
     /**
      * Imposta il nome del giocatore con la stringa passata come parametro
      *
-     * @param string il nome da dare al giocatore
+     * @param nome il nome da dare al giocatore
      */
-    public void setNomeGiocatore(String string) {
-        this.nome = string;
+    public void setNomeGiocatore(final String nome) {
+        this.nome = nome;
 
     }
 
