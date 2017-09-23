@@ -117,14 +117,10 @@ public class Scuderia {
     /**
      * Rimuovo la carta azione dalla lista per ID
      *
-     * @param id ID della carta azione
+     * @param idCarta ID della carta azione
      */
-    public void removeCartaAzioneByID(final int id) {
-        for (int j = 0; j < carteAzione.size(); j++) {
-            if (carteAzione.get(j).getId() == id) {
-                carteAzione.remove(j);
-            }
-        }
+    public void removeCartaAzioneByID(final int idCarta) {
+        carteAzione.removeIf(carta -> carta.getIdentifier() == idCarta);
     }
 
     /**
@@ -155,25 +151,25 @@ public class Scuderia {
         final int i = scommessa.size() - 1;
         final String nomegiocatore = scommessa.get(i).getNomeGiocatore();
         final int soldigiocatore = partita.getarraygiocatori().get(tocca).getSoldi();
-        final int pvgiocatore = partita.getarraygiocatori().get(tocca).getPv();
+        final int pvgiocatore = partita.getarraygiocatori().get(tocca).getPuntiVittoria();
         int soldiscommessa;
 
-        Write.write("Quanti soldi vuoi scommettere?");
+        SystemOut.write("Quanti soldi vuoi scommettere?");
 
         boolean tryAgain;
         do {
             tryAgain = false;
-            soldiscommessa = Read.readInt();
+            soldiscommessa = SystemIn.readInt();
             // controllo se il giocatore ha abbastanza soldi per effettuare la
             // scommessa dell'importo da lui scelto
             if (soldiscommessa > soldigiocatore) {
-                Write.write("Non puoi scommettere più di quanti soldi possiedi.\n"
+                SystemOut.write("Non puoi scommettere più di quanti soldi possiedi.\n"
                         + " Inserisci un nuovo importo:");
                 tryAgain = true;
             }
             // controllo validità scommessa : scommessa>=pv*100
             if (soldiscommessa < pvgiocatore * Parametri.MIN_SCOMMESSA) {
-                Write.write("L'importo scommesso non è valido, questo deve essere\n"
+                SystemOut.write("L'importo scommesso non è valido, questo deve essere\n"
                         + "come minimo pari a \"punti vittoria posseduti\" * 100.\n Inserire"
                         + " un nuovo importo :");
                 tryAgain = true;
@@ -185,7 +181,7 @@ public class Scuderia {
 
         // Chiedo se scommessa v (vincente) o p (piazzata) e lo imposto nella
         // scommessa
-        chartemp = Read.readTipoScommessa();
+        chartemp = SystemIn.readTipoScommessa();
         scommessa.get(i).setTiposcommessa(chartemp);
 
         // Verifico che il giocatore non ha gia effettuato questo tipo di
@@ -194,7 +190,7 @@ public class Scuderia {
         for (int a = 0; a < i; a++) {
             if (nomegiocatore.equals(scommessa.get(a).getNomeGiocatore())
                     && tiposcommessatemp == scommessa.get(a).getTiposcommessa()) {
-                Write.write("\nQuesta scommessa è già stata effettuata, non è possibile ripeterela stessa scommessa."
+                SystemOut.write("\nQuesta scommessa è già stata effettuata, non è possibile ripeterela stessa scommessa."
                         + "\nE' possibile fare due scommesse sulla stessa scuderia, ma bisogna modificare il tipo di scommessa");
                 flagsc = 0;
             }
@@ -218,13 +214,13 @@ public class Scuderia {
      */
     public void checkCarteAzione() {
         for (final CarteAzione carteAzione : new ArrayList<>(carteAzione)) {
-            if (carteAzione.getId() == Parametri.FRITZ_FINDEN) {
+            if (carteAzione.getIdentifier() == Parametri.FRITZ_FINDEN) {
                 for (int j = Parametri.MIN_NEGATIVE; j < Parametri.MAX_NEGATIVE; j++) {
                     removeCartaAzioneByID(j);
                 }
                 // Rimuovo anche la carta stessa
                 removeCartaAzioneByID(Parametri.FRITZ_FINDEN);
-            } else if (carteAzione.getId() == Parametri.ROCHELLE_RECHERCHE) {
+            } else if (carteAzione.getIdentifier() == Parametri.ROCHELLE_RECHERCHE) {
                 for (int j = Parametri.MIN_POSITIVE; j < Parametri.MAX_POSITIVE; j++) {
                     removeCartaAzioneByID(j);
                 }

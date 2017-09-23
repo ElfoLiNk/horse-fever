@@ -16,13 +16,13 @@ public class Giocatore {
     private final List<CarteAzione> listaazioni;
     private String nome;
     private String interpreta;
-    private int pv;
+    private int puntiVittoria;
     private int soldi;
     private int salta;
     private String scuderia;
 
     Giocatore() {
-        this.pv = 1;
+        this.puntiVittoria = 1;
         this.soldi = 0;
         this.salta = 0;
         this.listaazioni = new ArrayList<>();
@@ -37,7 +37,7 @@ public class Giocatore {
     public String toString() {
         return "Giocatore " + nome.toUpperCase(Locale.getDefault()) + " | ( " + interpreta
                 + " ) | Soldi: " + soldi + " | Scuderia: " + scuderia
-                + " | PV: " + pv;
+                + " | PV: " + puntiVittoria;
     }
 
     /**
@@ -70,7 +70,7 @@ public class Giocatore {
      * @param punti vittoria vinti
      */
     public void aggiornapv(final int punti) {
-        setPv(getPv() + punti);
+        setPuntiVittoria(getPuntiVittoria() + punti);
     }
 
     /**
@@ -99,17 +99,17 @@ public class Giocatore {
     }
 
     /**
-     * @return the pv
+     * @return the puntiVittoria
      */
-    public int getPv() {
-        return pv;
+    public int getPuntiVittoria() {
+        return puntiVittoria;
     }
 
     /**
-     * @param pv the pv to set
+     * @param puntiVittoria the puntiVittoria to set
      */
-    public void setPv(final int pv) {
-        this.pv = pv;
+    public void setPuntiVittoria(final int puntiVittoria) {
+        this.puntiVittoria = puntiVittoria;
     }
 
     /**
@@ -154,8 +154,8 @@ public class Giocatore {
      */
     public void setNome(final int numeroPlayer) {
         do {
-            Write.write("Player " + numeroPlayer + ": Come ti vuoi chiamare?");
-            this.nome = Read.readString();
+            SystemOut.write("Player " + numeroPlayer + ": Come ti vuoi chiamare?");
+            this.nome = SystemIn.readString();
         } while (nome == null);
     }
 

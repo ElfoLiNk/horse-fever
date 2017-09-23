@@ -44,7 +44,7 @@ public class CarteAzioneTest {
      * .
      */
     @Test
-    public void testCarteAzionePartenza() {
+    public void testCarteAzionePartenzaA() {
         // Testo la carta che fa muovere la scuderia una casella in meno dello
         // spostamento della carta movimento
         final CarteAzione carta = new CarteAzione();
@@ -60,6 +60,15 @@ public class CarteAzioneTest {
             assertEquals("", 3, scuderia.getMovimento());
         }
 
+    }
+
+    /**
+     * Test method for
+     * {@link CarteAzione#carteAzionePartenza(java.util.List)}
+     * .
+     */
+    @Test
+    public void testCarteAzionePartenzaB() {
         // Testo la carta che fa muovere la scuderia una casella in piu dello
         // spostamento della carta movimento
         final CarteAzione carta1 = new CarteAzione();
@@ -75,6 +84,15 @@ public class CarteAzioneTest {
             assertEquals("", 5, scuderia.getMovimento());
         }
 
+    }
+
+    /**
+     * Test method for
+     * {@link CarteAzione#carteAzionePartenza(java.util.List)}
+     * .
+     */
+    @Test
+    public void testCarteAzionePartenzaC() {
         // Testo la carta che fa muovere la scuderia quanto indicato
         // nell'effetto anziche quello scritto sulla carta movimento
         final CarteAzione carta4 = new CarteAzione();
@@ -90,6 +108,15 @@ public class CarteAzioneTest {
             assertEquals("", 4, scuderia.getMovimento());
         }
 
+    }
+
+    /**
+     * Test method for
+     * {@link CarteAzione#carteAzionePartenza(java.util.List)}
+     * .
+     */
+    @Test
+    public void testCarteAzionePartenzaD() {
         // Testo la carta che non fa muovere la scuderia alla partenza
         final CarteAzione carta0 = new CarteAzione();
         carta0.setAgisce("Partenza");
@@ -103,7 +130,6 @@ public class CarteAzioneTest {
             // Verifico l'effetto
             assertEquals("", 0, scuderia.getMovimento());
         }
-
     }
 
     /**
@@ -112,7 +138,7 @@ public class CarteAzioneTest {
      * .
      */
     @Test
-    public void testCarteAzioneMovimento() {
+    public void testCarteAzioneMovimentoA() {
         // Testo la carta che fa muovere la scuderia di 4 se il cavallo è ultimo
         CarteAzione carta4 = new CarteAzione();
         carta4.setAgisce("Movimento");
@@ -127,6 +153,15 @@ public class CarteAzioneTest {
             assertEquals("", 4, scuderia.getMovimento());
         }
 
+    }
+
+    /**
+     * Test method for
+     * {@link CarteAzione#carteAzioneMovimento(java.util.List)}
+     * .
+     */
+    @Test
+    public void testCarteAzioneMovimentoB() {
         // Testo la carta che fa muovere la scuderia di 0 se il cavallo è primo
         CarteAzione carta0 = new CarteAzione();
         carta0.setAgisce("Movimento");
@@ -149,7 +184,7 @@ public class CarteAzioneTest {
      * .
      */
     @Test
-    public void testCarteAzioneSprint() {
+    public void testCarteAzioneSprintA() {
         // Testo la carta che fa sprintare una casella in meno
         CarteAzione carta = new CarteAzione();
         carta.setAgisce("Sprint");
@@ -163,7 +198,15 @@ public class CarteAzioneTest {
             // Verifico l'effetto
             assertEquals("", 1, scuderia.getSprint());
         }
+    }
 
+    /**
+     * Test method for
+     * {@link CarteAzione#carteAzioneSprint(java.util.List)}
+     * .
+     */
+    @Test
+    public void testCarteAzioneSprintB() {
         // Testo la carta che fa sprintare il cavallo di una casella in piu
         CarteAzione carta1 = new CarteAzione();
         carta1.setAgisce("Sprint");
@@ -175,9 +218,17 @@ public class CarteAzioneTest {
         carta1.carteAzioneSprint(scuderie);
         for (Scuderia scuderia : scuderie) {
             // Verifico l'effetto
-            assertEquals("", 2, scuderia.getSprint());
+            assertEquals("", 3, scuderia.getSprint());
         }
+    }
 
+    /**
+     * Test method for
+     * {@link CarteAzione#carteAzioneSprint(java.util.List)}
+     * .
+     */
+    @Test
+    public void testCarteAzioneSprintC() {
         // Testo la carta che fa sprintare il cavallo di 2 caselle
         final CarteAzione carta2 = new CarteAzione();
         carta2.setAgisce("Sprint");
@@ -191,7 +242,15 @@ public class CarteAzioneTest {
             // Verifico l'effetto
             assertEquals("", 2, scuderia.getSprint());
         }
+    }
 
+    /**
+     * Test method for
+     * {@link CarteAzione#carteAzioneSprint(java.util.List)}
+     * .
+     */
+    @Test
+    public void testCarteAzioneSprintD() {
         // Testo la carta che non fa sprintare il cavallo
         CarteAzione carta0 = new CarteAzione();
         carta0.setAgisce("Sprint");
@@ -214,7 +273,7 @@ public class CarteAzioneTest {
      * .
      */
     @Test
-    public void testCarteAzioneFotofinish() {
+    public void testCarteAzioneFotofinishA() {
         // Testo la carta che fa perdere il fotofinish
         CarteAzione carta = new CarteAzione();
         carta.setAgisce("Fotofinish");
@@ -227,6 +286,15 @@ public class CarteAzioneTest {
             // Verifico l'effetto
             assertEquals("", 0, scuderia.getFotofinish());
         }
+    }
+
+    /**
+     * Test method for
+     * {@link CarteAzione#carteAzioneFotofinish(java.util.List)}
+     * .
+     */
+    @Test
+    public void testCarteAzioneFotofinishB() {
         // Testo la carta che fa vincere il fotofinish
         CarteAzione carta1 = new CarteAzione();
         carta1.setAgisce("Fotofinish");

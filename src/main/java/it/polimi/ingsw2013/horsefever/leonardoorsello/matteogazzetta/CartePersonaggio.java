@@ -11,12 +11,12 @@ import java.util.List;
 public class CartePersonaggio {
     /**
      * Attributi:
-     * id: Numero identificativo della carta.
+     * identifier: Numero identificativo della carta.
      * nome: Nome del personaggio della carta.
      * soldi: Soldi del personaggio della carta.
      * quotazione: Quotazione del personaggio della carta.
      */
-    private int id;
+    private int identifier;
     private String nome;
     private int soldi;
     private int quotazione;
@@ -32,22 +32,22 @@ public class CartePersonaggio {
 
     @Override
     public String toString() {
-        return this.id + ":" + this.nome + ":" + this.soldi + ":"
+        return this.identifier + ":" + this.nome + ":" + this.soldi + ":"
                 + this.quotazione;
     }
 
     /**
-     * @return the id
+     * @return the identifier
      */
-    public int getId() {
-        return id;
+    public int getIdentifier() {
+        return identifier;
     }
 
     /**
-     * @param id the id to set
+     * @param identifier the identifier to set
      */
-    public void setId(final int id) {
-        this.id = id;
+    public void setIdentifier(final int identifier) {
+        this.identifier = identifier;
     }
 
     /**

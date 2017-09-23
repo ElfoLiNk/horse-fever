@@ -38,7 +38,7 @@ public class ScuderiaTest {
         final Giocatore player = new Giocatore();
         player.setSoldi(0);
         player.setNomeGiocatore("vincente");
-        player.setPv(1);
+        player.setPuntiVittoria(1);
         giocatori.add(player);
         partita.setArraygiocatori(giocatori);
 
@@ -50,7 +50,7 @@ public class ScuderiaTest {
         // Verifico soldi * quotazione
         assertEquals("", 1000 * scuderie.get(0).getQuotazione(), partita.getarraygiocatori().get(0).getSoldi());
         // Vince 3 pv
-        assertEquals("", 4, partita.getarraygiocatori().get(0).getPv());
+        assertEquals("", 4, partita.getarraygiocatori().get(0).getPuntiVittoria());
 
         // Scommessa piazzata
         final Scommessa Spiazzata = new Scommessa("piazzata");
@@ -62,7 +62,7 @@ public class ScuderiaTest {
         final Giocatore piazzato = new Giocatore();
         piazzato.setSoldi(0);
         piazzato.setNomeGiocatore("piazzata");
-        piazzato.setPv(1);
+        piazzato.setPuntiVittoria(1);
         giocatori.add(piazzato);
         partita.setArraygiocatori(giocatori);
 
@@ -75,7 +75,7 @@ public class ScuderiaTest {
         assertEquals("", 1000 * 2, partita.getarraygiocatori().get(1)
                 .getSoldi());
         // Vince 1 pv
-        assertEquals("", 2, partita.getarraygiocatori().get(1).getPv());
+        assertEquals("", 2, partita.getarraygiocatori().get(1).getPuntiVittoria());
 
     }
 
@@ -113,7 +113,7 @@ public class ScuderiaTest {
         Scuderia scuderia = new Scuderia(partita, partita.COLORI[1]);
         final CarteAzione carta = new CarteAzione();
         // Carta ID 4
-        carta.setId(4);
+        carta.setIdentifier(4);
         // Salvo la size della lista prima di inserire la carta
         final int size = scuderia.getCarteAzione().size();
         scuderia.setCarteAzione(carta);
@@ -167,11 +167,11 @@ public class ScuderiaTest {
         Scuderia scuderia = new Scuderia(partita, partita.COLORI[1]);
         // Carta ID 15
         CarteAzione carta = new CarteAzione();
-        carta.setId(15);
+        carta.setIdentifier(15);
 
         // Carta ID 8
         final CarteAzione carta8 = new CarteAzione();
-        carta8.setId(8);
+        carta8.setIdentifier(8);
 
         scuderia.setCarteAzione(carta);
         scuderia.setCarteAzione(carta8);

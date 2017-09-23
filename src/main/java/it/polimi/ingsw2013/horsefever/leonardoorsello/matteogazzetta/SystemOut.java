@@ -10,9 +10,9 @@ import java.util.Locale;
 /**
  * Classe che scrive stringhe e interi su System.out
  */
-final class Write {
+final class SystemOut {
 
-    private Write() {
+    private SystemOut() {
     }
 
     /**
@@ -31,9 +31,9 @@ final class Write {
      * @param header Titolo della schermata
      */
     public static void header(final String header) {
-        Write.write("|----------------------------------------------|");
-        Write.write("|                " + header + "                |");
-        Write.write("|----------------------------------------------|");
+        SystemOut.write("|----------------------------------------------|");
+        SystemOut.write("|                " + header + "                |");
+        SystemOut.write("|----------------------------------------------|");
     }
 
     /**
@@ -51,7 +51,7 @@ final class Write {
      */
     public static void clear() {
         for (int i = 0; i < Parametri.CLEAR; i++) {
-            Write.write("\n");
+            SystemOut.write("\n");
         }
     }
 
@@ -62,9 +62,9 @@ final class Write {
      * @see Scuderia
      */
     public static void printClassifica(final List<Scuderia> classifica) {
-        Write.write("\nCLASSIFICA\n");
+        SystemOut.write("\nCLASSIFICA\n");
         for (final Scuderia scuderia : classifica) {
-            Write.write(scuderia.getColore() + "\t" + scuderia.getClassifica());
+            SystemOut.write(scuderia.getColore() + "\t" + scuderia.getClassifica());
         }
     }
 
@@ -75,9 +75,9 @@ final class Write {
      * @see Scuderia
      */
     public static void printQuotazioni(final List<Scuderia> scuderie) {
-        Write.write("\nQUOTAZIONI AGGIORNATE\n");
+        SystemOut.write("\nQUOTAZIONI AGGIORNATE\n");
         for (final Scuderia scuderia : scuderie) {
-            Write.write(scuderia.getColore() + "\tQuotazione: "
+            SystemOut.write(scuderia.getColore() + "\tQuotazione: "
                     + scuderia.getQuotazione());
         }
     }
@@ -89,20 +89,20 @@ final class Write {
      * @see Scuderia
      */
     public static void printCorsa(final List<Scuderia> scuderie) {
-        Write.clear();
+        SystemOut.clear();
         for (final Scuderia scuderia : scuderie) {
             // Stampo il colore della scuderia
-            Write.simple(scuderia.getColore() + "\t");
+            SystemOut.simple(scuderia.getColore() + "\t");
             // Stampo tot # in base alla posizione della scuderia
             for (int j = 0; j < scuderia.getPosizione(); j++) {
-                Write.simple("#");
+                SystemOut.simple("#");
             }
-            Write.simple(" " + scuderia.getPosizione());
+            SystemOut.simple(" " + scuderia.getPosizione());
             // Stampo la classifica di arrivo della scuderia
             if (scuderia.getClassifica() > 0) {
-                Write.simple(" " + scuderia.getClassifica() + "°");
+                SystemOut.simple(" " + scuderia.getClassifica() + "°");
             }
-            Write.write("");
+            SystemOut.write("");
         }
         try {
             // Sleep per animazione corsa
@@ -124,7 +124,7 @@ final class Write {
             // Informazioni sul giocatore: Nome scuderia soldi pv
             write(player.getNome().toUpperCase(Locale.getDefault())
                     + "\t" + player.getScuderia() + "\t\t" + player.getSoldi()
-                    + "\t" + player.getPv() + "\n");
+                    + "\t" + player.getPuntiVittoria() + "\n");
         }
     }
 

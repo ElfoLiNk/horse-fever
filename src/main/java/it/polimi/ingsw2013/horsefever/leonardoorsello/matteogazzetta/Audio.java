@@ -61,13 +61,13 @@ public class Audio {
             audioIn.close();
 
         } catch (IOException e) {
-            Write.write("ERRORE IO FILE AUDIO " + filename);
+            SystemOut.write("ERRORE IO FILE AUDIO " + filename);
             return;
         } catch (UnsupportedAudioFileException e) {
-            Write.write("ERRORE AUDIO NON SUPPORTATO");
+            SystemOut.write("ERRORE AUDIO NON SUPPORTATO");
             return;
         } catch (LineUnavailableException e) {
-            Write.write("ERRORE AUDIO");
+            SystemOut.write("ERRORE AUDIO");
             return;
         }
         // LOOP AUDIO SOUNDTRACK

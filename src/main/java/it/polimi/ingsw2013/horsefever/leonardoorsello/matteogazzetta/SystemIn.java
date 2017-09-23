@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Classe per leggere stringe, caratteri e interi da System.in
  */
-final class Read {
+final class SystemIn {
 
     private static BufferedReader br = new BufferedReader(
             new InputStreamReader(System.in, Charset.defaultCharset()));
@@ -21,7 +21,7 @@ final class Read {
     private static int intero;
     private static char carattere = "e".charAt(0);
 
-    private Read() {
+    private SystemIn() {
     }
 
     /**
@@ -36,7 +36,7 @@ final class Read {
             try {
                 stringa = br.readLine();
             } catch (IOException e) {
-                Write.write("Errore di flusso");
+                SystemOut.write("Errore di flusso");
             }
         } while ("".equals(stringa));
         return stringa;
@@ -54,9 +54,9 @@ final class Read {
             stringa = br.readLine();
             intero = Integer.parseInt(stringa);
         } catch (IOException e1) {
-            Write.write("Errore di flusso");
+            SystemOut.write("Errore di flusso");
         } catch (NumberFormatException e2) {
-            Write.write("ERRORE: Devi inserire un numero!");
+            SystemOut.write("ERRORE: Devi inserire un numero!");
             return -1;
         }
 
@@ -70,7 +70,7 @@ final class Read {
      */
     public static char readTipoScommessa() {
         do {
-            Write.write("Che tipo di scommessa vuoi giocare?\n"
+            SystemOut.write("Che tipo di scommessa vuoi giocare?\n"
                     + "Digita v per vincente\n" + "       p per piazzato");
 
             stringa = readString();
@@ -82,7 +82,7 @@ final class Read {
                 }
             }
             if (carattere != 'v' && carattere != 'p') {
-                Write.write("hai sbagliato a digitare, riprova");
+                SystemOut.write("hai sbagliato a digitare, riprova");
             }
 
         } while (carattere != 'v' && carattere != 'p');
@@ -97,7 +97,7 @@ final class Read {
      */
     public static char readSecondaScommessa() {
         do {
-            Write.write("\nIl secondo giro di scommesse è facoltativo, vuoi piazzare "
+            SystemOut.write("\nIl secondo giro di scommesse è facoltativo, vuoi piazzare "
                     + "una scommessa?\ndigita:\ns per scommettere\nn per saltare la scommmessa");
             stringa = readString();
             if (stringa.length() > 1) {
@@ -106,7 +106,7 @@ final class Read {
                 carattere = stringa.charAt(0);
             }
             if (carattere != 's' && carattere != 'n') {
-                Write.write("Hai sbagliato a digitare, riprova");
+                SystemOut.write("Hai sbagliato a digitare, riprova");
             }
         } while (carattere != 's' && carattere != 'n');
         return carattere;
@@ -122,17 +122,17 @@ final class Read {
     public static int readScuderiaScommessa(final List<Scuderia> scuderie) {
         int indiceScuderia;
         int numeroScuderie = 0;
-        Write.write("\nSu che scuderia vuoi scommettere?");
-        Write.write("\n    COLORE\tN.SCOMMESSE\tQUOTAZIONE");
+        SystemOut.write("\nSu che scuderia vuoi scommettere?");
+        SystemOut.write("\n    COLORE\tN.SCOMMESSE\tQUOTAZIONE");
         for (final Scuderia scuderia : scuderie) {
-            Write.write(numeroScuderie + scuderia.toString());
+            SystemOut.write(numeroScuderie + scuderia.toString());
             numeroScuderie++;
         }
         do {
-            Write.write("Seleziona scuderia: ");
-            indiceScuderia = Read.readInt();
+            SystemOut.write("Seleziona scuderia: ");
+            indiceScuderia = SystemIn.readInt();
             if (indiceScuderia > scuderie.size() - 1) {
-                Write.write("non hai digitato un valore valido, riprova");
+                SystemOut.write("non hai digitato un valore valido, riprova");
             }
         } while (indiceScuderia < 0 || indiceScuderia > scuderie.size() - 1);
 
@@ -149,13 +149,13 @@ final class Read {
     public static int readCartaAzione(final List<CarteAzione> carteAzione) {
         // Print carte azione del player
         for (int j = 0; j < carteAzione.size(); j++) {
-            Write.write(j + ") " + carteAzione.get(j).toString());
+            SystemOut.write(j + ") " + carteAzione.get(j).toString());
         }
         // Scelta Carta
         int indiceCartaScelta;
         do {
-            Write.write("Seleziona la Carta Azione da giocare: ");
-            indiceCartaScelta = Read.readInt();
+            SystemOut.write("Seleziona la Carta Azione da giocare: ");
+            indiceCartaScelta = SystemIn.readInt();
         } while (indiceCartaScelta < 0 || indiceCartaScelta > carteAzione.size() - 1);
         return indiceCartaScelta;
     }

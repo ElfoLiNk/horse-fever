@@ -6,19 +6,19 @@ package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 import java.io.IOException;
 
 /**
- * Main del gioco
+ * ApplicationMain del gioco
  */
-public final class Main {
-    private Main() {
+public final class ApplicationMain {
+    private ApplicationMain() {
     }
 
     /**
      * @param args argomenti applicazione
      */
     public static void main(final String[] args) throws IOException {
-        Write.write(" ------------------------------------------------");
-        Write.write(" |                Horse Fever                   |");
-        Write.write(" ------------------------------------------------");
+        SystemOut.write(" ------------------------------------------------");
+        SystemOut.write(" |                Horse Fever                   |");
+        SystemOut.write(" ------------------------------------------------");
         final Audio audio = new Audio("soundtrack.mp3");
         audio.start();
         final Partita partita = new Partita();

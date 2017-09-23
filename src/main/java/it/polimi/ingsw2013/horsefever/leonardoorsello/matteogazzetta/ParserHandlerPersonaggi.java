@@ -48,7 +48,7 @@ public class ParserHandlerPersonaggi extends DefaultHandler {
 
             // Imposto l'attributo id per ogni carta
             if (attributes != null && attributes.getLength() == 1) {
-                carta.setId(Integer.parseInt(attributes.getValue(0)));
+                carta.setIdentifier(Integer.parseInt(attributes.getValue(0)));
             }
             this.oggettoStack.push(carta);
         }

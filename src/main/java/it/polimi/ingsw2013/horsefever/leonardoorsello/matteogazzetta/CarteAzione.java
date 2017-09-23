@@ -10,12 +10,12 @@ import java.util.List;
  */
 public class CarteAzione {
     /**
-     * Attributi: id: Numero identificativo della carta lettera: Lettera della
+     * Attributi: identifier: Numero identificativo della carta lettera: Lettera della
      * carta agisce: Campo della partita in cui agisce effetto: Numero che
      * modifica il campo in cui agisce descrizione: Descrizione della carta
      * azione
      */
-    private int id;
+    private int identifier;
     private String lettera;
     private String nome;
     private int effetto;
@@ -128,19 +128,26 @@ public class CarteAzione {
                 // Analizzo solo le carte azione che influiscono lo sprint
                 if ("Sprint".equals(carta.getAgisce())) {
                     switch (carta.getEffetto()) {
-                        case -1:
-                            if (scuderia.getSprint() > 0) scuderia.setSprint(scuderia.getSprint() - 1);
-                            break;
                         case 0:
                             scuderia.setSprint(0);
                             break;
+                        case -1:
+                            if (scuderia.getSprint() > 0) {
+                                scuderia.setSprint(scuderia.getSprint() - 1);
+                            }
+                            break;
                         case 1:
-                            if (scuderia.getSprint() > 0 && scuderia.getSprint() < Parametri.TRE)
+                            if (scuderia.getSprint() > 0 && scuderia.getSprint() < Parametri.TRE) {
                                 scuderia.setSprint(scuderia.getSprint() + 1);
+                            }
                             break;
                         case 2:
-                            if (scuderia.getSprint() > 0) scuderia.setSprint(Parametri.TRE);
-                            else scuderia.setSprint(2);
+                            if (scuderia.getSprint() > 0) {
+                                scuderia.setSprint(Parametri.TRE);
+                            }
+                            else {
+                                scuderia.setSprint(2);
+                            }
                             break;
                         default:
                             break;
@@ -204,17 +211,17 @@ public class CarteAzione {
     }
 
     /**
-     * @return the id
+     * @return the identifier
      */
-    public int getId() {
-        return id;
+    public int getIdentifier() {
+        return identifier;
     }
 
     /**
-     * @param id the id to set
+     * @param identifier the identifier to set
      */
-    public void setId(final int id) {
-        this.id = id;
+    public void setIdentifier(final int identifier) {
+        this.identifier = identifier;
     }
 
     /**

@@ -37,7 +37,7 @@ public final class CarteMovimento {
             }
 
         } catch (IOException e) {
-            Write.write("ERRORE: Lettura carte movimento");
+            SystemOut.write("ERRORE: Lettura carte movimento");
         }
         return carteMoviment;
     }

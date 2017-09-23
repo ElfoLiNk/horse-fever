@@ -53,9 +53,9 @@ public final class XmlParser {
             carte = handler.getCarte();
 
         } catch (SAXException e) {
-            Write.write("Errore nel parser SAX");
+            SystemOut.write("Errore nel parser SAX");
         } catch (IOException e) {
-            Write.write("Errore nella lettura del file xml");
+            SystemOut.write("Errore nella lettura del file xml");
         }
         return carte;
     }
@@ -90,9 +90,9 @@ public final class XmlParser {
             carte = handler.getCarte();
 
         } catch (SAXException e) {
-            Write.write("Errore nel parser SAX");
+            SystemOut.write("Errore nel parser SAX");
         } catch (IOException e) {
-            Write.write("Errore nella lettura del file xml");
+            SystemOut.write("Errore nella lettura del file xml");
         }
         return carte;
     }

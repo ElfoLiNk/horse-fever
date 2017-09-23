@@ -107,7 +107,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.Main</mainClass>
+                            <mainClass>it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.ApplicationMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
