@@ -1,7 +1,7 @@
 /**
  *
  */
-package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -146,7 +146,7 @@ final class Read {
      * @return k la carta scelta
      * @see CarteAzione
      */
-    public static int readCartaAzione(List<CarteAzione> carteAzione) {
+    public static int readCartaAzione(final List<CarteAzione> carteAzione) {
         // Print carte azione del player
         for (int j = 0; j < carteAzione.size(); j++) {
             Write.write(j + ") " + carteAzione.get(j).toString());

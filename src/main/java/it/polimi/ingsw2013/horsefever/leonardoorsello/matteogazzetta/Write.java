@@ -1,7 +1,7 @@
 /**
  *
  */
-package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -21,7 +21,7 @@ final class Write {
      * @param stringa la stringa da scrivere
      */
     public static void write(final String stringa) {
-        PrintStream out = System.out;
+        final PrintStream out = System.out;
         out.println(stringa);
     }
 
@@ -30,7 +30,7 @@ final class Write {
      *
      * @param header Titolo della schermata
      */
-    public static void header(String header) {
+    public static void header(final String header) {
         Write.write("|----------------------------------------------|");
         Write.write("|                " + header + "                |");
         Write.write("|----------------------------------------------|");

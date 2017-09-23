@@ -1,4 +1,4 @@
-package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class CarteAzioneTest {
 
     @Before
     public void beforeCrealistaazioni() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         partita.setScuderie();
         partita.setQuotazioni();
         scuderie = partita.getScuderie();
@@ -34,7 +34,7 @@ public class CarteAzioneTest {
      */
     @Test
     public void testCrealistaazioni() {
-        List<CarteAzione> carte = CarteAzione.crealistaazioni();
+        final List<CarteAzione> carte = CarteAzione.crealistaazioni();
         assertNotNull("La lista delle carte non deve essere vuota", carte);
     }
 
@@ -47,10 +47,10 @@ public class CarteAzioneTest {
     public void testCarteAzionePartenza() {
         // Testo la carta che fa muovere la scuderia una casella in meno dello
         // spostamento della carta movimento
-        CarteAzione carta = new CarteAzione();
+        final CarteAzione carta = new CarteAzione();
         carta.setAgisce("Partenza");
         carta.setEffetto(-1);
-        for (Scuderia scuderia : scuderie) {
+        for (final Scuderia scuderia : scuderie) {
             scuderia.setCarteAzione(carta);
             scuderia.setMovimento(4);
         }
@@ -62,7 +62,7 @@ public class CarteAzioneTest {
 
         // Testo la carta che fa muovere la scuderia una casella in piu dello
         // spostamento della carta movimento
-        CarteAzione carta1 = new CarteAzione();
+        final CarteAzione carta1 = new CarteAzione();
         carta1.setAgisce("Partenza");
         carta1.setEffetto(1);
         for (Scuderia scuderia : scuderie) {
@@ -77,7 +77,7 @@ public class CarteAzioneTest {
 
         // Testo la carta che fa muovere la scuderia quanto indicato
         // nell'effetto anziche quello scritto sulla carta movimento
-        CarteAzione carta4 = new CarteAzione();
+        final CarteAzione carta4 = new CarteAzione();
         carta4.setAgisce("Partenza");
         carta4.setEffetto(4);
         for (Scuderia scuderia : scuderie) {
@@ -91,7 +91,7 @@ public class CarteAzioneTest {
         }
 
         // Testo la carta che non fa muovere la scuderia alla partenza
-        CarteAzione carta0 = new CarteAzione();
+        final CarteAzione carta0 = new CarteAzione();
         carta0.setAgisce("Partenza");
         carta0.setEffetto(0);
         for (Scuderia scuderia : scuderie) {
@@ -179,7 +179,7 @@ public class CarteAzioneTest {
         }
 
         // Testo la carta che fa sprintare il cavallo di 2 caselle
-        CarteAzione carta2 = new CarteAzione();
+        final CarteAzione carta2 = new CarteAzione();
         carta2.setAgisce("Sprint");
         carta2.setEffetto(2);
         for (Scuderia scuderia : scuderie) {
@@ -251,9 +251,9 @@ public class CarteAzioneTest {
     public void testCarteAzioneQuotazione() {
         for (Scuderia scuderia : scuderie) {
             // Controllo una scuderia alla volta
-            List<Scuderia> lista = new ArrayList<>();
+            final List<Scuderia> lista = new ArrayList<>();
             lista.add(scuderia);
-            CarteAzione mazzo = new CarteAzione();
+            final CarteAzione mazzo = new CarteAzione();
             // Applico tutte le carte alla scuderia
             mazzo.carteAzioneQuotazione(lista);
 

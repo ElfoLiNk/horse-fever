@@ -1,7 +1,7 @@
 /**
  *
  */
-package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public class CarteAzione {
                 // Controllo tutte le carte della scuderia
                 for (int j = 0; j < carte.size(); j++) {
                     // Analizzo solo le carte azione che influiscono la partenza
-                    CarteAzione carta = carte.get(j);
+                    final CarteAzione carta = carte.get(j);
                     if (carta.getAgisce().equals("Partenza")) {
                         if (carta.getEffetto() < 0 && scuderia.getMovimento() > 0) {
                             // Applico l'effetto
@@ -90,7 +90,7 @@ public class CarteAzione {
      */
     public void carteAzioneMovimento(final List<Scuderia> scuderie) {
         // Controllo tutte le scuderie
-        for (Scuderia scuderia : scuderie) {
+        for (final Scuderia scuderia : scuderie) {
 
             // Prendo le carte azione della scuderia
             final List<CarteAzione> carte = scuderia.getCarteAzione();
@@ -128,7 +128,7 @@ public class CarteAzione {
             final List<CarteAzione> carte = scuderia.getCarteAzione();
 
             // Controllo tutte le carte della scuderia
-            for (CarteAzione carta : carte) {
+            for (final CarteAzione carta : carte) {
                 // Analizzo solo le carte azione che influiscono lo sprint
                 if (carta.getAgisce().equals("Sprint")) {
                     if (carta.getEffetto() == -1 && scuderia.getSprint() > 0) {
@@ -166,10 +166,10 @@ public class CarteAzione {
         for (Scuderia scuderia : scuderie) {
 
             // Prendo le carte azione della scuderia
-            List<CarteAzione> carte = scuderia.getCarteAzione();
+            final List<CarteAzione> carte = scuderia.getCarteAzione();
 
             // Controllo tutte le carte della scuderia
-            for (CarteAzione carta : carte) {
+            for (final CarteAzione carta : carte) {
                 // Analizzo solo le carte azione che influiscono il fotofinish
                 if ("Fotofinish".equals(carta.getAgisce())) {
                     if (carta.getEffetto() == 0) {

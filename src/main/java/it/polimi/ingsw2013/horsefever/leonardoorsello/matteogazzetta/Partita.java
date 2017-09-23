@@ -1,4 +1,4 @@
-package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
 import java.io.IOException;
 import java.util.*;
@@ -306,7 +306,7 @@ public class Partita {
      * @see
      */
     public void randomPrimogiocatore() {
-        Random rnd = new Random();
+        final Random rnd = new Random();
         tempint = rnd.nextInt(arraygiocatori.size());
         primogiocatore = tempint;
     }
@@ -372,7 +372,7 @@ public class Partita {
      */
     public boolean checkArrivati() {
         int arrivate = 0;
-        for (Scuderia scuderia : listascuderie) {
+        for (final Scuderia scuderia : listascuderie) {
             if (scuderia.isArrivato()) {
                 arrivate++;
             }
@@ -391,15 +391,15 @@ public class Partita {
         int[] movimenti = new int[COLORI.length];
 
         // Selezione una linea random dalla Lista delle carte movimento
-        Random r = new Random();
-        int j = r.nextInt(carteMovimento.size());
-        String randomString = carteMovimento.get(j);
+        final Random r = new Random();
+        final int j = r.nextInt(carteMovimento.size());
+        final String randomString = carteMovimento.get(j);
 
         // Elimino la linea dalla lista
         carteMovimento.remove(j);
 
         // Analizzo la stringa e Salvo il movimento corretto
-        Scanner scannerString = new Scanner(randomString);
+        final Scanner scannerString = new Scanner(randomString);
         for (int i = 0; i < Parametri.MOVIMENTI_SIZE; i++) {
             movimenti[i] = scannerString.nextInt();
         }

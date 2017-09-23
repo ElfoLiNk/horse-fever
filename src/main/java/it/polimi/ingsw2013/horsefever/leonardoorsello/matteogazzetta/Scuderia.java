@@ -1,7 +1,7 @@
 /**
  *
  */
-package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -131,7 +131,7 @@ public class Scuderia {
      *
      * @param i Posizione della carta azione nella lista
      */
-    public void removeCartaAzione(int i) {
+    public void removeCartaAzione(final int i) {
         carteAzione.remove(i);
 
     }
@@ -216,7 +216,7 @@ public class Scuderia {
      * @see CarteAzione
      */
     public void checkCarteAzione() {
-        for (CarteAzione carteAzione : new ArrayList<>(carteAzione)) {
+        for (final CarteAzione carteAzione : new ArrayList<>(carteAzione)) {
             if (carteAzione.getId() == Parametri.FRITZ_FINDEN) {
                 for (int j = Parametri.MIN_NEGATIVE; j < Parametri.MAX_NEGATIVE; j++) {
                     removeCartaAzioneByID(j);
@@ -241,19 +241,19 @@ public class Scuderia {
      */
     public void checkLetteraCarteAzione() {
         /* HashMap di tutti gli attributi analizzati */
-        HashMap<String, CarteAzione> attributi = new HashMap<String, CarteAzione>();
+        final HashMap<String, CarteAzione> attributi = new HashMap<>();
         /* Lista delle carte con la stessa lettera */
-        List<CarteAzione> carteuguali = new ArrayList<CarteAzione>();
+        final List<CarteAzione> carteuguali = new ArrayList<>();
 
         // Controllo tutte le carte della scuderia
-        for (CarteAzione x : carteAzione) {
+        for (final CarteAzione carta : carteAzione) {
             // Controllo con l'hashmap se la lettera della carta è gia presente
-            if (attributi.containsKey(x.getLettera())) {
-                carteuguali.add(x);
-                carteuguali.add(attributi.get(x.getLettera()));
+            if (attributi.containsKey(carta.getLettera())) {
+                carteuguali.add(carta);
+                carteuguali.add(attributi.get(carta.getLettera()));
             }
             // Inserisco nell'hashmap
-            attributi.put(x.getLettera(), x);
+            attributi.put(carta.getLettera(), carta);
         }
         /* Rimuovo dalla lista le carte con la stessa lettera */
         carteAzione.removeAll(carteuguali);
@@ -294,7 +294,7 @@ public class Scuderia {
     /**
      * @param quotazione the quotazione to set
      */
-    public void setQuotazione(int quotazione) {
+    public void setQuotazione(final int quotazione) {
         this.quotazione = quotazione;
     }
 
@@ -308,7 +308,7 @@ public class Scuderia {
     /**
      * @param colore the colore to set
      */
-    public void setColore(String colore) {
+    public void setColore(final String colore) {
         this.colore = colore;
     }
 
@@ -322,7 +322,7 @@ public class Scuderia {
     /**
      * @param movimento the movimento to set
      */
-    public void setMovimento(int movimento) {
+    public void setMovimento(final int movimento) {
         this.movimento = movimento;
     }
 

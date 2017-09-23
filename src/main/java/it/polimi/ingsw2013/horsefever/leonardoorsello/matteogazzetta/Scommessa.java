@@ -1,7 +1,7 @@
 /**
  *
  */
-package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
 /**
  * Struttura dati della Scommessa
@@ -11,7 +11,7 @@ public class Scommessa {
     private int soldi;
     private Tiposcommessa tiposcommessa;
 
-    Scommessa(String nomegiocatore) {
+    Scommessa(final String nomegiocatore) {
         this.nomegiocatore = nomegiocatore;
         this.soldi = 0;
     }

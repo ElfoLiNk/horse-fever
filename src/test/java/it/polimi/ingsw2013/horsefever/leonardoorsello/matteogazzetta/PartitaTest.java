@@ -1,4 +1,4 @@
-package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
 import org.junit.Test;
 
@@ -23,7 +23,7 @@ public class PartitaTest {
      */
     @Test
     public void testSetListe() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         try {
             partita.setListe();
         } catch (IOException e) {
@@ -104,11 +104,11 @@ public class PartitaTest {
             fail("Mancano i file");
         }
         // Costruisco il giocatore
-        Giocatore player = new Giocatore();
+        final Giocatore player = new Giocatore();
 
         // Seleziono la carta personaggio del player
-        Random rnd = new Random();
-        int tempint = rnd.nextInt(partita.getListapersonaggi().size());
+        final Random rnd = new Random();
+        final int tempint = rnd.nextInt(partita.getListapersonaggi().size());
 
         // Assegno il nome della carta a interpreta del player
         player.setInterpreta(partita.getListapersonaggi().get(tempint)
@@ -186,7 +186,7 @@ public class PartitaTest {
         partita.setScuderie();
         int sprint = 0;
         partita.sprint();
-        for (Scuderia scuderia : partita.getListascuderie()) {
+        for (final Scuderia scuderia : partita.getListascuderie()) {
             if (scuderia.getSprint() == 1) {
                 sprint++;
             }
@@ -254,7 +254,7 @@ public class PartitaTest {
         final List<Scuderia> arrivati = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
-            Scuderia scuderia = new Scuderia(partita);
+            final Scuderia scuderia = new Scuderia(partita);
             arrivati.add(scuderia);
         }
         arrivati.get(0).setPosizione(14);
@@ -278,7 +278,7 @@ public class PartitaTest {
     public void testCheckFotofinish() {
         // Test con quotazioni diverse vince la quotazione piu alta
         Partita partita = new Partita();
-        List<Scuderia> arrivati = new ArrayList<>();
+        final List<Scuderia> arrivati = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
             Scuderia scuderia = new Scuderia(partita);
@@ -329,7 +329,7 @@ public class PartitaTest {
     @Test
     public void testTrovaVincitore() {
         Partita partita = new Partita();
-        List<Giocatore> giocatori = new ArrayList<>();
+        final List<Giocatore> giocatori = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
             Giocatore giocatore = new Giocatore();

@@ -1,7 +1,7 @@
 /**
  *
  */
-package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -35,7 +35,7 @@ public class ParserHandlerPersonaggi extends DefaultHandler {
     /**
      * Creo la carta
      */
-    public void startElement(String uri, final String localName, String qName,
+    public void startElement(String uri, final String localName, final String qName,
                              final Attributes attributes) throws SAXException {
         // Push nello stack degli elementi
         this.elementoStack.push(qName);
@@ -57,7 +57,7 @@ public class ParserHandlerPersonaggi extends DefaultHandler {
     /**
      * Chiudo la carta
      */
-    public void endElement(String uri, final String localName, String qName)
+    public void endElement(String uri, final String localName, final String qName)
             throws SAXException {
         // Rimuovo l'ultima </carta> aggiunta
         this.elementoStack.pop();
@@ -73,7 +73,7 @@ public class ParserHandlerPersonaggi extends DefaultHandler {
     /**
      * Questo viene chiamato ogni volta che il parser incontra un value node
      */
-    public void characters(final char[] ch, int start, int length)
+    public void characters(final char[] ch, int start, final int length)
             throws SAXException {
         final String stringa = new String(ch, start, length).trim();
         if (stringa.length() == 0) {
@@ -86,12 +86,12 @@ public class ParserHandlerPersonaggi extends DefaultHandler {
             final CartePersonaggio carta = this.oggettoStack.peek();
             carta.setNome(stringa);
         } else if ("Soldi".equals(currentElement())) {
-            CartePersonaggio carta = this.oggettoStack.peek();
+            final CartePersonaggio carta = this.oggettoStack.peek();
             final int intero = Integer.parseInt(new String(ch, start, length).trim());
             carta.setSoldi(intero);
         } else if ("Quotazione".equals(currentElement())) {
-            CartePersonaggio carta = this.oggettoStack.peek();
-            int intero = Integer.parseInt(new String(ch, start, length).trim());
+            final CartePersonaggio carta = this.oggettoStack.peek();
+            final int intero = Integer.parseInt(new String(ch, start, length).trim());
             carta.setQuotazione(intero);
         }
     }

@@ -1,4 +1,4 @@
-package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
 import org.junit.Test;
 
@@ -19,23 +19,23 @@ public class ScuderiaTest {
      */
     @Test
     public void testPagascommessa() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         partita.setScuderie();
         partita.setQuotazioni();
-        List<Scuderia> scuderie = partita.getScuderie();
-        List<Scommessa> scommesse = new ArrayList<>();
-        List<Giocatore> giocatori = new ArrayList<>();
-        char vincente = "v".charAt(0);
+        final List<Scuderia> scuderie = partita.getScuderie();
+        final List<Scommessa> scommesse = new ArrayList<>();
+        final List<Giocatore> giocatori = new ArrayList<>();
+        final char vincente = "v".charAt(0);
         char piazzata = "p".charAt(0);
 
         // Scommessa vincente
-        Scommessa scommessa = new Scommessa("vincente");
+        final Scommessa scommessa = new Scommessa("vincente");
         scommessa.setSoldi(1000);
         scommessa.setTiposcommessa(vincente);
         scommesse.add(scommessa);
 
         // Giocatore vincente
-        Giocatore player = new Giocatore();
+        final Giocatore player = new Giocatore();
         player.setSoldi(0);
         player.setNomeGiocatore("vincente");
         player.setPv(1);
@@ -53,13 +53,13 @@ public class ScuderiaTest {
         assertEquals("", 4, partita.getarraygiocatori().get(0).getPv());
 
         // Scommessa piazzata
-        Scommessa Spiazzata = new Scommessa("piazzata");
+        final Scommessa Spiazzata = new Scommessa("piazzata");
         Spiazzata.setSoldi(1000);
         Spiazzata.setTiposcommessa(piazzata);
         scommesse.add(Spiazzata);
 
         // Giocatore piazzato
-        Giocatore piazzato = new Giocatore();
+        final Giocatore piazzato = new Giocatore();
         piazzato.setSoldi(0);
         piazzato.setNomeGiocatore("piazzata");
         piazzato.setPv(1);
@@ -88,7 +88,7 @@ public class ScuderiaTest {
     public void testAggiornaQuotazioni() {
         Partita partita = new Partita();
         // Test casi limite 1:2 e 1:7 che non superi le quotazioni
-        Scuderia scuderia = new Scuderia(partita);
+        final Scuderia scuderia = new Scuderia(partita);
 
         scuderia.setQuotazione(2);
         scuderia.aggiornaQuotazioni(1);
@@ -111,11 +111,11 @@ public class ScuderiaTest {
     public void testRemoveCartaAzioneByID() {
         Partita partita = new Partita();
         Scuderia scuderia = new Scuderia(partita);
-        CarteAzione carta = new CarteAzione();
+        final CarteAzione carta = new CarteAzione();
         // Carta ID 4
         carta.setId(4);
         // Salvo la size della lista prima di inserire la carta
-        int size = scuderia.getCarteAzione().size();
+        final int size = scuderia.getCarteAzione().size();
         scuderia.setCarteAzione(carta);
         // Rimuovo Carta ID 4
         scuderia.removeCartaAzioneByID(4);
@@ -170,7 +170,7 @@ public class ScuderiaTest {
         carta.setId(15);
 
         // Carta ID 8
-        CarteAzione carta8 = new CarteAzione();
+        final CarteAzione carta8 = new CarteAzione();
         carta8.setId(8);
 
         scuderia.setCarteAzione(carta);
@@ -191,11 +191,11 @@ public class ScuderiaTest {
         Partita partita = new Partita();
         Scuderia scuderia = new Scuderia(partita);
         // Carta Positiva Lettera A
-        CarteAzione cartapositiva = new CarteAzione();
+        final CarteAzione cartapositiva = new CarteAzione();
         cartapositiva.setLettera("A");
 
         // Carta Negativa Lettera A
-        CarteAzione cartanegativa = new CarteAzione();
+        final CarteAzione cartanegativa = new CarteAzione();
         cartanegativa.setLettera("A");
 
         scuderia.setCarteAzione(cartapositiva);
@@ -226,7 +226,7 @@ public class ScuderiaTest {
         assertEquals("", 14, scuderia.getPosizione());
 
         // Testo la carta che fa fermare al traguardo
-        CarteAzione cartafermo = new CarteAzione();
+        final CarteAzione cartafermo = new CarteAzione();
         cartafermo.setAgisce("Traguardo");
         cartafermo.setEffetto(0);
         scuderia.setPosizione(14);

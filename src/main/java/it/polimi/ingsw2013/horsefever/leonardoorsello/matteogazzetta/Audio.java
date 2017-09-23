@@ -1,4 +1,4 @@
-package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
@@ -70,7 +70,7 @@ public class Audio {
         play(filename);
     }
 
-    private void rawplay(AudioFormat targetFormat, final AudioInputStream decodedAudioIn)
+    private void rawplay(final AudioFormat targetFormat, final AudioInputStream decodedAudioIn)
             throws IOException, LineUnavailableException {
         final byte[] data = new byte[Parametri.AUDIO_BYTE];
         final SourceDataLine line = getLine(targetFormat);

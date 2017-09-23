@@ -1,7 +1,7 @@
 /**
  *
  */
-package it.polimi.ingegneriaDelSoftware2013.horseFever_leonardo.orsello_matteo.gazzetta;
+package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class Giocatore {
      * @param quotazione della carta personaggio
      * @param scuderie   della partita
      */
-    public void setScuderia(int quotazione, final List<Scuderia> scuderie) {
+    public void setScuderia(final int quotazione, final List<Scuderia> scuderie) {
         for (final Scuderia scuderia : scuderie) {
             if (scuderia.getQuotazione() == quotazione) {
                 this.scuderia = scuderia.getColore();
