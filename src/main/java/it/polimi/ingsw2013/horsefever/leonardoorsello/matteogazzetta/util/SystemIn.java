@@ -3,6 +3,7 @@
  */
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util;
 
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Parametri;
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Scommessa;
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Scuderia;
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.CartaAzione;
@@ -110,10 +111,10 @@ public final class SystemIn {
             } else {
                 carattere = stringa.charAt(0);
             }
-            if (carattere != 's' && carattere != 'n') {
+            if (carattere != Parametri.SI && carattere != Parametri.NO) {
                 SystemOut.write("Hai sbagliato a digitare, riprova");
             }
-        } while (carattere != 's' && carattere != 'n');
+        } while (carattere != Parametri.SI && carattere != Parametri.NO);
         return carattere;
     }
 

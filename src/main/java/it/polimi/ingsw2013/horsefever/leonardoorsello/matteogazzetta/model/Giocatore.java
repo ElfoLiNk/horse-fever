@@ -21,13 +21,13 @@ public class Giocatore {
     private String interpreta;
     private int puntiVittoria;
     private int soldi;
-    private int salta;
+    private boolean salta;
     private String scuderia;
 
     public Giocatore() {
         this.puntiVittoria = 1;
         this.soldi = 0;
-        this.salta = 0;
+        this.salta = false;
         this.listaazioni = new ArrayList<>();
     }
 
@@ -181,14 +181,14 @@ public class Giocatore {
     /**
      * @return the salta
      */
-    public int getSalta() {
+    public boolean isSalta() {
         return salta;
     }
 
     /**
      * @param newSalta the salta to set
      */
-    public void setSalta(final int newSalta) {
+    public void setSalta(final boolean newSalta) {
         this.salta = newSalta;
     }
 

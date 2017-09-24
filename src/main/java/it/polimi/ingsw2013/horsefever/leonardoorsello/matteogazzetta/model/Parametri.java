@@ -42,6 +42,10 @@ public final class Parametri {
     public static final int AUDIO_BYTE = 4096;
     public static final int SAMPLESIZE = 16;
 
+    // INPUT
+    public static final char SI = 's';
+    public static final char NO = 'n';
+
     private Parametri() {
     }
 

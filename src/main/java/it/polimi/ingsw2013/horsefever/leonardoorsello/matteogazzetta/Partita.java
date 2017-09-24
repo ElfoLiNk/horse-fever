@@ -16,7 +16,7 @@ import java.util.Locale;
  * giocatori Gestisce i turni e le corse
  */
 public class Partita {
-    public final String[] COLORI = {"NERO", "BLU ", "VERDE", "ROSSO", "GIALLO",
+    private final String[] colori = {"NERO", "BLU ", "VERDE", "ROSSO", "GIALLO",
             "BIANCO"};
     private final List<Scuderia> arrivati;
     private List<Giocatore> giocatori;
@@ -44,6 +44,13 @@ public class Partita {
         this.primogiocatore = 0;
         this.scuderie = new ArrayList<>();
         this.classifica = new ArrayList<>();
+    }
+
+    /**
+     * @return colori
+     */
+    public String[] getColori() {
+        return colori;
     }
 
     /**
@@ -220,7 +227,7 @@ public class Partita {
      */
     public void setScuderie() {
         for (int i = 0; i < Parametri.MAX_SCUDERIE; i++) {
-            final Scuderia scuderia = new Scuderia(this, COLORI[i]);
+            final Scuderia scuderia = new Scuderia(this, colori[i]);
             scuderie.add(scuderia);
         }
     }
@@ -347,7 +354,7 @@ public class Partita {
      */
     public void movimento() {
         // Carta movimento
-        int[] movimenti = new int[COLORI.length];
+        int[] movimenti = new int[colori.length];
 
         // Selezione una linea random dalla Lista delle carte movimento
         final Random rnd = new Random();
@@ -380,13 +387,13 @@ public class Partita {
      */
     public void sprint() {
         final Random rnd = new Random();
-        final int primaScuderia = rnd.nextInt(COLORI.length);
-        final int secondaScuderia = rnd.nextInt(COLORI.length);
-        if (primaScuderia != secondaScuderia) {
+        final int primaScuderia = rnd.nextInt(colori.length);
+        final int secondaScuderia = rnd.nextInt(colori.length);
+        if (primaScuderia == secondaScuderia) {
+            sprint();
+        } else {
             scuderie.get(primaScuderia).setSprint(1);
             scuderie.get(secondaScuderia).setSprint(1);
-        } else {
-            sprint();
         }
     }
 
@@ -399,7 +406,7 @@ public class Partita {
      * @see
      */
     public void posizione() {
-        for (Scuderia scuderia : scuderie) {
+        for (final Scuderia scuderia : scuderie) {
             // Controllo se la scuderia è arrivata
             if (!scuderia.isArrivato()) {
                 // Applico il movimento
@@ -487,7 +494,7 @@ public class Partita {
      * giocatore
      */
     public void secondaScommessa() {
-        char chartemp = 's';
+        char chartemp = Parametri.SI;
 
         // Ciclo i giocatori in senso anti orario
         boolean finisco = true;
@@ -504,28 +511,28 @@ public class Partita {
             SystemOut.write("Tocca al " + giocatore.toString());
 
             // Controllo se il giocatore salta il secondo giro di scommesse
-            if (giocatore.getSalta() == 1) {
+            if (giocatore.isSalta()) {
                 SystemOut.write("Il giocatore al primo giro di scommesse ha perso dei punti vittoria"
                         + " pertanto salta anche il secondo giro di scommessa");
                 // Resetto salta del giocatore che ha saltato la scommessa
-                giocatore.setSalta(0);
+                giocatore.setSalta(false);
 
             } else {
 
-                int valido = 1;
+                boolean valido = true;
 
                 // Controllo se ha abbastanza soldi per fare una seconda
                 // scommessa
                 if (giocatore.getPuntiVittoria() * Parametri.MIN_SCOMMESSA > giocatore.getSoldi()) {
-                    valido = 0;
+                    valido = false;
                     SystemOut.write("Il giocatore non ha abbastanza danari per effettuare la scommessa minima, non puoi effettuare la seconda scommessa!");
                 }
 
-                if (valido == 1) {
+                if (valido) {
                     // Chiedo se vuole effettuare una seconda scommessa
                     chartemp = SystemIn.readSecondaScommessa();
 
-                    if (chartemp == 's') {
+                    if (chartemp == Parametri.SI) {
                         // L'utente sceglie la scuderia su cui scommettere
                         sceltaScuderiaScommessa(i);
                     }
@@ -560,8 +567,8 @@ public class Partita {
                         + " minima, pertanto perde 2 punti vittoria!");
                 // Rimuovo 2 punti vittoria
                 giocatore.aggiornaPuntiVittoria(Parametri.MENODUE);
-                // Salta la seconda scommessa
-                giocatore.setSalta(1);
+                // setSalta la seconda scommessa
+                giocatore.setSalta(true);
 
             }
 
@@ -646,18 +653,18 @@ public class Partita {
 
                 }
             }
-            if (!fotofinish.isEmpty()) {
-                checkFotofinish(fotofinish);
-            } else {
+            if (fotofinish.isEmpty()) {
                 classifica.add(scuderie.get(idmax));
                 scuderie.remove(scuderie.get(idmax));
+            } else {
+                checkFotofinish(fotofinish);
             }
         }
 
         // Imposto l'intero classifica delle scuderie in classifica
-        int i = 1;
+        int position = 1;
         for (final Scuderia scuderia : classifica) {
-            scuderia.setClassifica(i++);
+            scuderia.setClassifica(position++);
         }
     }
 
@@ -690,7 +697,7 @@ public class Partita {
 
         // Controllo se è stata applicata una carta azione fotofinish
         for (int j = 0; j < fotofinish.size(); j++) {
-            Scuderia scuderia = fotofinish.get(j);
+            final Scuderia scuderia = fotofinish.get(j);
             if (scuderia.getFotofinish() == 1) {
                 // Lo aggiungo subito alla classifica
                 classifica.add(scuderia);
@@ -702,11 +709,11 @@ public class Partita {
                 scuderia.setQuotazione(Parametri.OTTO);
             }
 
-            while (fotofinish.size() > 0) {
+            while (!fotofinish.isEmpty()) {
                 // Trovo la scuderia con quotazione piu alta (1:2)
                 max = Parametri.DIECI;
                 for (int i = 0; i < fotofinish.size(); i++) {
-                    Scuderia scuderiaB = fotofinish.get(i);
+                    final Scuderia scuderiaB = fotofinish.get(i);
                     if (scuderiaB.getQuotazione() < max) {
                         max = scuderiaB.getQuotazione();
                         idmax = i;
@@ -910,7 +917,7 @@ public class Partita {
      * Aggiorna le quotazioni delle scuderie in base all'arrivo
      */
     private void aggiornaQuotazioni() {
-        for (Scuderia scuderia : classifica) {
+        for (final Scuderia scuderia : classifica) {
             scuderia.aggiornaQuotazioni(scuderia.getClassifica());
         }
     }

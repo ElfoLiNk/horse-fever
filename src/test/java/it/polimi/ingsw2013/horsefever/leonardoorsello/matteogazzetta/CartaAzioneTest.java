@@ -18,6 +18,10 @@ import static org.junit.Assert.assertNotNull;
  */
 public class CartaAzioneTest {
 
+    public static final String PARTENZA = "Partenza";
+    public static final String MOVIMENTO = "Movimento";
+    public static final String SPRINT = "Sprint";
+    public static final String FOTOFINISH = "Fotofinish";
     private List<Scuderia> scuderie = new ArrayList<>();
 
     @Before
@@ -50,7 +54,7 @@ public class CartaAzioneTest {
         // Testo la carta che fa muovere la scuderia una casella in meno dello
         // spostamento della carta movimento
         final CartaAzione carta = new CartaAzione();
-        carta.setAgisce("Partenza");
+        carta.setAgisce(PARTENZA);
         carta.setEffetto(-1);
         for (final Scuderia scuderia : scuderie) {
             scuderia.addCarteAzione(carta);
@@ -74,7 +78,7 @@ public class CartaAzioneTest {
         // Testo la carta che fa muovere la scuderia una casella in piu dello
         // spostamento della carta movimento
         final CartaAzione carta1 = new CartaAzione();
-        carta1.setAgisce("Partenza");
+        carta1.setAgisce(PARTENZA);
         carta1.setEffetto(1);
         for (Scuderia scuderia : scuderie) {
             scuderia.addCarteAzione(carta1);
@@ -98,7 +102,7 @@ public class CartaAzioneTest {
         // Testo la carta che fa muovere la scuderia quanto indicato
         // nell'effetto anziche quello scritto sulla carta movimento
         final CartaAzione carta4 = new CartaAzione();
-        carta4.setAgisce("Partenza");
+        carta4.setAgisce(PARTENZA);
         carta4.setEffetto(4);
         for (Scuderia scuderia : scuderie) {
             scuderia.addCarteAzione(carta4);
@@ -121,7 +125,7 @@ public class CartaAzioneTest {
     public void testCarteAzionePartenzaD() {
         // Testo la carta che non fa muovere la scuderia alla partenza
         final CartaAzione carta0 = new CartaAzione();
-        carta0.setAgisce("Partenza");
+        carta0.setAgisce(PARTENZA);
         carta0.setEffetto(0);
         for (Scuderia scuderia : scuderie) {
             scuderia.addCarteAzione(carta0);
@@ -142,8 +146,8 @@ public class CartaAzioneTest {
     @Test
     public void testCarteAzioneMovimentoA() {
         // Testo la carta che fa muovere la scuderia di 4 se il cavallo è ultimo
-        CartaAzione carta4 = new CartaAzione();
-        carta4.setAgisce("Movimento");
+        final CartaAzione carta4 = new CartaAzione();
+        carta4.setAgisce(MOVIMENTO);
         carta4.setEffetto(4);
         for (Scuderia scuderia : scuderie) {
             scuderia.addCarteAzione(carta4);
@@ -165,8 +169,8 @@ public class CartaAzioneTest {
     @Test
     public void testCarteAzioneMovimentoB() {
         // Testo la carta che fa muovere la scuderia di 0 se il cavallo è primo
-        CartaAzione carta0 = new CartaAzione();
-        carta0.setAgisce("Movimento");
+        final CartaAzione carta0 = new CartaAzione();
+        carta0.setAgisce(MOVIMENTO);
         carta0.setEffetto(0);
         for (Scuderia scuderia : scuderie) {
             scuderia.addCarteAzione(carta0);
@@ -188,8 +192,8 @@ public class CartaAzioneTest {
     @Test
     public void testCarteAzioneSprintA() {
         // Testo la carta che fa sprintare una casella in meno
-        CartaAzione carta = new CartaAzione();
-        carta.setAgisce("Sprint");
+        final CartaAzione carta = new CartaAzione();
+        carta.setAgisce(SPRINT);
         carta.setEffetto(-1);
         for (Scuderia scuderia : scuderie) {
             scuderia.addCarteAzione(carta);
@@ -210,8 +214,8 @@ public class CartaAzioneTest {
     @Test
     public void testCarteAzioneSprintB() {
         // Testo la carta che fa sprintare il cavallo di una casella in piu
-        CartaAzione carta1 = new CartaAzione();
-        carta1.setAgisce("Sprint");
+        final CartaAzione carta1 = new CartaAzione();
+        carta1.setAgisce(SPRINT);
         carta1.setEffetto(1);
         for (Scuderia scuderia : scuderie) {
             scuderia.addCarteAzione(carta1);
@@ -233,7 +237,7 @@ public class CartaAzioneTest {
     public void testCarteAzioneSprintC() {
         // Testo la carta che fa sprintare il cavallo di 2 caselle
         final CartaAzione carta2 = new CartaAzione();
-        carta2.setAgisce("Sprint");
+        carta2.setAgisce(SPRINT);
         carta2.setEffetto(2);
         for (Scuderia scuderia : scuderie) {
             scuderia.addCarteAzione(carta2);
@@ -255,7 +259,7 @@ public class CartaAzioneTest {
     public void testCarteAzioneSprintD() {
         // Testo la carta che non fa sprintare il cavallo
         CartaAzione carta0 = new CartaAzione();
-        carta0.setAgisce("Sprint");
+        carta0.setAgisce(SPRINT);
         carta0.setEffetto(0);
         for (Scuderia scuderia : scuderie) {
             scuderia.addCarteAzione(carta0);
@@ -278,7 +282,7 @@ public class CartaAzioneTest {
     public void testCarteAzioneFotofinishA() {
         // Testo la carta che fa perdere il fotofinish
         CartaAzione carta = new CartaAzione();
-        carta.setAgisce("Fotofinish");
+        carta.setAgisce(FOTOFINISH);
         carta.setEffetto(0);
         for (Scuderia scuderia : scuderie) {
             scuderia.addCarteAzione(carta);
@@ -299,7 +303,7 @@ public class CartaAzioneTest {
     public void testCarteAzioneFotofinishB() {
         // Testo la carta che fa vincere il fotofinish
         CartaAzione carta1 = new CartaAzione();
-        carta1.setAgisce("Fotofinish");
+        carta1.setAgisce(FOTOFINISH);
         carta1.setEffetto(1);
         for (Scuderia scuderia : scuderie) {
             scuderia.addCarteAzione(carta1);

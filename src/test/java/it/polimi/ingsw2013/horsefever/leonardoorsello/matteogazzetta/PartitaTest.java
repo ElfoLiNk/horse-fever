@@ -24,7 +24,12 @@ import static org.junit.Assert.fail;
  */
 public class PartitaTest {
 
-    private final String failMessage = "Mancano i file";
+    private static final String FAIL_MESSAGE = "Mancano i file";
+    private static final String PRIMO = "PRIMO";
+    private static final String TERZO = "TERZO";
+    private static final String SECONDO = "SECONDO";
+    private static final String VINCE = "VINCE";
+    private static final String PERDE = "PERDE";
 
     /**
      * Test method for
@@ -37,7 +42,7 @@ public class PartitaTest {
         try {
             partita.setListe();
         } catch (IOException e) {
-            fail(failMessage);
+            fail(FAIL_MESSAGE);
         }
         assertNotNull("", partita.getCartePersonaggio());
     }
@@ -53,7 +58,7 @@ public class PartitaTest {
         try {
             partita.setListe();
         } catch (IOException e) {
-            fail(failMessage);
+            fail(FAIL_MESSAGE);
         }
         assertNotNull("", partita.getCarteAzione());
     }
@@ -69,7 +74,7 @@ public class PartitaTest {
         try {
             partita.setListe();
         } catch (IOException e) {
-            fail(failMessage);
+            fail(FAIL_MESSAGE);
         }
         assertNotNull("", partita.getCarteMovimento());
     }
@@ -172,7 +177,7 @@ public class PartitaTest {
         try {
             partita.setListe();
         } catch (IOException e) {
-            fail(failMessage);
+            fail(FAIL_MESSAGE);
         }
         // Costruisco il giocatore
         final Giocatore player = new Giocatore();
@@ -212,7 +217,7 @@ public class PartitaTest {
         try {
             partita.setListe();
         } catch (IOException e) {
-            fail(failMessage);
+            fail(FAIL_MESSAGE);
         }
         partita.setScuderie();
         partita.setQuotazioni();
@@ -249,7 +254,7 @@ public class PartitaTest {
         try {
             partita.setListe();
         } catch (IOException e) {
-            fail(failMessage);
+            fail(FAIL_MESSAGE);
         }
         partita.movimento();
         partita.setScuderie();
@@ -263,9 +268,9 @@ public class PartitaTest {
         secondaScuderia.setSprint(1);
 
         partita.posizione();
-        assertEquals("", 5, primaScuderia.getPosizione());
-        assertEquals("", 13, secondaScuderia.getPosizione());
-        assertTrue("Arrivato", secondaScuderia.isArrivato());
+        assertTrue("", secondaScuderia.isArrivato()
+        && primaScuderia.getPosizione() == 5
+        && secondaScuderia.getPosizione() == 13);
 
     }
 
@@ -278,7 +283,7 @@ public class PartitaTest {
     public void testAggiornaprimogiocatore() {
         final Partita partita = new Partita();
         final List<Giocatore> giocatori = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < Parametri.MAX_GIOCATORI; i++) {
             final Giocatore player = new Giocatore();
             giocatori.add(player);
         }
@@ -298,19 +303,19 @@ public class PartitaTest {
         final List<Scuderia> arrivati = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
-            final Scuderia scuderia = new Scuderia(partita, partita.COLORI[i]);
+            final Scuderia scuderia = new Scuderia(partita, partita.getColori()[i]);
             arrivati.add(scuderia);
         }
         arrivati.get(0).setPosizione(14);
-        arrivati.get(0).setColore("PRIMO");
+        arrivati.get(0).setColore(PRIMO);
         arrivati.get(1).setPosizione(12);
-        arrivati.get(1).setColore("TERZO");
+        arrivati.get(1).setColore(TERZO);
         arrivati.get(2).setPosizione(13);
-        arrivati.get(2).setColore("SECONDO");
+        arrivati.get(2).setColore(SECONDO);
         partita.creaClassifica(arrivati);
-        assertEquals("", "PRIMO", partita.getClassifica().get(0).getColore());
-        assertEquals("", "TERZO", partita.getClassifica().get(2).getColore());
-        assertEquals("", "SECONDO", partita.getClassifica().get(1).getColore());
+        assertEquals("", PRIMO, partita.getClassifica().get(0).getColore());
+        assertEquals("", TERZO, partita.getClassifica().get(2).getColore());
+        assertEquals("", SECONDO, partita.getClassifica().get(1).getColore());
     }
 
     /**
@@ -321,47 +326,47 @@ public class PartitaTest {
     @Test
     public void testCheckFotofinish() {
         // Test con quotazioni diverse vince la quotazione piu alta
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         final List<Scuderia> arrivati = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
-            final Scuderia scuderia = new Scuderia(partita, partita.COLORI[i]);
+            final Scuderia scuderia = new Scuderia(partita, partita.getColori()[i]);
             arrivati.add(scuderia);
         }
         arrivati.get(0).setPosizione(14);
-        arrivati.get(0).setColore("SECONDO");
+        arrivati.get(0).setColore(SECONDO);
         arrivati.get(0).setQuotazione(4);
         arrivati.get(1).setPosizione(14);
         arrivati.get(1).setQuotazione(2);
-        arrivati.get(1).setColore("PRIMO");
+        arrivati.get(1).setColore(PRIMO);
         partita.checkFotofinish(arrivati);
-        assertEquals("", "PRIMO", partita.getClassifica().get(0).getColore());
-        assertEquals("", "SECONDO", partita.getClassifica().get(1).getColore());
+        assertEquals("", PRIMO, partita.getClassifica().get(0).getColore());
+        assertEquals("", SECONDO, partita.getClassifica().get(1).getColore());
 
         // TEST UGUALI QUOTAZIONI CON GIA ALCUNE SCUDERIE IN CLASSIFICA
         final Partita partita2 = new Partita();
         final List<Scuderia> fotofinish = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
-            Scuderia scuderia = new Scuderia(partita, partita.COLORI[i]);
+            final Scuderia scuderia = new Scuderia(partita, partita.getColori()[i]);
             fotofinish.add(scuderia);
         }
         final List<Scuderia> classifica = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
-            Scuderia scuderia = new Scuderia(partita, partita.COLORI[i]);
+            final Scuderia scuderia = new Scuderia(partita, partita.getColori()[i]);
             classifica.add(scuderia);
         }
         partita2.setClassifica(classifica);
         fotofinish.get(0).setPosizione(14);
-        fotofinish.get(0).setColore("SECONDO");
+        fotofinish.get(0).setColore(SECONDO);
         fotofinish.get(0).setQuotazione(4);
         fotofinish.get(1).setPosizione(14);
         fotofinish.get(1).setQuotazione(4);
-        fotofinish.get(1).setColore("PRIMO");
+        fotofinish.get(1).setColore(PRIMO);
         partita2.checkFotofinish(fotofinish);
-        assertEquals("", "PRIMO", partita2.getClassifica().get(2).getColore());
-        assertEquals("", "SECONDO", partita2.getClassifica().get(3).getColore());
+        assertEquals("", PRIMO, partita2.getClassifica().get(2).getColore());
+        assertEquals("", SECONDO, partita2.getClassifica().get(3).getColore());
 
     }
 
@@ -372,7 +377,7 @@ public class PartitaTest {
      */
     @Test
     public void testTrovaVincitore() {
-        Partita partita = new Partita();
+        final Partita partita = new Partita();
         final List<Giocatore> giocatori = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
@@ -380,18 +385,18 @@ public class PartitaTest {
             giocatori.add(giocatore);
         }
         giocatori.get(0).setPuntiVittoria(5);
-        giocatori.get(0).setNomeGiocatore("VINCE");
+        giocatori.get(0).setNomeGiocatore(VINCE);
         partita.setGiocatori(giocatori);
-        assertEquals("", "VINCE", partita.trovaVincitore());
+        assertEquals("", VINCE, partita.trovaVincitore());
 
         giocatori.get(0).setPuntiVittoria(5);
         giocatori.get(0).setSoldi(3000);
-        giocatori.get(0).setNomeGiocatore("VINCE");
+        giocatori.get(0).setNomeGiocatore(VINCE);
         giocatori.get(1).setPuntiVittoria(5);
         giocatori.get(1).setSoldi(1991);
-        giocatori.get(1).setNomeGiocatore("PERDE");
+        giocatori.get(1).setNomeGiocatore(PERDE);
         partita.setGiocatori(giocatori);
-        assertEquals("", "VINCE", partita.trovaVincitore());
+        assertEquals("", VINCE, partita.trovaVincitore());
 
     }
 
@@ -404,7 +409,7 @@ public class PartitaTest {
     public void testCheckArrivatiFalse() {
         final Partita partita = new Partita();
         for (int i = 0; i < 6; i++) {
-            Giocatore giocatore = new Giocatore();
+            final Giocatore giocatore = new Giocatore();
             giocatore.setPuntiVittoria(4);
             giocatore.setSoldi(12313);
             giocatore.setNomeGiocatore("prova");
@@ -450,7 +455,7 @@ public class PartitaTest {
         partita.setQuotazioni();
         final List<Scuderia> scuderie = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            Scuderia scuderia = new Scuderia(partita, partita.COLORI[i]);
+            Scuderia scuderia = new Scuderia(partita, partita.getColori()[i]);
             scuderia.setQuotazione(i + 1);
             scuderie.add(scuderia);
         }
@@ -459,17 +464,17 @@ public class PartitaTest {
 
         final List<Scuderia> classifica = new ArrayList<>();
 
-        final Scuderia primo = new Scuderia(partita, partita.COLORI[1]);
+        final Scuderia primo = new Scuderia(partita, partita.getColori()[1]);
         primo.setColore("GIALLO");
         primo.setQuotazione(5);
         classifica.add(primo);
 
-        final Scuderia secondo = new Scuderia(partita, partita.COLORI[2]);
+        final Scuderia secondo = new Scuderia(partita, partita.getColori()[2]);
         secondo.setColore("VERDE");
         secondo.setQuotazione(3);
         classifica.add(secondo);
 
-        final Scuderia terzo = new Scuderia(partita, partita.COLORI[3]);
+        final Scuderia terzo = new Scuderia(partita, partita.getColori()[3]);
         terzo.setColore("BLU ");
         terzo.setQuotazione(2);
         classifica.add(terzo);
@@ -503,10 +508,10 @@ public class PartitaTest {
      */
     @Test
     public void testCheckeliminato() {
-        List<Giocatore> giocatori = new ArrayList<>();
+        final List<Giocatore> giocatori = new ArrayList<>();
         Partita partita = new Partita();
         for (int i = 0; i < 6; i++) {
-            Giocatore giocatore = new Giocatore();
+            final Giocatore giocatore = new Giocatore();
             giocatore.setPuntiVittoria(4);
             giocatore.setSoldi(12313);
             giocatore.setNomeGiocatore("prova");

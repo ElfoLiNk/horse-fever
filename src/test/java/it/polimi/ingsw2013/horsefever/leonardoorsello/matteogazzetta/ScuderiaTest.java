@@ -92,7 +92,7 @@ public class ScuderiaTest {
     public void testAggiornaQuotazioni() {
         Partita partita = new Partita();
         // Test casi limite 1:2 e 1:7 che non superi le quotazioni
-        final Scuderia scuderia = new Scuderia(partita, partita.COLORI[1]);
+        final Scuderia scuderia = new Scuderia(partita, partita.getColori()[1]);
 
         scuderia.setQuotazione(2);
         scuderia.aggiornaQuotazioni(1);
@@ -114,7 +114,7 @@ public class ScuderiaTest {
     @Test
     public void testRemoveCartaAzioneByID() {
         Partita partita = new Partita();
-        Scuderia scuderia = new Scuderia(partita, partita.COLORI[1]);
+        Scuderia scuderia = new Scuderia(partita, partita.getColori()[1]);
         final CartaAzione carta = new CartaAzione();
         // Carta ID 4
         carta.setIdentifier(4);
@@ -135,7 +135,7 @@ public class ScuderiaTest {
     @Test
     public void testRemoveCartaAzione() {
         Partita partita = new Partita();
-        Scuderia scuderia = new Scuderia(partita, partita.COLORI[1]);
+        Scuderia scuderia = new Scuderia(partita, partita.getColori()[1]);
         CartaAzione carta = new CartaAzione();
         // Salvo la size della lista prima di inserire la carta
         int size = scuderia.getCarteAzione().size();
@@ -154,7 +154,7 @@ public class ScuderiaTest {
     @Test
     public void testAggiornaSegnalino() {
         Partita partita = new Partita();
-        Scuderia scuderia = new Scuderia(partita, partita.COLORI[1]);
+        Scuderia scuderia = new Scuderia(partita, partita.getColori()[1]);
         scuderia.setSegnalino(0);
         scuderia.aggiornaSegnalino(2);
         assertEquals("", 2, scuderia.getSegnalino());
@@ -168,7 +168,7 @@ public class ScuderiaTest {
     @Test
     public void testCheckCarteAzione() {
         Partita partita = new Partita();
-        Scuderia scuderia = new Scuderia(partita, partita.COLORI[1]);
+        Scuderia scuderia = new Scuderia(partita, partita.getColori()[1]);
         // Carta ID 15
         CartaAzione carta = new CartaAzione();
         carta.setIdentifier(15);
@@ -193,7 +193,7 @@ public class ScuderiaTest {
     @Test
     public void testCheckLetteraCarteAzione() {
         Partita partita = new Partita();
-        Scuderia scuderia = new Scuderia(partita, partita.COLORI[1]);
+        Scuderia scuderia = new Scuderia(partita, partita.getColori()[1]);
         // Carta Positiva Lettera A
         final CartaAzione cartapositiva = new CartaAzione();
         cartapositiva.setLettera("A");
@@ -223,7 +223,7 @@ public class ScuderiaTest {
         CartaAzione carta = new CartaAzione();
         carta.setAgisce("Traguardo");
         carta.setEffetto(2);
-        Scuderia scuderia = new Scuderia(partita, partita.COLORI[1]);
+        Scuderia scuderia = new Scuderia(partita, partita.getColori()[1]);
         scuderia.setPosizione(12);
         scuderia.addCarteAzione(carta);
         scuderia.carteAzioneTraguardo();
