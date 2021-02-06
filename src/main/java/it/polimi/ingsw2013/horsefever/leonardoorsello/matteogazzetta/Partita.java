@@ -1,6 +1,12 @@
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
-import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.*;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.CartaAzione;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.CartaPersonaggio;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.CartaMovimento;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Giocatore;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Parametri;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Scuderia;
+import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Scommessa;
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.SystemIn;
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.SystemOut;
 
