@@ -1,6 +1,3 @@
-/**
- *
- */
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util;
 
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Giocatore;
@@ -117,8 +114,9 @@ public final class SystemOut {
     }
 
     /**
-     * Stampa la classfica dei giocatori con i dati aggiornati
+     * Stampa la classifica dei giocatori con i dati aggiornati
      *
+     * @param giocatori la lista dei giocatori di questa partita da stampare
      * @see Giocatore
      */
     public static void leaderboard(final List<Giocatore> giocatori) {
@@ -136,7 +134,7 @@ public final class SystemOut {
      * Scrive una stringa sulla stessa linea su System.out
      *
      * @param string la stringa da scrivere
-     * @see
+     *
      */
     private static void simple(final String string) {
         PrintStream out = System.out;

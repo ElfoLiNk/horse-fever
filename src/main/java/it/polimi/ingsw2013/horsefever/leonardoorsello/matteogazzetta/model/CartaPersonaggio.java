@@ -1,6 +1,3 @@
-/**
- *
- */
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model;
 
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.ResourceLoader;
@@ -25,8 +22,10 @@ public class CartaPersonaggio {
     private int quotazione;
 
     /**
-     * Crea una lista di tipo <CartaPersonaggio> effettuando il parsing di un file
+     * Crea una lista di tipo {@link CartaPersonaggio} effettuando il parsing di un file
      * xml contenente le carte azione.
+     *
+     * @return la lista delle carte personaggio lette dal file xml
      */
     public static List<CartaPersonaggio> caricaCartePersionaggio() {
         // Parso il file

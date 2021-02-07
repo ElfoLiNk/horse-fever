@@ -1,6 +1,3 @@
-/**
- *
- */
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model;
 
 /**

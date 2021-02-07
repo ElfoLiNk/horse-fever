@@ -76,7 +76,7 @@ public class Partita {
     /**
      * Creo liste dei Mazzi Carte
      *
-     * @throws IOException
+     * @throws IOException fallisco a leggere i file
      */
     public void setListe() throws IOException {
         // Creazione mazzo Personaggi
@@ -127,7 +127,7 @@ public class Partita {
      * Richiesta del numero di giocatori a terminale e imposto il numero di
      * turni necessari
      *
-     * @exceptions
+     *
      * @see Giocatore
      */
     public void setNumGiocatori() {
@@ -280,8 +280,8 @@ public class Partita {
      * Randomizzo il primogiocatore, impostandolo uguale al indice dell'array
      * dei giocatori
      *
-     * @exceptions
-     * @see
+     *
+     *
      */
     public void randomPrimogiocatore() {
         final Random rnd = new Random();
@@ -292,8 +292,8 @@ public class Partita {
     /**
      * Trucco la corsa con le carte azione
      *
-     * @exceptions
-     * @see
+     *
+     *
      */
     public void truccoCorsa() {
         int cartedagiocare = ngiocatori * 2;
@@ -346,7 +346,7 @@ public class Partita {
      *
      * @return true se sono tutte arrivate, false se non sono ancora tutte
      * arrivate
-     * @see
+     *
      */
     public boolean checkArrivati() {
         return scuderie.stream().filter(Scuderia::isArrivato).count() == scuderie.size();
@@ -355,8 +355,8 @@ public class Partita {
     /**
      * Leggo una carta movimento e assegno un movimento ad ogni scuderia
      *
-     * @exceptions
-     * @see
+     *
+     *
      */
     public void movimento() {
         // Carta movimento
@@ -388,8 +388,8 @@ public class Partita {
     /**
      * Imposta lo sprint a 1 di 2 scuderie diverse
      *
-     * @exceptions
-     * @see
+     *
+     *
      */
     public void sprint() {
         final Random rnd = new Random();
@@ -408,8 +408,8 @@ public class Partita {
      * sommo la sua posizione col movimento, se gia arrivato applico le carte
      * traguardo
      *
-     * @exceptions
-     * @see
+     *
+     *
      */
     public void posizione() {
         for (final Scuderia scuderia : scuderie) {
@@ -448,8 +448,8 @@ public class Partita {
      * stesso giocatore
      *
      * @param playerIndex l'indice del array dei giocatori
-     * @exceptions
-     * @see
+     *
+     *
      */
     public void sceltaScuderiaScommessa(final int playerIndex) {
         // Valida della scuderia scelta
@@ -605,8 +605,8 @@ public class Partita {
     /**
      * Aggiorna il primo giocatore in senso orario
      *
-     * @exceptions
-     * @see
+     *
+     *
      */
     public void aggiornaprimogiocatore() {
         int estremo;
@@ -694,8 +694,8 @@ public class Partita {
      * fotofinish
      *
      * @param fotofinish Lista delle scuderie che partecipano al fotofinish
-     * @exceptions
-     * @see
+     *
+     *
      */
     public void checkFotofinish(final List<Scuderia> fotofinish) {
         int max = 0;
@@ -741,9 +741,7 @@ public class Partita {
      * Turno di gioco, caratterizzato da una scommessa, truccare la corsa e una
      * seconda eventuale scommessa
      *
-     * @throws IOException
-     * @exceptions
-     * @see
+     * @throws IOException fallisco a settare il mazzo
      */
     public void turno() throws IOException {
 

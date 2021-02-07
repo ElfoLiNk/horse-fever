@@ -32,7 +32,8 @@ public class Audio {
      * Avvia un thread dove riproduce il file passato al costruttore della
      * classe
      *
-     * @see Thread, Audio
+     * @see Thread
+     * @see Audio
      */
     public void start() {
         audioThread.start();

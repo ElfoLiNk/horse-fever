@@ -1,6 +1,3 @@
-/**
- *
- */
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util;
 
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.Parametri;
@@ -19,7 +16,7 @@ import java.util.List;
  */
 public final class SystemIn {
 
-    private static BufferedReader bufferedReader = new BufferedReader(
+    private static final BufferedReader BUFFERED_READER = new BufferedReader(
             new InputStreamReader(System.in, Charset.defaultCharset()));
     private static String stringa = "temp";
     private static int intero;
@@ -32,13 +29,12 @@ public final class SystemIn {
      * Legge una stringa dal system.in
      *
      * @return La stringa letta
-     * @exceptions IOException
-     * @see
+     *
      */
     public static String readString() {
         do {
             try {
-                stringa = bufferedReader.readLine();
+                stringa = BUFFERED_READER.readLine();
             } catch (IOException e) {
                 SystemOut.write("Errore di flusso");
             }
@@ -49,13 +45,12 @@ public final class SystemIn {
     /**
      * Legge un intero dal system.in
      *
-     * @return L' intero letto
-     * @exceptions IOException, NumberFormatException
-     * @see
+     * @return L'intero letto
+     * @exception NumberFormatException se input non è un numero intero
      */
     public static int readInt() {
         try {
-            stringa = bufferedReader.readLine();
+            stringa = BUFFERED_READER.readLine();
             intero = Integer.parseInt(stringa);
         } catch (IOException e1) {
             SystemOut.write("Errore di flusso");

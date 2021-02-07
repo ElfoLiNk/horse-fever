@@ -15,7 +15,8 @@ public final class ResourceLoader {
      *
      * @param fileName il percorso del file da restituire l'input stream
      * @return input InputStream della risorsa richiesta
-     * @see InputStream, ResourceLoader
+     * @see InputStream
+     * @see ResourceLoader
      */
     public static InputStream load(final String fileName) {
         InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("/resources/" + fileName);

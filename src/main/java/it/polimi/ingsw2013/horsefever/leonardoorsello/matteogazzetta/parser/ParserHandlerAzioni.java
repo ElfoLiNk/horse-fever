@@ -1,11 +1,7 @@
-/**
- *
- */
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.parser;
 
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model.CartaAzione;
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.ArrayList;
@@ -36,7 +32,7 @@ public class ParserHandlerAzioni extends DefaultHandler {
      * Creo la carta
      */
     public void startElement(final String uri, final String localName, final String qName,
-                             final Attributes attributes) throws SAXException {
+                             final Attributes attributes) {
         // Push nello stack degli elementi
         this.elementoStack.push(qName);
         // Se inizia con 'Carta' preparo un oggetto CartaAzione e faccio il push
@@ -56,8 +52,7 @@ public class ParserHandlerAzioni extends DefaultHandler {
     /**
      * Chiudo la carta
      */
-    public void endElement(final String uri, final String localName, final String qName)
-            throws SAXException {
+    public void endElement(final String uri, final String localName, final String qName) {
         // Rimuovo l'ultima </carta> aggiunta
         this.elementoStack.pop();
 
@@ -72,8 +67,7 @@ public class ParserHandlerAzioni extends DefaultHandler {
     /**
      * Questo viene chiamato ogni volta che il parser incontra un value node
      */
-    public void characters(final char[] ch, final int start, final int length)
-            throws SAXException {
+    public void characters(final char[] ch, final int start, final int length) {
         final String stringa = new String(ch, start, length).trim();
         if (stringa.length() == 0) {
             return;
@@ -89,7 +83,7 @@ public class ParserHandlerAzioni extends DefaultHandler {
             carta.setLettera(stringa);
         } else if ("Effetto".equals(currentElement())) {
             CartaAzione carta = this.oggettoStack.peek();
-            final int intero = Integer.parseInt(new String(ch, start, length).trim());
+            final int intero = Integer.parseInt(stringa);
             carta.setEffetto(intero);
         } else if ("Agisce".equals(currentElement())) {
             CartaAzione carta = this.oggettoStack.peek();

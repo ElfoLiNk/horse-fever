@@ -1,6 +1,3 @@
-/**
- *
- */
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta;
 
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.Audio;
@@ -17,6 +14,7 @@ public final class ApplicationMain {
 
     /**
      * @param args argomenti applicazione
+     * @throws IOException quando configuro la lista o il turno
      */
     public static void main(final String[] args) throws IOException {
         SystemOut.write(" ------------------------------------------------");

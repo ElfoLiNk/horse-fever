@@ -1,6 +1,3 @@
-/**
- *
- */
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model;
 
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.Partita;
@@ -100,7 +97,7 @@ public class Scuderia {
     /**
      * Aggiorno le quotazioni in base all'arrivo
      *
-     * @param arrivo
+     * @param arrivo posizione di arrivo
      * @see Scuderia
      */
     public void aggiornaQuotazioni(final int arrivo) {

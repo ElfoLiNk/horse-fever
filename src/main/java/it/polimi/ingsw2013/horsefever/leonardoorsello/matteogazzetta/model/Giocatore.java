@@ -1,6 +1,3 @@
-/**
- *
- */
 package it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.model;
 
 import it.polimi.ingsw2013.horsefever.leonardoorsello.matteogazzetta.util.SystemIn;
@@ -79,8 +76,8 @@ public class Giocatore {
     /**
      * Svuoto la lista delle carte azione del giocatore
      *
-     * @exceptions
-     * @see
+     *
+     *
      */
     public void resetCarteAzione() {
         listaazioni.clear();
